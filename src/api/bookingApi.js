@@ -13,9 +13,13 @@ export const getAllBookings = async () => {
 }
 
 export const createBooking = async (data) => {
-    await axios.post(`${BASE_URL}`, { data });
+    await axios.post(`${BASE_URL}`, data);
 }
 
 export const deleteBooking = async (id) => {
-    await axios.delete(`${BASE_URL}  `)
+    await axios.delete(`${BASE_URL}/${id}`)
+}
+
+export const updateBooking = async (id, data) => {
+    await axios.patch(`${BASE_URL}/${id}`, data)
 }
