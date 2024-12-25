@@ -1,4 +1,4 @@
-import {refreshAccessToken} from "../api/userApi.js";
+import {refreshAccessToken} from "../apis/userApi.js";
 
 export const getAccessToken = () => {
     return localStorage.getItem('accessToken');

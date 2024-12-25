@@ -4,9 +4,9 @@ import {getAccessToken, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
 axios.interceptors.request.use(
     async (config) => {
                     const excludedEndpoints = [
-                        '/api/users/login',
-                        '/api/users/register',
-                        '/api/users/refresh-token'
+                        '/apis/users/login',
+                        '/apis/users/register',
+                        '/apis/users/refresh-token'
                     ];
 
                     if (!excludedEndpoints.some(endpoint => config.url.endsWith(endpoint))) {
