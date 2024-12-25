@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../apis/userApi.js";
+import { registerUser } from "../../apis/userApi.js";
 import {useForm} from "@mantine/form";
 import {Button, TextInput} from "@mantine/core";
-import {validateEmail, validatePassword} from "../helpers/validation.js";
+import {validateEmail, validatePassword} from "../../helpers/validation.js";
 
 const Registration = () => {
     const navigate = useNavigate();
@@ -24,13 +24,19 @@ const Registration = () => {
                 return errors ? errors.join('; ') : null;
             }
         }
-    })
+    });
 
     const handleSubmit = async(values) => {
         try {
             await registerUser(values);
             navigate('/login')
         } catch (error) {
+            if(error.response.status === 400) {
+                const errors = error.response.data;
+                Object.entries(errors).forEach(([field, message]) => {
+                    form.setFieldError(field, message);
+                });
+            }
             console.error(error)
         }
     }

@@ -4,12 +4,13 @@ import {getAccessToken, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
 axios.interceptors.request.use(
     async (config) => {
                     const excludedEndpoints = [
-                        '/apis/users/login',
-                        '/apis/users/register',
-                        '/apis/users/refresh-token'
+                        '/api/users/login',
+                        '/api/users/register',
+                        '/api/users/refresh-token'
                     ];
 
                     if (!excludedEndpoints.some(endpoint => config.url.endsWith(endpoint))) {
+                        console.log("not excluded")
                         if(!config.headers['Content-Type']) {
                             config.headers['Content-Type'] = 'application/json';
                         }
@@ -18,7 +19,11 @@ axios.interceptors.request.use(
                         if (token) {
                             config.headers['Authorization'] = `Bearer ${token}`;
                         }
+                    } else {
+                        console.log("excluded")
                     }
+
+                    return config;
             },
     (error) => {
         return Promise.reject(error);
@@ -26,25 +31,29 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(
-    (response) => {
-        return response;
-    },
+    (response) => response,
     async (error) => {
+        if (!error.response) {
+            console.error('Network error or CORS issue:', error.message);
+            return Promise.reject(error);
+        }
+
         const originalRequest = error.config;
-        if(error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
-            originalRequest._retry = true;
-            try {
-                await refreshAccessTokenUtil();
-                const newToken = getAccessToken();
-                originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                return axios(originalRequest);
-            } catch (refreshError) {
-                logout();
-                window.location.href = '/login';
-                return Promise.reject(refreshError);
+        if (error.response.status === 401 || error.response.status === 403) {
+            if (!originalRequest._retry) {
+                originalRequest._retry = true;
+                try {
+                    await refreshAccessTokenUtil();
+                    const newToken = getAccessToken();
+                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                    return axios(originalRequest);
+                } catch (refreshError) {
+                    logout();
+                    window.location.href = '/login';
+                    return Promise.reject(refreshError);
+                }
             }
         }
-        console.log(error.response.data)
         return Promise.reject(error);
     }
 );

@@ -23,3 +23,9 @@ export const refreshAccessToken = async (data) => {
     const response = await axios.post(`${BASE_URL}/refresh-token`, data);
     return response.data.accessToken;
 }
+
+export const login = async (data) => {
+    const response = await axios.post(`${BASE_URL}/login`, data);
+    console.log(response)
+    return response.data;
+}
