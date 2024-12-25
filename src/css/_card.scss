@@ -28,3 +28,27 @@
     font-size: 1.1rem;
   }
 }
+
+.service-point-employee-card {
+  @extend .card;
+  width: 120px;
+  height: 160px;
+
+  &__image {
+    width: 130px;
+    height: 120px;
+    object-fit: cover;
+  }
+
+  &__name {
+    font-weight: 650;
+    color: #343a36;
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+

@@ -1,0 +1,22 @@
+.details {
+  margin-bottom: 1rem;
+
+  &__text {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #333;
+  }
+}
+
+.scrollable {
+  height: 200px;
+  overflow: auto;
+}
+
+.employee-list {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}

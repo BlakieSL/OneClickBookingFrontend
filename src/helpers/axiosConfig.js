@@ -36,9 +36,6 @@ const onTokenRefreshed = (newToken) => {
     refreshSubscribers = [];
 };
 
-const addRefreshSubscriber = (callback) => {
-    refreshSubscribers.push(callback);
-};
 
 axios.interceptors.response.use(
     (response) => response,
@@ -64,7 +61,7 @@ axios.interceptors.response.use(
             }
 
             return new Promise((resolve) => {
-                addRefreshSubscriber((newToken) => {
+                refreshSubscribers.push((newToken) => {
                     originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                     resolve(axios(originalRequest));
                 });

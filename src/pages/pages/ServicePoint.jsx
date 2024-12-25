@@ -2,10 +2,13 @@ import {data, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getServicePoint} from "../../apis/servicePointApi.js";
 import {getAllImagesForParent} from "../../apis/imageApi.js";
-import {Box, Container, Loader} from "@mantine/core";
+import {Box, Container, Loader, TextInput} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../apis/treatmentApi.js";
 import {getFilteredReviews} from "../../apis/reviewApi.js";
 import {getFilteredEmployees} from "../../apis/employeeApi.js";
+import {defaultImage} from "../../helpers/constants.js";
+import ServicePointDetails from "../../components/servicePoint/servicepoint/ServicePointDetails.jsx";
+import ServicePointImages from "../../components/servicePoint/servicepoint/ServicePointImages.jsx";
 
 const ServicePoint = () => {
     const { id } = useParams();
@@ -22,7 +25,6 @@ const ServicePoint = () => {
     const [reviewsLoading, setReviewsLoading] = useState(true);
 
     const [error, setError] = useState(null);
-    const defaultImage = 'https://img.freepik.com/premium-vector/no-result-found-empty-results-popup-design_586724-96.jpg?w=1060';
 
     useEffect(() => {
         (async () => {
@@ -83,7 +85,7 @@ const ServicePoint = () => {
                 setEmployeesLoading(false);
             }
         })();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         (async () => {
@@ -123,20 +125,15 @@ const ServicePoint = () => {
         })();
     },[id]);
 
-    if(servicePointLoading || imagesLoading || treatmentsLoading || reviewsLoading) {
+    if(servicePointLoading || imagesLoading || employeesLoading || treatmentsLoading || reviewsLoading) {
         return <Loader/>;
     }
 
     return (
         <Container>
             <Box>
-
-            </Box>
-            <Box>
-
-            </Box>
-            <Box>
-
+                <ServicePointImages images={images} />
+                <ServicePointDetails servicePoint={servicePoint} employees={employees} />
             </Box>
         </Container>
     )

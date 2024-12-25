@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {getFirstImageForParent} from "../../apis/imageApi.js";
-import {Box, Card, Image, Loader, Text} from "@mantine/core";
-import {defaultImage} from "../../helpers/constants.js";
+import {getFirstImageForParent} from "../../../apis/imageApi.js";
+import {defaultImage} from "../../../helpers/constants.js";
+import {Card, Loader} from "@mantine/core";
 
-const ServicePointCard = ({ servicePoint }) => {
-    const { id, name, location, email, phone } = servicePoint;
+const ServicePointEmployeeCard = ({ employee }) => {
+    const { id, username } = employee;
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ const ServicePointCard = ({ servicePoint }) => {
     useEffect(() => {
         (async () => {
             try {
-                const fetchedImage = await getFirstImageForParent('SERVICE_POINT', id)
+                const fetchedImage = await getFirstImageForParent('EMPLOYEE', id)
                 setImage(`data:image/png;base64,${fetchedImage}`);
             } catch(error) {
                 if (error.response && error.response.status === 404) {
@@ -28,21 +28,21 @@ const ServicePointCard = ({ servicePoint }) => {
     }, [id]);
 
     if(loading) {
-        return <Loader/>
+        return <Loader />
     }
 
     return (
-        <Card className="card">
+        <Card className="service-point-employee-card">
             <Card.Section>
                 <Image
                     src={image}
                     alt={name}
-                    className="card__image"
+                    className="service-point-employee-card__image"
                 />
             </Card.Section>
-            <Text className="card__name"> {name} </Text>
+            <Text className="service-point-employee-card__name">{username}</Text>
         </Card>
     )
 }
 
-export default ServicePointCard;
+export default ServicePointEmployeeCard;
