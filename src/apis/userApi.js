@@ -30,6 +30,5 @@ export const refreshAccessToken = async (data) => {
 
 export const login = async (data) => {
     const response = await axios.post(`${BASE_URL}/login`, data);
-    console.log(response)
     return response.data;
 }

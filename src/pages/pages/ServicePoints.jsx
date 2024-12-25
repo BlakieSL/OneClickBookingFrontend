@@ -22,7 +22,7 @@ const ServicePoints = () => {
                 setLoading(false);
             }
         })();
-    }, [servicePoints]);
+    }, []);
 
     if (loading) {
         return <Loader/>

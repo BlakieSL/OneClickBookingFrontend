@@ -3,7 +3,7 @@ import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "../../helpers/validation.js";
 import {getUserById, login} from "../../apis/userApi.js";
 import {jwtDecode} from "jwt-decode";
-import {setAccessToken, setRefreshToken, setUser} from "../../helpers/tokenUtils.js";
+import {getRefreshToken, setAccessToken, setRefreshToken, setUser} from "../../helpers/tokenUtils.js";
 import {Button, TextInput} from "@mantine/core";
 
 const Login = () => {
