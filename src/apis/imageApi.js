@@ -7,6 +7,11 @@ export const getImageById = async (id) => {
     return response.data;
 }
 
+export const getFirstImageForParent = async (parentType, parentId) => {
+    const response = await axios.get(`${BASE_URL}/first/parent/${parentType}/${parentId}`);
+    return response.data;
+}
+
 export const getAllImagesForParent = async (parentType, parentId) => {
     const response = await axios.get(`${BASE_URL}/parent/${parentType}/${parentId}`);
     return response.data;

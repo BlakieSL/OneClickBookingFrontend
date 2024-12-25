@@ -33,7 +33,7 @@ export const logout = () => {
 export const refreshAccessTokenUtil = async () => {
     const refreshToken = getRefreshToken();
 
-    const accessToken = refreshAccessToken(refreshToken);
+    const accessToken = await refreshAccessToken(refreshToken);
 
     setAccessToken(accessToken);
 }

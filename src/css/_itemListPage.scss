@@ -1,0 +1,8 @@
+.item-list {
+  @extend .container;
+  min-width: 1191px;
+
+  &__list-container {
+    @extend .list-container;
+  }
+}

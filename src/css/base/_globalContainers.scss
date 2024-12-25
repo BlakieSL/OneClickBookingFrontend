@@ -1,0 +1,16 @@
+.container {
+  @extend .boxShadow;
+  max-width: 1191px;
+  padding: 0 !important;
+  border-radius: 2px;
+  background-color: #ffffff;
+  margin-bottom: 100px;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: 18px;
+}
