@@ -12,8 +12,8 @@ const ServicePointCard = ({ servicePoint }) => {
     useEffect(() => {
         (async () => {
             try {
-                const image = await getFirstImageForParent('SERVICE_POINT', id)
-                setImage(image);
+                const fetchedImage = await getFirstImageForParent('SERVICE_POINT', id)
+                setImage(`data:image/png;base64,${fetchedImage}`);
             } catch(error) {
                 if (error.response && error.response.status === 404) {
                     setImage(defaultImage);
@@ -35,14 +35,12 @@ const ServicePointCard = ({ servicePoint }) => {
         <Card className="card">
             <Card.Section>
                 <Image
-                    src={`data:image/png;base64,${image}`}
+                    src={image}
                     alt={name}
                     className="card__image"
                 />
             </Card.Section>
-            <Box>
-                <Text className="card__name"> {name} </Text>
-            </Box>
+            <Text className="card__name"> {name} </Text>
         </Card>
     )
 }

@@ -36,4 +36,6 @@ export const refreshAccessTokenUtil = async () => {
     const accessToken = await refreshAccessToken(refreshToken);
 
     setAccessToken(accessToken);
+
+    return accessToken;
 }

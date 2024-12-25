@@ -20,7 +20,11 @@ export const updateUser = async (id, data) => {
 }
 
 export const refreshAccessToken = async (data) => {
-    const response = await axios.post(`${BASE_URL}/refresh-token`, data);
+    const response = await axios.post(
+        `${BASE_URL}/refresh-token`,
+        {
+            refreshToken: data
+        });
     return response.data.accessToken;
 }
 

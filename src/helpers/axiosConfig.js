@@ -1,5 +1,6 @@
 import axios from "axios";
 import {getAccessToken, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
+import {refreshAccessToken} from "../apis/userApi.js";
 
 axios.interceptors.request.use(
     async (config) => {
@@ -35,11 +36,10 @@ axios.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+        if (error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
-                await refreshAccessTokenUtil();
-                const newToken = getAccessToken();
+                const newToken = await refreshAccessToken();
                 originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                 return axios(originalRequest);
             } catch (refreshError) {

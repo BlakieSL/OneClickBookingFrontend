@@ -37,7 +37,7 @@ const Login = () => {
             const user = await getUserById(userId);
             setUser(user);
 
-            navigate('/service-points   ')
+            navigate('/service-points')
         } catch(error) {
             console.error(error);
         }
