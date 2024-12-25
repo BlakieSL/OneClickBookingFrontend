@@ -12,9 +12,7 @@ export const getAllEmployees = async () => {
     return response.data;
 }
 
-export const getAllEmployeesByServicePointAndTreatment = async (servicePointId, treatmentId) => {
-    const response = await axios.get(
-        `${BASE_URL}/service-point/${servicePointId}/treatment/${treatmentId}`
-    )
-    return response.data
+export const getFilteredEmployees = async (data) => {
+    const response = await axios.post(`${BASE_URL}/filtered`, data);
+    return response.data;
 }

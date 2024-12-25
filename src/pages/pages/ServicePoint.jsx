@@ -1,22 +1,23 @@
-import {useParams} from "react-router-dom";
+import {data, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getServicePoint} from "../../apis/servicePointApi.js";
 import {getAllImagesForParent} from "../../apis/imageApi.js";
 import {Box, Container, Loader} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../apis/treatmentApi.js";
 import {getFilteredReviews} from "../../apis/reviewApi.js";
+import {getFilteredEmployees} from "../../apis/employeeApi.js";
 
 const ServicePoint = () => {
     const { id } = useParams();
     const [servicePoint, setServicePoint] = useState(null);
     const [images, setImages] = useState([]);
-    //const [employees, setEmployees] = useState([]);
+    const [employees, setEmployees] = useState([]);
     const [treatments, setTreatments] = useState([]);
     const [reviews, setReviews] =useState([]);
 
     const [servicePointLoading, setServicePointLoading] = useState(true);
     const [imagesLoading, setImagesLoading] = useState(true);
-    //const [employeesLoading, setEmployeesLoading] = useState(true);
+    const [employeesLoading, setEmployeesLoading] = useState(true);
     const [treatmentsLoading, setTreatmentsLoading] = useState(true);
     const [reviewsLoading, setReviewsLoading] = useState(true);
 
@@ -58,6 +59,31 @@ const ServicePoint = () => {
             }
         })();
     },[id]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const requestBody = {
+                    filterCriteria: [
+                        {
+                            filterKey: "SERVICE_POINT",
+                            value: id,
+                            operation: "EQUAL"
+                        }
+                    ],
+                    dataOption: "AND"
+                };
+
+                const fetchedEmployees = await getFilteredEmployees(data);
+                setEmployees(fetchedEmployees);
+            } catch (error) {
+                setError("Failed to fetch employees");
+                console.error(error);
+            } finally {
+                setEmployeesLoading(false);
+            }
+        })();
+    }, []);
 
     useEffect(() => {
         (async () => {
