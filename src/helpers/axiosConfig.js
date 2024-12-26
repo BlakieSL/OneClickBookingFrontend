@@ -1,6 +1,5 @@
 import axios from "axios";
 import {getAccessToken, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
-import {refreshAccessToken} from "../apis/userApi.js";
 
 axios.interceptors.request.use(
     async (config) => {
@@ -10,6 +9,7 @@ axios.interceptors.request.use(
                         '/api/users/refresh-token'
                     ];
 
+                    console.log("REQUEST TO:", config.url);
                     if (!excludedEndpoints.some(endpoint => config.url.endsWith(endpoint))) {
                         if(!config.headers['Content-Type']) {
                             config.headers['Content-Type'] = 'application/json';
@@ -48,7 +48,7 @@ axios.interceptors.response.use(
             if (!isRefreshing) {
                 isRefreshing = true;
                 try {
-                    const newToken = await refreshAccessToken();
+                    const newToken = await refreshAccessTokenUtil();
                     onTokenRefreshed(newToken);
                     isRefreshing = false;
                     return axios(originalRequest);

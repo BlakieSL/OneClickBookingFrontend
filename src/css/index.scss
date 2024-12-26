@@ -1,5 +1,2 @@
-@import "base/globalContainers";
-@import "base/globalComponents";
-
-@import "itemListPage";
-@import "card";
+@use "base/base-elements.scss" as *;
+@use "base/base-containers.scss" as *;

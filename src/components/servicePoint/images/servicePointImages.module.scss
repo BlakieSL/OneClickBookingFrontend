@@ -1,0 +1,26 @@
+@use  "../../../css/base/base-elements" as *;
+
+.imageButtonsContainer {
+  display: flex;
+  flex-direction: column;
+
+  &__image {
+    min-height: 500px;
+    max-height: 500px;
+    max-width: 100%;
+    object-fit: fill;
+  }
+
+  &__buttonsContainer {
+    background-color: #718977;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__button {
+      @include button;
+      border-radius: 0 !important;
+      flex-grow: 1;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+@use "base-elements.scss" as *;
+
+@mixin container {
+  @include boxShadow;
+  max-width: 1191px;
+  width: 1191px;
+  padding: 0 !important;
+  border-radius: 2px;
+  background-color: #ffffff;
+  margin-bottom: 100px;
+}
+
+@mixin list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: 18px;
+}
+
+@mixin text-container {
+  width: 100%;
+  background-color: #718977;
+  color: #ffffff;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+@mixin text-container-heading {
+  font-weight: 650;
+  font-size: 1.5rem;
+}

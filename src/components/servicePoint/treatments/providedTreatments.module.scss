@@ -1,0 +1,42 @@
+@use  "../../../css/base/base-elements" as *;
+
+.providedTreatments {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 18px;
+  padding-right: 18px;
+
+  &__card {
+    padding: 16px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: #fff;
+  }
+
+  &__name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  &__description {
+    font-size: 14px;
+    color: #666;
+  }
+
+  &__price,
+  &__duration {
+    font-size: 14px;
+    color: #555;
+  }
+
+  &__orderButton {
+    margin-top: 12px;
+    align-self: flex-start;
+    @include button;
+  }
+}

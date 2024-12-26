@@ -1,15 +1,17 @@
 import {data, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getServicePoint} from "../../apis/servicePointApi.js";
-import {getAllImagesForParent} from "../../apis/imageApi.js";
-import {Box, Container, Loader, TextInput} from "@mantine/core";
-import {getAllTreatmentsByServicePoint} from "../../apis/treatmentApi.js";
-import {getFilteredReviews} from "../../apis/reviewApi.js";
-import {getFilteredEmployees} from "../../apis/employeeApi.js";
-import {defaultImage} from "../../helpers/constants.js";
-import ServicePointDetails from "../../components/servicePoint/servicepoint/ServicePointDetails.jsx";
-import ServicePointImages from "../../components/servicePoint/servicepoint/ServicePointImages.jsx";
-
+import {getServicePoint} from "../../../apis/servicePointApi.js";
+import {getAllImagesForParent} from "../../../apis/imageApi.js";
+import {Box, Container, Loader, Text} from "@mantine/core";
+import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
+import {getFilteredReviews} from "../../../apis/reviewApi.js";
+import {getFilteredEmployees} from "../../../apis/employeeApi.js";
+import {defaultImage} from "../../../helpers/constants.js";
+import ServicePointDetails from "../../../components/servicePoint/details/ServicePointDetails.jsx";
+import ServicePointImages from "../../../components/servicePoint/images/ServicePointImages.jsx";
+import styles from "./servicePoint.module.scss";
+import ProvidedTreatments from "../../../components/servicePoint/treatments/ProvidedTreatments.jsx";
+import Reviews from "../../../components/general/reviews/Reviews.jsx";
 const ServicePoint = () => {
     const { id } = useParams();
     const [servicePoint, setServicePoint] = useState(null);
@@ -49,7 +51,7 @@ const ServicePoint = () => {
                     setImages([defaultImage])
                 } else {
                     const transformedImages = fetchedImages.map((img) => {
-                        `data:image/png;base64,${img.image}`
+                        return `data:image/png;base64,${img.image}`
                     })
                     setImages(transformedImages);
                 }
@@ -76,7 +78,7 @@ const ServicePoint = () => {
                     dataOption: "AND"
                 };
 
-                const fetchedEmployees = await getFilteredEmployees(data);
+                const fetchedEmployees = await getFilteredEmployees(requestBody);
                 setEmployees(fetchedEmployees);
             } catch (error) {
                 setError("Failed to fetch employees");
@@ -115,7 +117,7 @@ const ServicePoint = () => {
                     dataOption: "AND"
                 }
                 const fetchedReviews = await getFilteredReviews(requestBody);
-                setReviews(reviews);
+                setReviews(fetchedReviews);
             } catch (error) {
                 setError("Failed to fetch reviews");
                 setError(error);
@@ -130,10 +132,21 @@ const ServicePoint = () => {
     }
 
     return (
-        <Container>
-            <Box>
-                <ServicePointImages images={images} />
-                <ServicePointDetails servicePoint={servicePoint} employees={employees} />
+        <Container className={styles.servicePointContainer}>
+            <Box className={styles.textContainer}>
+                <Text className={styles.textContainer__heading}>{servicePoint.name}</Text>
+            </Box>
+            <Box className={styles.innerBox}>
+                <Box className={styles.headerBox}>
+                    <Box className={styles.headerBox__imageBox}>
+                        <ServicePointImages images={images} />
+                    </Box>
+                    <Box className={styles.headerBox__detailsBox}>
+                        <ServicePointDetails servicePoint={servicePoint} employees={employees} />
+                    </Box>
+                </Box>
+                <ProvidedTreatments treatments={treatments}/>
+                <Reviews reviews={reviews} />
             </Box>
         </Container>
     )

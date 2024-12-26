@@ -1,0 +1,13 @@
+@use "../../css/base/base-elements.scss" as *;
+
+.mediumCard {
+  @include card-base(216px, 270px);
+
+  &__image {
+    @include card-image(100%, 170px);
+  }
+
+  &__name {
+    @include card-name(1.1rem);
+  }
+}

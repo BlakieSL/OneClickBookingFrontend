@@ -1,1 +1,1 @@
-export const defaultImage = 'https://img.freepik.com/premium-vector/no-result-found-empty-results-popup-design_586724-96.jpg?w=1060';
+export const defaultImage = '../../public/imagenotfound.jpg';

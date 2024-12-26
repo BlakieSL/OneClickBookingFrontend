@@ -1,9 +1,9 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
-import ServicePoints from "./pages/ServicePoints";
+import Registration from "./pages/registration/Registration";
+import Login from "./pages/login/Login";
+import ServicePoints from "./pages/servicePoints/ServicePoints";
 import {PrivateRoute} from "./PrivateRoute";
-import ServicePoint from "./pages/ServicePoint";
+import ServicePoint from "./pages/servicePoint/ServicePoint";
 
 const router = createBrowserRouter([
     { path: '/registration', element: <Registration /> },

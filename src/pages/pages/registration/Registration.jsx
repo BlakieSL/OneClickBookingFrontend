@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../apis/userApi.js";
+import { registerUser } from "../../../apis/userApi.js";
 import {useForm} from "@mantine/form";
 import {Button, TextInput} from "@mantine/core";
-import {validateEmail, validatePassword} from "../../helpers/validation.js";
+import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 
 const Registration = () => {
     const navigate = useNavigate();

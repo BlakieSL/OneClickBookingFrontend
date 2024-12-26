@@ -1,0 +1,44 @@
+@use "../../../css/base/base-containers.scss" as *;
+
+.servicePointContainer {
+  @include container;
+}
+
+.textContainer {
+  @include text-container;
+
+  &__heading {
+    @include text-container-heading;
+  }
+}
+
+.innerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.headerBox {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+
+  &__imageBox {
+    box-shadow:
+            2px 0 4px rgba(0, 0, 0, 0.1),
+            0 -2px 4px rgba(0, 0, 0, 0.1),
+            0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 7;
+    min-width: 0;
+  }
+
+  &__detailsBox {
+    box-shadow:
+            -2px 0 4px rgba(0, 0, 0, 0.1),
+            0 -2px 4px rgba(0, 0, 0, 0.1),
+            0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 3;
+    min-width: 0;
+  }
+}
+

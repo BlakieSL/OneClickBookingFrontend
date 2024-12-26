@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {getFirstImageForParent} from "../../../apis/imageApi.js";
 import {defaultImage} from "../../../helpers/constants.js";
-import {Card, Loader} from "@mantine/core";
+import {Card, Loader, Text, Image} from "@mantine/core";
+import styles from "./servicePointEmployeeCard.module.scss";
 
 const ServicePointEmployeeCard = ({ employee }) => {
     const { id, username } = employee;
@@ -13,12 +14,12 @@ const ServicePointEmployeeCard = ({ employee }) => {
         (async () => {
             try {
                 const fetchedImage = await getFirstImageForParent('EMPLOYEE', id)
-                setImage(`data:image/png;base64,${fetchedImage}`);
+                setImage(`data:image/png;base64,${fetchedImage.image}`);
             } catch(error) {
                 if (error.response && error.response.status === 404) {
                     setImage(defaultImage);
                 } else {
-                    setError("Failed to fetch related image");
+                    setError("Failed to fetch related images");
                     console.error(error);
                 }
             } finally {
@@ -27,20 +28,16 @@ const ServicePointEmployeeCard = ({ employee }) => {
         })();
     }, [id]);
 
-    if(loading) {
-        return <Loader />
-    }
-
     return (
-        <Card className="service-point-employee-card">
+        <Card className={styles.smallCard}>
             <Card.Section>
                 <Image
-                    src={image}
-                    alt={name}
-                    className="service-point-employee-card__image"
+                    src={image || defaultImage}
+                    alt={username}
+                    className={styles.smallCard__image}
                 />
             </Card.Section>
-            <Text className="service-point-employee-card__name">{username}</Text>
+            <Text className={styles.smallCard__name}>{username}</Text>
         </Card>
     )
 }

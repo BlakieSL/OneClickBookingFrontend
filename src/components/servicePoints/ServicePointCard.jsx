@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {getFirstImageForParent} from "../../apis/imageApi.js";
 import {Box, Card, Image, Loader, Text} from "@mantine/core";
 import {defaultImage} from "../../helpers/constants.js";
+import styles from "./servicePointCard.module.scss";
 
 const ServicePointCard = ({ servicePoint }) => {
     const { id, name, location, email, phone } = servicePoint;
@@ -13,12 +14,13 @@ const ServicePointCard = ({ servicePoint }) => {
         (async () => {
             try {
                 const fetchedImage = await getFirstImageForParent('SERVICE_POINT', id)
-                setImage(`data:image/png;base64,${fetchedImage}`);
+
+                setImage(`data:image/png;base64,${fetchedImage.image}`);
             } catch(error) {
                 if (error.response && error.response.status === 404) {
                     setImage(defaultImage);
                 } else {
-                    setError("Failed to fetch related image");
+                    setError("Failed to fetch related images");
                     console.error(error);
                 }
             } finally {
@@ -27,20 +29,17 @@ const ServicePointCard = ({ servicePoint }) => {
         })();
     }, [id]);
 
-    if(loading) {
-        return <Loader/>
-    }
 
     return (
-        <Card className="card">
+        <Card className={styles.mediumCard}>
             <Card.Section>
                 <Image
                     src={image}
                     alt={name}
-                    className="card__image"
+                    className={styles.mediumCard__image}
                 />
             </Card.Section>
-            <Text className="card__name"> {name} </Text>
+            <Text className={styles.mediumCard__name}>{name}</Text>
         </Card>
     )
 }
