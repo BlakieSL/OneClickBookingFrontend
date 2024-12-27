@@ -1061,6 +1061,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-star-ratings@npm:^2":
+  version: 2.3.3
+  resolution: "@types/react-star-ratings@npm:2.3.3"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/7e8f3190be67616419555369bd95ff61aa1ea668f2781c5a5dc7dd437b60bc8016075a7fdf5869ce9757f43d0bc1f984e619c97b83075251d1c719d5a8cfaba4
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*":
   version: 18.2.36
   resolution: "@types/react@npm:18.2.36"
@@ -1280,6 +1289,13 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: 10c0/594754e1303672171cc04e50f6c398ae16128eb134a88f801bf5354fd96f205320f23536a045d9abd8b51024a149696e51231565891d4efdab8846021ecf88e6
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.1":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: 10c0/afff4f77e62cea2d79c39962980bf316bacb0d7c49e13a21adaadb9221e1c6b9d3cdb829d8bb1b23c406f4e740507f37e1dcf506f7e3b7113d17c5bab787aa69
   languageName: node
   linkType: hard
 
@@ -2318,7 +2334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2":
+"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -2463,6 +2479,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-star-ratings@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "react-star-ratings@npm:2.3.0"
+  dependencies:
+    classnames: "npm:^2.2.1"
+    prop-types: "npm:^15.6.0"
+    react: "npm:^16.1.0"
+  checksum: 10c0/6a0bbfe312fbb6043868cec7ceb17d49ccecf4d22b4eb0c134fc73d29fe1c7e18b650c701b73dc696e06570d89b044977a827197ad504fccb74a7be1d52112f4
+  languageName: node
+  linkType: hard
+
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -2505,6 +2532,17 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 10c0/2ba754ba748faefa15f87c96dfa700d5525054a0141de8c75763aae6734af0740e77e11261a1e8f4ffc08fd9ab78510122e05c21c2d79066c38bb6861a886c82
+  languageName: node
+  linkType: hard
+
+"react@npm:^16.1.0":
+  version: 16.14.0
+  resolution: "react@npm:16.14.0"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+    object-assign: "npm:^4.1.1"
+    prop-types: "npm:^15.6.2"
+  checksum: 10c0/df8faae43e01387013900e8f8fb3c4ce9935b7edbcbaa77e12999c913eb958000a0a8750bf9a0886dae0ad768dd4a4ee983752d5bade8d840adbe0ce890a2438
   languageName: node
   linkType: hard
 
@@ -3003,6 +3041,7 @@ __metadata:
     "@tabler/icons-react": "npm:^3.26.0"
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"
+    "@types/react-star-ratings": "npm:^2"
     "@vitejs/plugin-react": "npm:^4.3.4"
     axios: "npm:^1.7.9"
     jwt-decode: "npm:^4.0.0"
@@ -3013,6 +3052,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-redux: "npm:^9.2.0"
     react-router-dom: "npm:^7.0.2"
+    react-star-ratings: "npm:^2.3.0"
     sass: "npm:^1.78.0"
     typescript: "npm:^5.7.2"
     vite: "npm:^6.0.1"

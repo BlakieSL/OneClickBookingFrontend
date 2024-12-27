@@ -118,6 +118,7 @@ const ServicePoint = () => {
                 }
                 const fetchedReviews = await getFilteredReviews(requestBody);
                 setReviews(fetchedReviews);
+                console.log(fetchedReviews)
             } catch (error) {
                 setError("Failed to fetch reviews");
                 setError(error);
@@ -146,7 +147,7 @@ const ServicePoint = () => {
                     </Box>
                 </Box>
                 <ProvidedTreatments treatments={treatments}/>
-                <Reviews reviews={reviews} />
+                <Reviews data={reviews} />
             </Box>
         </Container>
     )

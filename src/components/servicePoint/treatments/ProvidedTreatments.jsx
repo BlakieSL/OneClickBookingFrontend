@@ -3,8 +3,8 @@ import styles from "./providedTreatments.module.scss";
 const ProvidedTreatments = ({ treatments }) => {
     return (
         <Box className={styles.providedTreatments}>
-            {treatments.map((treatment, index) => (
-                <Card key={index} className={styles.providedTreatments__card}>
+            {treatments.map((treatment) => (
+                <Card key={treatment.id} className={styles.providedTreatments__card}>
                     <Text className={styles.providedTreatments__name}>
                         {treatment.name}
                     </Text>

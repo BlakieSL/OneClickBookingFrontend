@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/react-star-ratings": "^2",
     "@vitejs/plugin-react": "^4.3.4",
     "postcss": "^8.4.49",
     "postcss-preset-mantine": "1.17.0",
