@@ -7,9 +7,9 @@ import './css/index.scss';
 import '@mantine/dates/styles.css';
 
 export default function App() {
-  return (
-      <MantineProvider theme={theme}>
-        <Router />
-      </MantineProvider>
-  );
+    return (
+        <MantineProvider theme={theme}>
+            <Router />
+        </MantineProvider>
+    );
 }

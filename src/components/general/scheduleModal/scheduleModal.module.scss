@@ -1,0 +1,42 @@
+@use "../../../css/base/base-elements";
+@use "../../../css/base/base-containers";
+
+.innerBox {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+
+  &__dateBox {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  &__employeesBox {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  &__slotsBox {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 18px;
+  }
+
+  &__scrollArea {
+    padding-bottom: 12px;
+
+    &__elementsBox {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      &__element{
+        flex-shrink: 0;
+      }
+    }
+  }
+}

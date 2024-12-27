@@ -3,8 +3,8 @@
 .smallCard {
   @include card-base(72px, 90px);
 
-  @include card-image(100%, 57px);
   &__image {
+    @include card-image(100%, 57px);
   }
 
   &__name {

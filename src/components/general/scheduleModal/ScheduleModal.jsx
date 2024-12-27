@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
 import {Badge, Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
 import {getSchedule} from "../../../apis/scheduleApi.js";
-import {Calendar, DatePicker, DatePickerInput} from "@mantine/dates";
+import {DatePicker} from "@mantine/dates";
+import styles from "./scheduleModal.module.scss";
+import ServicePointEmployeeCard from "../../servicePoint/employeesCard/ServicePointEmployeeCard.jsx";
+
 
 const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -86,48 +89,31 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
     }
 
     return (
-        <Modal opened={opened} onClose={onClose}>
-            <Box>
-                <Text>Select a Date</Text>
-                <DatePicker
-                    value={selectedDate}
-                    onChange={handleDatePick}
-                    minDate={new Date()}
-                    size="xl"
-                />
+        <Modal
+            opened={opened}
+            onClose={onClose}
+            styles={{
+                content: {
+                    minWidth: "800px",
+                    height: "1000px",
+                },
+            }}
+        >
+            <Box className={styles.innerBox}>
+                <Box className={styles.innerBox__dateBox}>
+                    <Text>Select a Date</Text>
+                    <DatePicker
+                        value={selectedDate}
+                        onChange={handleDatePick}
+                        minDate={new Date()}
+                        numberOfColumns={2}
+                        size="lg"
+                    />
+                </Box>
 
-                <Text>Select an Employee</Text>
-                <ScrollArea type="auto">
-                    <Box>
-                        {employees.map((employee) => (
-                            <Badge
-                                key={employee.id}
-                                onClick={() => handleEmployeePick(employee)}
-                            >
-                                {employee.username}
-                            </Badge>
-                        ))}
-                    </Box>
-                </ScrollArea>
 
-                <Text >Available Slots</Text>
-                <ScrollArea type="auto">
-                    <Box>
-                        {freeSlots.map((slot) => (
-                            <Badge
-                                key={slot}
-                                onClick={() => handleSlotPick(slot)}
-                            >
-                                {slot}
-                            </Badge>
-                        ))}
-                    </Box>
 
-                </ScrollArea>
-
-                <Button disabled={!selectedSlot}>
-                    Continue
-                </Button>
+                <Button disabled={!selectedSlot}>Continue</Button>
             </Box>
         </Modal>
     );
