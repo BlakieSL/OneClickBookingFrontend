@@ -3,6 +3,8 @@ import ServicePointEmployeeCard from "../employeesCard/ServicePointEmployeeCard.
 import styles from "./servicePointDetails.module.scss";
 
 const ServicePointDetails = ({ servicePoint, employees }) => {
+
+
     return (
         <Box className={styles.servicePointDetails}>
             <Box className={styles.servicePointDetails__info}>
@@ -17,7 +19,7 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
             <ScrollArea type="auto" className={styles.servicePointDetails__scrollArea}>
                 <Box className={styles.servicePointDetails__employees}>
                     {employees.map((employee) => (
-                        <ServicePointEmployeeCard key={employee.id} employee={employee} />
+                        <ServicePointEmployeeCard key={employee.id} employee={employee} servicePointId={servicePoint.id}/>
                     ))}
                 </Box>
             </ScrollArea>

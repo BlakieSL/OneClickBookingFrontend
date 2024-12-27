@@ -1,1 +1,1 @@
-export const defaultImage = '../../public/imagenotfound.jpg';
+export const defaultImage = '/imagenotfound.jpg';

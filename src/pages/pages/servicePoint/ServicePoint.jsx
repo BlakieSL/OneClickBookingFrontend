@@ -1,4 +1,4 @@
-import {data, useParams} from "react-router-dom";
+import {data, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getServicePoint} from "../../../apis/servicePointApi.js";
 import {getAllImagesForParent} from "../../../apis/imageApi.js";
@@ -13,6 +13,7 @@ import styles from "./servicePoint.module.scss";
 import ProvidedTreatments from "../../../components/servicePoint/treatments/ProvidedTreatments.jsx";
 import Reviews from "../../../components/general/reviews/Reviews.jsx";
 const ServicePoint = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [servicePoint, setServicePoint] = useState(null);
     const [images, setImages] = useState([]);
@@ -150,7 +151,7 @@ const ServicePoint = () => {
                 <Reviews data={reviews} />
             </Box>
         </Container>
-    )
+    );
 };
 
 

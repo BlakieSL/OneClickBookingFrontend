@@ -1,0 +1,48 @@
+@use "../../../css/base/base-containers.scss" as *;
+@use "../../../css/base/base-elements" as *;
+
+.employeeContainer {
+  @include container;
+}
+
+.textContainer {
+  @include text-container;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+
+  &__avatarAndNameBox {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+
+    &__heading {
+      @include text-container-heading;
+    }
+  }
+
+  &__button {
+    @include button;
+  }
+}
+
+
+.innerBox {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  &__descriptionBox {
+    padding: 20px;
+
+    &__text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333333;
+    }
+  }
+}

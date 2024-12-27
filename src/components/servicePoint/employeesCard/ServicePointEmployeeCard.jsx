@@ -3,8 +3,10 @@ import {getFirstImageForParent} from "../../../apis/imageApi.js";
 import {defaultImage} from "../../../helpers/constants.js";
 import {Card, Loader, Text, Image} from "@mantine/core";
 import styles from "./servicePointEmployeeCard.module.scss";
+import {useNavigate} from "react-router-dom";
 
-const ServicePointEmployeeCard = ({ employee }) => {
+const ServicePointEmployeeCard = ({ employee, servicePointId }) => {
+    const navigate = useNavigate();
     const { id, username } = employee;
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -28,8 +30,15 @@ const ServicePointEmployeeCard = ({ employee }) => {
         })();
     }, [id]);
 
+    const handleClick = () => {
+        navigate(`/service-points/${servicePointId}/employees/${id}`);
+    }
+
     return (
-        <Card className={styles.smallCard}>
+        <Card
+            className={styles.smallCard}
+            onClick={handleClick}
+        >
             <Card.Section>
                 <Image
                     src={image || defaultImage}
