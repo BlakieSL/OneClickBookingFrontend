@@ -16,14 +16,14 @@ const ServicePointEmployeeCard = ({ employee, servicePointId }) => {
         (async () => {
             try {
                 const fetchedImage = await getFirstImageForParent('EMPLOYEE', id)
-                setImage(`data:image/png;base64,${fetchedImage.image}`);
-            } catch(error) {
-                if (error.response && error.response.status === 404) {
-                    setImage(defaultImage);
+                if (fetchedImage?.image) {
+                    setImage(`data:image/png;base64,${fetchedImage.image}`);
                 } else {
-                    setError("Failed to fetch related images");
-                    console.error(error);
+                    setImage(defaultImage);
                 }
+            } catch(error) {
+                setError("Failed to fetch related images");
+                console.error(error);
             } finally {
                 setLoading(false);
             }

@@ -1,6 +1,6 @@
 import {Box, Card, Text, Button} from "@mantine/core";
 import styles from "./providedTreatments.module.scss";
-const ProvidedTreatments = ({ treatments }) => {
+const ProvidedTreatments = ({ treatments, onClick }) => {
     return (
         <Box className={styles.providedTreatments}>
             {treatments.map((treatment) => (
@@ -21,7 +21,12 @@ const ProvidedTreatments = ({ treatments }) => {
                         Duration: {treatment.duration} minutes
                     </Text>
 
-                    <Button className={styles.providedTreatments__orderButton}>Order</Button>
+                    <Button
+                        onClick={() => onClick(treatment)}
+                        className={styles.providedTreatments__orderButton}
+                    >
+                        Order
+                    </Button>
                 </Card>
             ))}
         </Box>

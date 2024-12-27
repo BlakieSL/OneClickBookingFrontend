@@ -68,14 +68,13 @@ const Employee = () => {
         (async () => {
             try {
                 const fetchedImage = await getFirstImageForParent("EMPLOYEE", employeeId);
-                setImage(`data:image/png;base64,${fetchedImage.image}`);
-                console.log(fetchedImage);
-            } catch (error) {
-                if (error.response && error.response.status === 404) {
+
+                if(fetchedImage?.image) {
+                    setImage(`data:image/png;base64,${fetchedImage.image}`);
+                } else {
                     setImage(defaultImage);
-                    console.log("here")
-                    console.log(defaultImage)
                 }
+            } catch (error) {
                 setError("Failed to fetch employee image");
                 console.error(error);
             } finally {

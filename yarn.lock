@@ -1292,13 +1292,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.1":
-  version: 2.5.1
-  resolution: "classnames@npm:2.5.1"
-  checksum: 10c0/afff4f77e62cea2d79c39962980bf316bacb0d7c49e13a21adaadb9221e1c6b9d3cdb829d8bb1b23c406f4e740507f37e1dcf506f7e3b7113d17c5bab787aa69
-  languageName: node
-  linkType: hard
-
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -1376,6 +1369,13 @@ __metadata:
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: 10c0/32c038af259897c807ac738d9eab16b3d86747c72b09d5c740978e06f067f9b7b1737e1b75e407c7ab1fe1543dc95f20e202b4786aeb1b8d3bdf5d5ce655e6c6
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.0":
+  version: 1.11.13
+  resolution: "dayjs@npm:1.11.13"
+  checksum: 10c0/a3caf6ac8363c7dade9d1ee797848ddcf25c1ace68d9fe8678ecf8ba0675825430de5d793672ec87b24a69bf04a1544b176547b2539982275d5542a7955f35b7
   languageName: node
   linkType: hard
 
@@ -2334,7 +2334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2":
+"prop-types@npm:^15.6.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -2479,17 +2479,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-star-ratings@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "react-star-ratings@npm:2.3.0"
-  dependencies:
-    classnames: "npm:^2.2.1"
-    prop-types: "npm:^15.6.0"
-    react: "npm:^16.1.0"
-  checksum: 10c0/6a0bbfe312fbb6043868cec7ceb17d49ccecf4d22b4eb0c134fc73d29fe1c7e18b650c701b73dc696e06570d89b044977a827197ad504fccb74a7be1d52112f4
-  languageName: node
-  linkType: hard
-
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -2532,17 +2521,6 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 10c0/2ba754ba748faefa15f87c96dfa700d5525054a0141de8c75763aae6734af0740e77e11261a1e8f4ffc08fd9ab78510122e05c21c2d79066c38bb6861a886c82
-  languageName: node
-  linkType: hard
-
-"react@npm:^16.1.0":
-  version: 16.14.0
-  resolution: "react@npm:16.14.0"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-    object-assign: "npm:^4.1.1"
-    prop-types: "npm:^15.6.2"
-  checksum: 10c0/df8faae43e01387013900e8f8fb3c4ce9935b7edbcbaa77e12999c913eb958000a0a8750bf9a0886dae0ad768dd4a4ee983752d5bade8d840adbe0ce890a2438
   languageName: node
   linkType: hard
 
@@ -3044,6 +3022,7 @@ __metadata:
     "@types/react-star-ratings": "npm:^2"
     "@vitejs/plugin-react": "npm:^4.3.4"
     axios: "npm:^1.7.9"
+    dayjs: "npm:^1.11.0"
     jwt-decode: "npm:^4.0.0"
     postcss: "npm:^8.4.49"
     postcss-preset-mantine: "npm:1.17.0"
@@ -3052,7 +3031,6 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-redux: "npm:^9.2.0"
     react-router-dom: "npm:^7.0.2"
-    react-star-ratings: "npm:^2.3.0"
     sass: "npm:^1.78.0"
     typescript: "npm:^5.7.2"
     vite: "npm:^6.0.1"

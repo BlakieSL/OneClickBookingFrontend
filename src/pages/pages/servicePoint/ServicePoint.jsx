@@ -2,7 +2,7 @@ import {data, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getServicePoint} from "../../../apis/servicePointApi.js";
 import {getAllImagesForParent} from "../../../apis/imageApi.js";
-import {Box, Container, Loader, Text} from "@mantine/core";
+import {Box, Container, Loader, Modal, Text} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
 import {getFilteredReviews} from "../../../apis/reviewApi.js";
 import {getFilteredEmployees} from "../../../apis/employeeApi.js";
@@ -12,9 +12,14 @@ import ServicePointImages from "../../../components/servicePoint/images/ServiceP
 import styles from "./servicePoint.module.scss";
 import ProvidedTreatments from "../../../components/servicePoint/treatments/ProvidedTreatments.jsx";
 import Reviews from "../../../components/general/reviews/Reviews.jsx";
+import {useDisclosure} from "@mantine/hooks";
+import ScheduleModal from "../../../components/general/scheduleModal/ScheduleModal.jsx";
 const ServicePoint = () => {
     const navigate = useNavigate();
+    const [opened, {open, close}] = useDisclosure(false);
     const { id } = useParams();
+    const [selectedTreatment, setSelectedTreatment] = useState(null);
+
     const [servicePoint, setServicePoint] = useState(null);
     const [images, setImages] = useState([]);
     const [employees, setEmployees] = useState([]);
@@ -129,6 +134,11 @@ const ServicePoint = () => {
         })();
     },[id]);
 
+    const handleSelectTreatment = (treatment) => {
+        setSelectedTreatment(treatment);
+        open();
+    }
+
     if(servicePointLoading || imagesLoading || employeesLoading || treatmentsLoading || reviewsLoading) {
         return <Loader/>;
     }
@@ -147,9 +157,18 @@ const ServicePoint = () => {
                         <ServicePointDetails servicePoint={servicePoint} employees={employees} />
                     </Box>
                 </Box>
-                <ProvidedTreatments treatments={treatments}/>
+                <ProvidedTreatments treatments={treatments} onClick={handleSelectTreatment}/>
                 <Reviews data={reviews} />
             </Box>
+            {opened && (
+                <ScheduleModal
+                    employees={employees}
+                    treatment={selectedTreatment}
+                    servicePoint={servicePoint}
+                    opened={opened}
+                    onClose={close}
+                />
+            )}
         </Container>
     );
 };
