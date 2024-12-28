@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
-import {Badge, Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
+import {Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
 import {getSchedule} from "../../../apis/scheduleApi.js";
 import {DatePicker} from "@mantine/dates";
 import styles from "./scheduleModal.module.scss";
 import ServicePointEmployeeCard from "../../servicePoint/employeesCard/ServicePointEmployeeCard.jsx";
-
+import SlotBadge from "./SlotBadge.jsx";
+import {Carousel} from "@mantine/carousel";
 
 const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -19,7 +20,6 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
 
     const [error, setError] = useState(null);
 
-
     useEffect(() => {
         (async () => {
             try {
@@ -31,7 +31,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                     },
                     {
                         filterKey: "DATE",
-                        value: selectedDate.toISOString().split('T')[0],
+                        value: formatDate(selectedDate),
                         operation: "EQUAL"
                     },
                 ];
@@ -51,14 +51,10 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                     },
                     treatmentId: treatment.id
                 }
+                console.log(requestBody);
                 const response = await getSchedule(requestBody);
-
-                if (response && Array.isArray(response.freeSlots)) {
-                    setFreeSlots(response.freeSlots);
-                } else {
-                    console.error("Unexpected API response:", response);
-                    setFreeSlots([]); // Fallback to empty array
-                }
+                console.log(response);
+                setFreeSlots(formatSlots(response.freeSlots));
             } catch (error) {
                 setError("Failed to fetch schedule");
                 console.error(error);
@@ -72,16 +68,35 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         console.log(freeSlots);
     }, [freeSlots]);
 
+    const formatSlots = (slots) => {
+        return slots.map((slot) => {
+            const date = new Date(slot);
+            return new Intl.DateTimeFormat(undefined, {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false,
+            }).format(date);
+        });
+    };
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
     const handleDatePick = (date) => {
         setSelectedDate(date);
     }
-
     const handleEmployeePick = (employee) => {
-        setSelectedEmployee(employee)
-    }
-
+        setSelectedEmployee((prevSelectedEmployee) =>
+            prevSelectedEmployee?.id === employee.id ? null : employee
+        );
+        setSelectedSlot(null);
+    };
     const handleSlotPick = (slot) => {
-        setSelectedSlot(slot);
+        setSelectedSlot((prevSelectedSlot) =>
+            prevSelectedSlot === slot ? null : slot
+        );
     };
 
     if(freeSlotsLoading){
@@ -90,13 +105,18 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
 
     return (
         <Modal
+            title={`${treatment.name}`}
             opened={opened}
             onClose={onClose}
             styles={{
                 content: {
-                    minWidth: "800px",
-                    height: "1000px",
+                    minWidth: '800px',
                 },
+                title: {
+                    fontSize: '22px',
+                    fontWeight: '600',
+                    marginBottom: '15px',
+                }
             }}
         >
             <Box className={styles.innerBox}>
@@ -110,10 +130,69 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                         size="lg"
                     />
                 </Box>
+                <Box className={styles.innerBox__employeesAndSlotsBox}>
+                    <Carousel
+                        withIndicators
+                        dragFree
+                        slideGap="sm"
+                        align="start"
+                        slideSize="10%"
+                        height={150}
+                        styles={{
+                            container: {
+                                paddingTop: '5px',
+                                userSelect: 'none',
+                            },
+                            control: {
+                                opacity: '50%',
+                                width: '32px',
+                                height: '32px',
+                            },
+                        }}
+                    >
+                        {employees.map((employee) => (
+                            <Carousel.Slide
+                                key={employee.id}
+                                onClick={() => handleEmployeePick(employee)}
+                            >
+                                <ServicePointEmployeeCard
+                                    employee={employee}
+                                    isSelected={selectedEmployee?.id === employee.id}
+                                />
+                            </Carousel.Slide>
+                        ))}
+                    </Carousel>
 
+                    <div className={styles.innerBox__divider}></div>
 
-
-                <Button disabled={!selectedSlot}>Continue</Button>
+                    <Carousel
+                        dragFree
+                        withControls={false}
+                        slideSize="13%"
+                        slideGap="xs"
+                        align="start"
+                        height={45}
+                        styles={{
+                            container: {
+                                paddingTop: '5px',
+                                userSelect: 'none',
+                            },
+                        }}
+                    >
+                        {freeSlots.map((slot) => (
+                            <Carousel.Slide key={slot}>
+                                <SlotBadge
+                                    onClick={() => handleSlotPick(slot)}
+                                    slot={slot}
+                                    isSelected={selectedSlot === slot}
+                                />
+                            </Carousel.Slide>
+                        ))}
+                    </Carousel>
+                </Box>
+                <Button className={styles.button} disabled={!selectedSlot}>
+                    Continue
+                </Button>
             </Box>
         </Modal>
     );

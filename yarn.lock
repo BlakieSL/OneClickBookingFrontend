@@ -568,6 +568,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/carousel@npm:^7.15.2":
+  version: 7.15.2
+  resolution: "@mantine/carousel@npm:7.15.2"
+  peerDependencies:
+    "@mantine/core": 7.15.2
+    "@mantine/hooks": 7.15.2
+    embla-carousel-react: ">=7.0.0"
+    react: ^18.x || ^19.x
+    react-dom: ^18.x || ^19.x
+  checksum: 10c0/b84d223d1bc0aa097dc9079c86b294228e8a08929226c981a8aaa050027db7794dd22acdff7754d73a74a10f9cf7dd24245b0695e7d1d092c75424fb55fa1cfd
+  languageName: node
+  linkType: hard
+
 "@mantine/core@npm:7.15.1":
   version: 7.15.1
   resolution: "@mantine/core@npm:7.15.1"
@@ -1333,6 +1346,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"compute-scroll-into-view@npm:^3.0.2":
+  version: 3.1.0
+  resolution: "compute-scroll-into-view@npm:3.1.0"
+  checksum: 10c0/bf305c4ece8e5c59ed3f7ed82b6dab5b7487ce26f56a693d903869964712870fccb08fe31d40edcbd600b03c99198f54d443acb315d674bd64fd344410c8672e
+  languageName: node
+  linkType: hard
+
 "convert-source-map@npm:^2.0.0":
   version: 2.0.0
   resolution: "convert-source-map@npm:2.0.0"
@@ -1444,6 +1464,24 @@ __metadata:
   version: 1.5.66
   resolution: "electron-to-chromium@npm:1.5.66"
   checksum: 10c0/127a1140f3ad47c6992d6fb8ea84b3962efb52bc8e60a6ca3b722d417bf7741c92b8995fc4bd7a41943aa009ef951443361a7949e02a693461ed3ebabc053873
+  languageName: node
+  linkType: hard
+
+"embla-carousel-react@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "embla-carousel-react@npm:7.1.0"
+  dependencies:
+    embla-carousel: "npm:7.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.1 || ^18.0.0
+  checksum: 10c0/05e33fdb1062fde0164a0685163a5212f8e8f343fbe28e9a8e2348c989d8825d80fdcecfed485c7617d27f8f5d72b393612a3dd13ef9cffc02ef0cf21109ba51
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:7.1.0":
+  version: 7.1.0
+  resolution: "embla-carousel@npm:7.1.0"
+  checksum: 10c0/3fcfe5b287c5d09d35dac76b6612567cf6f15abdae0bbf7d10754db9f732dd90cdfdf5bc7405d8fb3f65542bdead09971e93e024a0db9b3f1fcc653a70e733bc
   languageName: node
   linkType: hard
 
@@ -2263,6 +2301,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"performance-now@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "performance-now@npm:0.2.0"
+  checksum: 10c0/d7f3824e443491208f7124b45d3280dbff889f8f048c3aee507109c24644d51a226eb07fd7ac51dd0eef144639590c57410c2d167bd4fdf0c5caa0101a449c3d
+  languageName: node
+  linkType: hard
+
+"performance-now@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "performance-now@npm:2.1.0"
+  checksum: 10c0/22c54de06f269e29f640e0e075207af57de5052a3d15e360c09b9a8663f393f6f45902006c1e71aa8a5a1cdfb1a47fe268826f8496d6425c362f00f5bc3e85d9
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -2386,7 +2438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2":
+"prop-types@npm:^15.5.8, prop-types@npm:^15.6.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -2411,6 +2463,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"raf@npm:^3.1.0":
+  version: 3.4.1
+  resolution: "raf@npm:3.4.1"
+  dependencies:
+    performance-now: "npm:^2.1.0"
+  checksum: 10c0/337f0853c9e6a77647b0f499beedafea5d6facfb9f2d488a624f88b03df2be72b8a0e7f9118a3ff811377d534912039a3311815700d2b6d2313f82f736f9eb6e
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
@@ -2423,10 +2484,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-horizontal-scrolling-menu@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "react-horizontal-scrolling-menu@npm:8.2.0"
+  dependencies:
+    smooth-scroll-into-view-if-needed: "npm:^2.0.2"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 10c0/2721296c47db85512d08d27b62f2cb1fea202e6e2ceb4a09759fb1de1d01726afb115a83d6d115428e8550792852fa1bcb94f496d702beded2dcc0c56534dcc4
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
+  languageName: node
+  linkType: hard
+
+"react-motion@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "react-motion@npm:0.5.2"
+  dependencies:
+    performance-now: "npm:^0.2.0"
+    prop-types: "npm:^15.5.8"
+    raf: "npm:^3.1.0"
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0
+  checksum: 10c0/4ea6f1cc7079f0161fd786cc755133a822d87d9c0510369b8fb348d9ad602111efa2e3496dbcc390c967229e39e3eb5f6dd5dd6d3d124289443de31d6035a6c8
   languageName: node
   linkType: hard
 
@@ -2528,6 +2614,19 @@ __metadata:
     react-dom:
       optional: true
   checksum: 10c0/f6c04939218a3d7f2b03b215c2299eab4dbb0dea4a16e0acfd8bf181ec69ff42d66abdba10a25cc3297c514f052a0d03bfb80431225eb763bb27e4e5b0b4a106
+  languageName: node
+  linkType: hard
+
+"react-scroll-horizontal@npm:^1.6.6":
+  version: 1.6.6
+  resolution: "react-scroll-horizontal@npm:1.6.6"
+  dependencies:
+    react-motion: "npm:^0.5.2"
+  peerDependencies:
+    prop-types: ^15.5.4
+    react: ^15.0.0 || ^16.0.0
+    react-dom: ^15.0.0 || ^16.0.0
+  checksum: 10c0/d7bf933e1503804ac69505dbb24fd1ce054c812f59e55c72a9bca3cf33bf7cb5de703afbf540ebda5131f6a091c127d3ec8f2738fc9575410ac6b26e7dc85ca3
   languageName: node
   linkType: hard
 
@@ -2753,6 +2852,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"scroll-into-view-if-needed@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "scroll-into-view-if-needed@npm:3.1.0"
+  dependencies:
+    compute-scroll-into-view: "npm:^3.0.2"
+  checksum: 10c0/1f46b090e1e04fcfdef1e384f6d7e615f9f84d4176faf4dbba7347cc0a6e491e5d578eaf4dbe9618dd3d8d38efafde58535b3e00f2a21ce4178c14be364850ff
+  languageName: node
+  linkType: hard
+
 "semver@npm:^6.3.1":
   version: 6.3.1
   resolution: "semver@npm:6.3.1"
@@ -2807,6 +2915,15 @@ __metadata:
   version: 4.2.0
   resolution: "smart-buffer@npm:4.2.0"
   checksum: 10c0/a16775323e1404dd43fabafe7460be13a471e021637bc7889468eb45ce6a6b207261f454e4e530a19500cc962c4cc5348583520843b363f4193cee5c00e1e539
+  languageName: node
+  linkType: hard
+
+"smooth-scroll-into-view-if-needed@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "smooth-scroll-into-view-if-needed@npm:2.0.2"
+  dependencies:
+    scroll-into-view-if-needed: "npm:^3.1.0"
+  checksum: 10c0/0b9321d8f22bc5aa66c5deaa6d6f152ba04d7c534c193d060d0d0e07ecb20af000b9b78e8303fba98f54e0e2c5bf0baf7a983c444689fa978b2a58ad758d5d78
   languageName: node
   linkType: hard
 
@@ -3099,6 +3216,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vite-min-template@workspace:."
   dependencies:
+    "@mantine/carousel": "npm:^7.15.2"
     "@mantine/core": "npm:7.15.1"
     "@mantine/dates": "npm:^7.15.1"
     "@mantine/form": "npm:^7.15.1"
@@ -3110,14 +3228,17 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.3.4"
     axios: "npm:^1.7.9"
     dayjs: "npm:^1.11.0"
+    embla-carousel-react: "npm:^7.1.0"
     jwt-decode: "npm:^4.0.0"
     postcss: "npm:^8.4.49"
     postcss-preset-mantine: "npm:1.17.0"
     postcss-simple-vars: "npm:^7.0.1"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
+    react-horizontal-scrolling-menu: "npm:^8.2.0"
     react-redux: "npm:^9.2.0"
     react-router-dom: "npm:^7.0.2"
+    react-scroll-horizontal: "npm:^1.6.6"
     rollup-plugin-visualizer: "npm:^5.13.1"
     sass: "npm:^1.78.0"
     typescript: "npm:^5.7.2"

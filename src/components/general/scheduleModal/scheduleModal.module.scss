@@ -5,38 +5,30 @@
   padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
-
-  &__dateBox {
-    background-color: #f1f1f1;
+  &__dateBox,
+  &__employeesAndSlotsBox {
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 18px;
-  }
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.4s ease;
 
-  &__employeesBox {
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 18px;
-  }
-
-  &__slotsBox {
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 18px;
-  }
-
-  &__scrollArea {
-    padding-bottom: 12px;
-
-    &__elementsBox {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-
-      &__element{
-        flex-shrink: 0;
-      }
+    &:hover {
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     }
+  }
+  &__divider {
+    height: 2px;
+    background-color: #726c6c;
+    border-radius: 1px;
+    width: 94%;
+    margin: auto;
+    margin-bottom: 22px;
+  }
+
+  .button {
+    margin-top: 15px;
   }
 }

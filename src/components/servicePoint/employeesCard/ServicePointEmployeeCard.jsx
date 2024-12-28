@@ -5,7 +5,7 @@ import {Card, Loader, Text, Image} from "@mantine/core";
 import styles from "./servicePointEmployeeCard.module.scss";
 import {useNavigate} from "react-router-dom";
 
-const ServicePointEmployeeCard = ({ employee, servicePointId }) => {
+const ServicePointEmployeeCard = ({ employee, isSelected }) => {
     const navigate = useNavigate();
     const { id, username } = employee;
     const [image, setImage] = useState(null);
@@ -30,14 +30,14 @@ const ServicePointEmployeeCard = ({ employee, servicePointId }) => {
         })();
     }, [id]);
 
-    const handleClick = () => {
-        navigate(`/service-points/${servicePointId}/employees/${id}`);
+
+    if(loading) {
+        return <Loader/>;
     }
 
     return (
         <Card
-            className={styles.smallCard}
-            onClick={handleClick}
+            className={`${styles.smallCard} ${isSelected ? styles.selected : ""}`}
         >
             <Card.Section>
                 <Image
