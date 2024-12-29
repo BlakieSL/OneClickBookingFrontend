@@ -116,7 +116,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         try {
             await createBooking(requestBody);
         } catch (error) {
-            setError("Failed to create booking");
+            setError("Failed to create bookings");
             console.error(error);
         } finally {
             setBookingLoading(false);

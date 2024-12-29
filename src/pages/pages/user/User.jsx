@@ -3,7 +3,9 @@ import {useEffect, useState} from "react";
 import {Container, Group, Loader, NavLink, Paper} from "@mantine/core";
 import {getUserById} from "../../../apis/userApi.js";
 import {getUser} from "../../../helpers/tokenUtils.js";
-import Account from "../../../components/user/Account.jsx";
+import Account from "../../../components/user/account/Account.jsx";
+import UserBookings from "../../../components/user/bookings/UserBookings.jsx";
+import UserReviews from "../../../components/user/reviews/UserReviews.jsx";
 const User = () => {
     const [activeTab, setActiveTab] = useState('account');
     const [user, setUser] = useState(null);
@@ -43,13 +45,13 @@ const User = () => {
                         }}
                     />
                     <NavLink
-                        label="Bookings"
+                        label="UserBookings"
                         active={activeTab === 'bookings'}
                         onClick={() => setActiveTab('bookings')}
                         className={activeTab === 'bookings' ? styles.activeTab : ''}
                     />
                     <NavLink
-                        label="Reviews"
+                        label="UserReviews"
                         active={activeTab === 'reviews'}
                         onClick={() => setActiveTab('reviews')}
                         className={activeTab === 'reviews' ? styles.activeTab : ''}
@@ -58,6 +60,8 @@ const User = () => {
             </Paper>
             <Paper className={styles.mainContainer}>
                 {activeTab === 'account' && <Account user={user} /> }
+                {activeTab === 'bookings' && <UserBookings user={user} />  }
+                {activeTab === 'reviews' && <UserReviews user={user} /> }
             </Paper>
         </Container>
     )

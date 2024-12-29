@@ -1,8 +1,8 @@
 import {Box, Button, Modal, TextInput} from "@mantine/core";
 import React, {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {validateEmail, validatePassword} from "../../helpers/validation.js";
-import {updateUser} from "../../apis/userApi.js";
+import {validateEmail, validatePassword} from "../../../helpers/validation.js";
+import {updateUser} from "../../../apis/userApi.js";
 
 const ChangeModal = ({ user, subject, opened, onClose }) => {
     if (!['email', 'password'].includes(subject)) {

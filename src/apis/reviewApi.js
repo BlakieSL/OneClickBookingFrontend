@@ -26,5 +26,5 @@ export const deleteReview = async (id) => {
 }
 
 export const updateReview = async (id, data) => {
-    await axios.patch(`${BASE_URL}/${id}`)
+    await axios.patch(`${BASE_URL}/${id}`, data)
 }

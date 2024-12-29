@@ -12,6 +12,11 @@ export const getAllBookings = async () => {
     return response.data;
 }
 
+export const getFilteredBookings = async (data) => {
+    const response = await axios.post(`${BASE_URL}/filtered`, data);
+    return response.data;
+}
+
 export const createBooking = async (data) => {
     await axios.post(`${BASE_URL}`, data);
 }

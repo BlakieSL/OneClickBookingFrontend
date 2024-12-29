@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {validateEmail, validatePassword} from "../../helpers/validation.js";
-import {updateUser} from "../../apis/userApi.js";
+import {validateEmail, validatePassword} from "../../../helpers/validation.js";
+import {updateUser} from "../../../apis/userApi.js";
 import {Button, TextInput} from "@mantine/core";
 import ChangeModal from "./ChangeModal.jsx";
 import {useDisclosure} from "@mantine/hooks";

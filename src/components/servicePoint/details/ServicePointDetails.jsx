@@ -26,7 +26,6 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
             <Box className={styles.servicePointDetails__carouselOuterBox}>
                 <Carousel
                     withIndicators
-                    loop
                     slideGap="sm"
                     align="start"
                     slideSize="10%"
