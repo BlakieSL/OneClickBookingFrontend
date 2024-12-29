@@ -33,9 +33,7 @@ const Login = () => {
 
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
-
-            const user = await getUserById(userId);
-            setUser(user);
+            setUser(userId);
 
             navigate('/service-points')
         } catch(error) {

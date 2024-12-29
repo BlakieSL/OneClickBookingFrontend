@@ -8,6 +8,10 @@ export const getRefreshToken = () => {
     return localStorage.getItem('refreshToken');
 };
 
+export const getUser = () => {
+    return localStorage.getItem('user');
+}
+
 export const setAccessToken = (accessToken) => {
     localStorage.setItem('accessToken', accessToken);
 };
@@ -16,9 +20,10 @@ export const setRefreshToken = (refreshToken) => {
     localStorage.setItem('refreshToken', refreshToken);
 };
 
-export const setUser = (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
+export const setUser = (userId) => {
+    localStorage.setItem('user', JSON.stringify(userId));
 };
+
 
 export const isUserLoggedIn = () => {
     return !!getAccessToken();

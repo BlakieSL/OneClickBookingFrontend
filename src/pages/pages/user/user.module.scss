@@ -1,0 +1,30 @@
+.outerContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.sideBarContainer {
+  padding: 16px;
+}
+
+.mainContainer {
+  padding: 16px;
+}
+
+.activeTab {
+  background-color: #445649;
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: #445649 !important;
+    color: #ffffff !important;
+    cursor: default;
+  }
+}
+
+.navLink {
+  &:hover {
+    background-color: transparent;
+  }
+}
