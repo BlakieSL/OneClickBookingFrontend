@@ -163,7 +163,6 @@ const ServicePoint = () => {
             </Box>
             {opened && (
                 <ScheduleModal
-                    employees={employees}
                     treatment={selectedTreatment}
                     servicePoint={servicePoint}
                     opened={opened}

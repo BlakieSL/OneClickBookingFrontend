@@ -7,11 +7,14 @@ import ServicePointEmployeeCard from "../../servicePoint/employeesCard/ServicePo
 import SlotBadge from "../slotBadge/SlotBadge.jsx";
 import {Carousel} from "@mantine/carousel";
 import {useDisclosure} from "@mantine/hooks";
-import ConfirmModal from "../confirmModal/ConfirmModal.jsx";
+import ConfirmModal from "./confirmModal/ConfirmModal.jsx";
 import {createBooking} from "../../../apis/bookingApi.js";
+import {getFilteredReviews} from "../../../apis/reviewApi.js";
+import {getFilteredEmployees} from "../../../apis/employeeApi.js";
 
-const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) => {
-    const [openedConfirm, { open: openConfrim, close: closeConfirm }] = useDisclosure(false);
+const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
+    const [openedConfirm, { open: openConfirm, close: closeConfirm }] = useDisclosure(false);
+    const [employees, setEmployees] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
@@ -19,6 +22,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
      * @type {[FreeSlots[], Function]}
      */
     const [freeSlots, setFreeSlots] = useState([]);
+    const [employeesLoading, setEmployeesLoading] = useState(true);
     const [freeSlotsLoading, setFreeSlotsLoading] = useState(true);
     const [bookingLoading, setBookingLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -54,9 +58,8 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                     },
                     treatmentId: treatment.id
                 }
-                console.log(requestBody);
+
                 const response = await getSchedule(requestBody);
-                console.log(response);
 
                 setFreeSlots(response.freeSlots);
             } catch (error) {
@@ -69,8 +72,34 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
     }, [selectedDate, selectedEmployee, servicePoint.id, treatment.id]);
 
     useEffect(() => {
-        console.log(freeSlots);
-    }, [freeSlots]);
+        (async () => {
+            try {
+                const requestBody = {
+                    filterCriteria: [
+                        {
+                            filterKey: "SERVICE_POINT",
+                            value: servicePoint.id,
+                            operation: "EQUAL"
+                        },
+                        {
+                            filterKey: "TREATMENT",
+                            value: treatment.id,
+                            operation: "EQUAL"
+                        }
+                    ],
+                    dataOption: "AND"
+                };
+
+                const fetchedEmployees = await getFilteredEmployees(requestBody);
+                setEmployees(fetchedEmployees);
+            } catch (error) {
+                setError("Failed to fetch employees");
+                console.error(error);
+            } finally {
+                setEmployeesLoading(false);
+            }
+        })();
+    },[servicePoint, treatment]);
 
     const formatSlot = (slot) => {
             const date = new Date(slot);
@@ -100,11 +129,9 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
             prevSelectedSlot === slot ? null : slot
         );
     };
-
     const handleContinue = () => {
-        openConfrim();
+        openConfirm();
     }
-
     const handleConfirm = async () => {
         setBookingLoading(true);
         const requestBody = {
@@ -116,7 +143,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         try {
             await createBooking(requestBody);
         } catch (error) {
-            setError("Failed to create bookings");
+            setError("Failed to create booking");
             console.error(error);
         } finally {
             setBookingLoading(false);
@@ -125,12 +152,11 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         closeConfirm();
         onClose();
     }
-
     const handleClose = () => {
         closeConfirm();
     }
 
-    if(freeSlotsLoading || bookingLoading){
+    if(freeSlotsLoading || bookingLoading || employeesLoading){
         return <Loader />;
     }
 
