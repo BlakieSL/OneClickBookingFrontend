@@ -23,7 +23,7 @@
   flex-direction: column;
   border-radius: 2px;
   padding: 10px;
-  background-color: rgba(233, 255, 243, 0.5);
+  background-color: rgb(122, 145, 127);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
   transition: transform 0.3s ease;
@@ -42,7 +42,7 @@
 
 @mixin card-name($fond-size) {
   font-weight: 650;
-  color: #343a36;
+  color: #ffffff;
   white-space: nowrap;
   font-size: $fond-size;
 }

@@ -1,7 +1,8 @@
 import {Box, ScrollArea, Text, Loader} from "@mantine/core";
 import ServicePointEmployeeCard from "../employeesCard/ServicePointEmployeeCard.jsx";
-import styles from "./servicePointDetails.module.scss";
 import {useNavigate} from "react-router-dom";
+import {Carousel} from "@mantine/carousel";
+import styles from "./servicePointDetails.module.scss";
 
 const ServicePointDetails = ({ servicePoint, employees }) => {
     const navigate = useNavigate();
@@ -21,18 +22,38 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
             <Box className={styles.servicePointDetails__textContainer}>
                 <Text className={styles.servicePointDetails__textContainer__heading}>Employees</Text>
             </Box>
-            <ScrollArea type="auto" className={styles.servicePointDetails__scrollArea}>
-                <Box className={styles.servicePointDetails__employees}>
+
+            <Box className={styles.servicePointDetails__carouselOuterBox}>
+                <Carousel
+                    withIndicators
+                    loop
+                    slideGap="sm"
+                    align="start"
+                    slideSize="10%"
+                    height={150}
+                    styles={{
+                        container: {
+                            paddingTop: '5px',
+                            userSelect: 'none',
+                        },
+                        control: {
+                            opacity: '50%',
+                            width: '32px',
+                            height: '32px',
+                        },
+                    }}
+                >
                     {employees.map((employee) => (
-                        <Box
+                        <Carousel.Slide
                             key={employee.id}
                             onClick={() => handleClick(employee)}
                         >
                             <ServicePointEmployeeCard employee={employee}/>
-                        </Box>
+                        </Carousel.Slide>
                     ))}
-                </Box>
-            </ScrollArea>
+                </Carousel>
+            </Box>
+
         </Box>
     );
 };

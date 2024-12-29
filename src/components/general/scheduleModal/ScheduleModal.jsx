@@ -4,10 +4,11 @@ import {getSchedule} from "../../../apis/scheduleApi.js";
 import {DatePicker} from "@mantine/dates";
 import styles from "./scheduleModal.module.scss";
 import ServicePointEmployeeCard from "../../servicePoint/employeesCard/ServicePointEmployeeCard.jsx";
-import SlotBadge from "./SlotBadge.jsx";
+import SlotBadge from "../slotBadge/SlotBadge.jsx";
 import {Carousel} from "@mantine/carousel";
 import {useDisclosure} from "@mantine/hooks";
-import ConfirmModal from "./ConfirmModal.jsx";
+import ConfirmModal from "../confirmModal/ConfirmModal.jsx";
+import {createBooking} from "../../../apis/bookingApi.js";
 
 const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) => {
     const [openedConfirm, { open: openConfrim, close: closeConfirm }] = useDisclosure(false);
@@ -19,6 +20,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
      */
     const [freeSlots, setFreeSlots] = useState([]);
     const [freeSlotsLoading, setFreeSlotsLoading] = useState(true);
+    const [bookingLoading, setBookingLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -55,7 +57,8 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                 console.log(requestBody);
                 const response = await getSchedule(requestBody);
                 console.log(response);
-                setFreeSlots(formatSlots(response.freeSlots));
+
+                setFreeSlots(response.freeSlots);
             } catch (error) {
                 setError("Failed to fetch schedule");
                 console.error(error);
@@ -69,15 +72,13 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         console.log(freeSlots);
     }, [freeSlots]);
 
-    const formatSlots = (slots) => {
-        return slots.map((slot) => {
+    const formatSlot = (slot) => {
             const date = new Date(slot);
             return new Intl.DateTimeFormat(undefined, {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: false,
             }).format(date);
-        });
     };
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -104,16 +105,32 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
         openConfrim();
     }
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        setBookingLoading(true);
+        const requestBody = {
+            date: selectedSlot,
+            servicePointId: servicePoint.id,
+            employeeId: selectedEmployee.id,
+            treatmentId: treatment.id
+        }
+        try {
+            await createBooking(requestBody);
+        } catch (error) {
+            setError("Failed to create booking");
+            console.error(error);
+        } finally {
+            setBookingLoading(false);
+        }
+
         closeConfirm();
         onClose();
     }
 
     const handleClose = () => {
-        onClose();
+        closeConfirm();
     }
 
-    if(freeSlotsLoading){
+    if(freeSlotsLoading || bookingLoading){
         return <Loader />;
     }
 
@@ -198,7 +215,7 @@ const ScheduleModal = ({ employees, treatment, servicePoint, opened, onClose}) =
                                 <Carousel.Slide key={slot}>
                                     <SlotBadge
                                         onClick={() => handleSlotPick(slot)}
-                                        slot={slot}
+                                        slot={formatSlot(slot)}
                                         isSelected={selectedSlot === slot}
                                     />
                                 </Carousel.Slide>

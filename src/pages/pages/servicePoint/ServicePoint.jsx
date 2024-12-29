@@ -139,6 +139,7 @@ const ServicePoint = () => {
         open();
     }
 
+
     if(servicePointLoading || imagesLoading || employeesLoading || treatmentsLoading || reviewsLoading) {
         return <Loader/>;
     }

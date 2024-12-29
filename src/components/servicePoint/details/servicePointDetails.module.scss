@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
 
+
   &__info {
     display: flex;
     flex-direction: column;
@@ -14,19 +15,12 @@
     color: #333;
   }
 
-  &__scrollArea {
-    overflow-x: auto;
-    padding-bottom: 12px;
-    background-color: inherit;
-  }
-
-  &__employees {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
+  &__carouselOuterBox {
+    padding: 10px;
   }
 
   &__textContainer {
+    margin-top: 50px;
     @include text-container;
 
     &__heading {
