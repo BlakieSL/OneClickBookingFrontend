@@ -4,7 +4,7 @@ const SelectTreatment = ({ treatments, selectedTreatmentId, handleTreatmentPick 
     return (
         <Select
             placeholder="Pick a treatment"
-            value={selectedTreatmentId.toString()}
+            value={selectedTreatmentId ? selectedTreatmentId.toString() : null}
             onChange={(value) => handleTreatmentPick(value)}
             data={treatments.map((treatment) => ({
                 value: treatment.id.toString(),
