@@ -7,8 +7,7 @@
   flex-direction: column;
   gap: 15px;
 
-  &__dateBox,
-  &__employeesAndSlotsBox {
+  &__boxWithShadow {
     background-color: #ffffff;
     padding: 15px;
     border-radius: 18px;
@@ -19,13 +18,15 @@
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     }
   }
+
   &__divider {
     height: 2px;
     background-color: #726c6c;
     border-radius: 1px;
     width: 94%;
     margin: auto;
-    margin-bottom: 22px;
+    margin-bottom: 15px;
+    margin-top: 10px;
   }
 
   .button {

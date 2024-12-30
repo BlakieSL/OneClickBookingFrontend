@@ -4,7 +4,7 @@ import {getFilteredReviews} from "../../../apis/reviewApi.js";
 import {Box, Button, Card, Group, Loader, Text} from "@mantine/core";
 import StarRating from "../../general/reviews/StarRating.jsx";
 import {getBookingById} from "../../../apis/bookingApi.js";
-import ReviewModal from "../ReviewModal.jsx";
+import ReviewModal from "./ReviewModal.jsx";
 
 const UserReviews = ({ user }) => {
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);

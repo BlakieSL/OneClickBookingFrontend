@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {getFirstImageForParent} from "../../../apis/imageApi.js";
-import {defaultImage} from "../../../helpers/constants.js";
+import {getFirstImageForParent} from "../../../../apis/imageApi.js";
+import {defaultImage} from "../../../../helpers/constants.js";
 import {Card, Loader, Text, Image} from "@mantine/core";
 import styles from "./servicePointEmployeeCard.module.scss";
 import {useNavigate} from "react-router-dom";

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {getFirstImageForParent} from "../../apis/imageApi.js";
+import {getFirstImageForParent} from "../../../../apis/imageApi.js";
 import {Box, Card, Image, Loader, Text} from "@mantine/core";
-import {defaultImage} from "../../helpers/constants.js";
+import {defaultImage} from "../../../../helpers/constants.js";
 import styles from "./servicePointCard.module.scss";
 
-const ServicePointCard = ({ servicePoint }) => {
+const ServicePointCard = ({ servicePoint, isSelected = false, size="medium" }) => {
     const { id, name, location, email, phone } = servicePoint;
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -29,19 +29,24 @@ const ServicePointCard = ({ servicePoint }) => {
         })();
     }, [id]);
 
+    if(loading) {
+        return <Loader />;
+    }
 
     return (
-        <Card className={styles.mediumCard}>
+        <Card
+            className={`${styles.card} ${styles[`card__${size}`]} ${isSelected ? styles.card__selected : ""}`}
+        >
             <Card.Section>
                 <Image
                     src={image}
                     alt={name}
-                    className={styles.mediumCard__image}
+                    className={styles[`card__${size}__image`]}
                 />
             </Card.Section>
-            <Text className={styles.mediumCard__name}>{name}</Text>
+            <Text className={styles[`card__${size}__name`]}>{name}</Text>
         </Card>
-    )
+    );
 }
 
 export default ServicePointCard;

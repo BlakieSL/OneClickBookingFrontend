@@ -1,0 +1,31 @@
+@use "../../../../css/base/base-elements" as *;
+
+.card {
+  &__medium {
+    @include card-base(216px, 270px);
+
+    &__image {
+      @include card-image(100%, 170px);
+    }
+
+    &__name {
+      @include card-name(1.1rem);
+    }
+  }
+
+  &__small {
+    @include card-base(90px, 115px);
+
+    &__image {
+      @include card-image(100%, 80px);
+    }
+
+    &__name {
+      @include card-name(0.650rem);
+    }
+  }
+
+  &__selected {
+    @include card-selected;
+  }
+}

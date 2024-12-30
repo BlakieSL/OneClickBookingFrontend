@@ -1,11 +1,18 @@
 import {useDisclosure} from "@mantine/hooks";
 import {useEffect, useState} from "react";
 import {getAllServicePoints} from "../../../apis/servicePointApi.js";
-import {Loader} from "@mantine/core";
+import {Box, Button, Loader, Modal, Text} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
 import {getFilteredEmployees} from "../../../apis/employeeApi.js";
 import {getSchedule} from "../../../apis/scheduleApi.js";
 import {updateBooking} from "../../../apis/bookingApi.js";
+import ConfirmModal from "./confirmModal/ConfirmModal.jsx";
+import styles from "./scheduleModal.module.scss";
+import BookingEmployeesCarousel from "./BookingEmployeesCarousel.jsx";
+import BookingSlotsCarousel from "./BookingSlotsCarousel.jsx";
+import {DatePicker} from "@mantine/dates";
+import BookingServicePointsCarousel from "./BookingServicePointsCarousel.jsx";
+import SelectTreatment from "./SelectTreatment.jsx";
 
 const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const [openedConfirm, {open: openConfirm, close: closeConfirm }] = useDisclosure(false);
@@ -32,11 +39,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
 
     useEffect(() => {
         if (initialBooking) {
-            setSelectedServicePointId(initialBooking.servicePoint.id);
-            setSelectedTreatmentId(initialBooking.treatmentId);
-            setSelectedDate(new Date(initialBooking.date));
-            setSelectedEmployeeId(initialBooking.employee.id);
-            setSelectedTimeSlot(initialBooking.date);
+            handleReset();
         }
     }, [initialBooking]);
 
@@ -67,7 +70,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                         operation: "EQUAL"
                     },
                 ];
-
                 if (selectedEmployeeId) {
                     filterCriteria.push({
                         filterKey: "EMPLOYEE",
@@ -75,7 +77,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                         operation: "EQUAL"
                     })
                 }
-
                 const requestBody = {
                     filter: {
                         filterCriteria,
@@ -85,13 +86,18 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                 }
 
                 const response = await getSchedule(requestBody);
+                let updatedFreeSlots = response.freeSlots;
 
-
-                if (initialBooking.date && !response.includes(initialBooking.date)) {
-                    response.push(initialBooking.date);
+                if (
+                    selectedServicePointId === initialBooking.servicePoint.id &&
+                    selectedTreatmentId === initialBooking.treatmentId &&
+                    selectedEmployeeId === initialBooking.employee.id &&
+                    formatDate(selectedDate) === formatDate(new Date(initialBooking.date))
+                ) {
+                    updatedFreeSlots = [initialBooking.date, ...updatedFreeSlots];
                 }
 
-                setFreeSlots(response.freeSlots);
+                setFreeSlots(updatedFreeSlots);
             } catch (error) {
                 setError("Failed to fetch schedule");
                 console.error(error);
@@ -114,6 +120,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     }
 
     const fetchTreatmentsByServicePoint = async () => {
+        if (!selectedServicePointId) return;
         try {
             const fetchedTreatments = await getAllTreatmentsByServicePoint(selectedServicePointId);
             setTreatments(fetchedTreatments);
@@ -126,10 +133,8 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     }
 
     const fetchEmployeesByServicePointAndTreatment = async () => {
-        if(!selectedTreatmentId) {
-            setEmployees([]);
-            return;
-        }
+        if(!selectedTreatmentId || !selectedServicePointId) return;
+
         try {
             const requestBody = {
                 filterCriteria: [
@@ -156,14 +161,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         }
     }
 
-    const formatSlot = (slot) => {
-        const date = new Date(slot);
-        return new Intl.DateTimeFormat(undefined, {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false,
-        }).format(date);
-    };
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -175,8 +172,8 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         setSelectedServicePointId(servicePoint.id);
     }
 
-    const handleTreatmentPick = (treatment) => {
-        setSelectedTreatmentId(treatment.id);
+    const handleTreatmentPick = (treatmentId) => {
+        setSelectedTreatmentId(parseInt(treatmentId));
     }
 
     const handleDatePick = (date) => {
@@ -191,18 +188,10 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         setSelectedTimeSlot(slot);
     }
 
-    const handleContinue = () => {
-        openConfirm();
-    }
-
-    const handleClose = () => {
-        closeConfirm();
-    }
-
     const handleConfirm = async () => {
         setBookingLoading(true);
         const requestBody = {
-            date: selectedDate,
+            date: selectedTimeSlot,
             servicePointId: selectedServicePointId,
             employeeId: selectedEmployeeId,
             treatmentId: selectedTreatmentId
@@ -210,6 +199,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
 
         try {
             await updateBooking(initialBooking.id, requestBody);
+            onConfirm();
         } catch (error) {
             setError("Failed to update booking");
             console.error(error);
@@ -221,12 +211,95 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         onClose();
     }
 
+    const handleReset = () => {
+        setSelectedServicePointId(initialBooking.servicePoint.id);
+        setSelectedTreatmentId(initialBooking.treatmentId);
+        setSelectedDate(new Date(initialBooking.date));
+        setSelectedEmployeeId(initialBooking.employee.id);
+        setSelectedTimeSlot(initialBooking.date);
+    }
+
     if (bookingLoading || servicePointsLoading || treatmentsLoading || employeesLoading || freeSlotsLoading) {
         return <Loader />;
     }
 
     return (
+        <>
+            <Modal
+                title='Updating Booking'
+                opened={opened}
+                onClose={onClose}
+                styles = {{
+                    content: {
+                        minWidth: '800px',
+                    },
+                    title: {
+                        fontSize: '22px',
+                        fontWeight: '600',
+                        marginBottom: '15px',
+                    }
+                }}
+            >
+                <Box className={styles.innerBox}>
+                    <Box className={styles.innerBox__boxWithShadow}>
+                        <BookingServicePointsCarousel
+                            servicePoints={servicePoints}
+                            selectedServicePointId={selectedServicePointId}
+                            handleServicePointPick={handleServicePointPick}
+                        />
 
+                        <div className={styles.innerBox__divider}></div>
+
+                        <SelectTreatment
+                            treatments={treatments}
+                            selectedTreatmentId={selectedTreatmentId}
+                            handleTreatmentPick={handleTreatmentPick}
+                        />
+
+                    </Box>
+
+                    <Box className={styles.innerBox__boxWithShadow}>
+                        <DatePicker
+                            value={selectedDate}
+                            onChange={handleDatePick}
+                            minDate={new Date()}
+                            numberOfColumns={2}
+                            size="lg"
+                            defaultDate={selectedDate}
+                        />
+                    </Box>
+
+                    <Box className={styles.innerBox__boxWithShadow}>
+                        <BookingEmployeesCarousel
+                            employees={employees}
+                            selectedEmployeeId={selectedEmployeeId}
+                            handleEmployeePick={handleEmployeePick}
+                        />
+
+                        <div className={styles.innerBox__divider}></div>
+
+                        <BookingSlotsCarousel
+                            freeSlots={freeSlots}
+                            selectedSlot={selectedTimeSlot}
+                            handleSlotPick={handleSlotPick}
+                        />
+                    </Box>
+                    <Box>
+                        <Button onClick={openConfirm}>
+                            Continue
+                        </Button>
+                        <Button onClick={handleReset}>
+                            Cancel
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+            <ConfirmModal
+                opened={openedConfirm}
+                onClose={closeConfirm}
+                onConfirm={handleConfirm}
+            />
+        </>
     );
 }
 

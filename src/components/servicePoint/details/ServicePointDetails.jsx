@@ -1,5 +1,5 @@
 import {Box, ScrollArea, Text, Loader} from "@mantine/core";
-import ServicePointEmployeeCard from "../employeesCard/ServicePointEmployeeCard.jsx";
+import ServicePointEmployeeCard from "../../general/cards/employeeCard/ServicePointEmployeeCard.jsx";
 import {useNavigate} from "react-router-dom";
 import {Carousel} from "@mantine/carousel";
 import styles from "./servicePointDetails.module.scss";
@@ -40,6 +40,12 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
                             width: '32px',
                             height: '32px',
                         },
+                        indicators: {
+                            bottom: '0px'
+                        },
+                        indicator: {
+                            backgroundColor: '#445649'
+                        }
                     }}
                 >
                     {employees.map((employee) => (

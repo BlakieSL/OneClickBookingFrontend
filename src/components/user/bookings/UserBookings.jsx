@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Box, Button, Card, Group, Loader, Text} from "@mantine/core";
 import {getFilteredBookings} from "../../../apis/bookingApi.js";
 import {useDisclosure} from "@mantine/hooks";
-import {createReview, getReviewById} from "../../../apis/reviewApi.js";
-import ReviewModal from "../ReviewModal.jsx";
+import {getReviewById} from "../../../apis/reviewApi.js";
+import ReviewModal from "../reviews/ReviewModal.jsx";
+import UpdateBookingModal from "../../general/scheduleModal/UpdateBookingModal.jsx";
 
 const UserBookings = ({ user }) => {
-    const [opened, {open, close}] = useDisclosure(false);
+    const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
+    const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
     const [bookings, setBookings] = useState([]);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
@@ -56,15 +58,21 @@ const UserBookings = ({ user }) => {
         } finally {
             setSelectedReviewLoading(false);
         }
-        open();
+        openReview();
     }
     const handleLeaveReview = (booking) => {
         setSelectedBooking(booking);
-        open()
+        openReview();
+    }
+
+    const handleUpdateBooking = (booking) => {
+        setSelectedBooking(booking);
+        openBooking();
     }
 
     const handleModalCloseWithChanges = async () => {
-        close();
+        closeReview();
+        closeBooking();
         await fetchBookings();
     };
 
@@ -100,6 +108,10 @@ const UserBookings = ({ user }) => {
                         </Text>
                     )}
 
+                    <Button onClick={() => handleUpdateBooking(booking)}>
+                        Update Booking
+                    </Button>
+
                     <Box>
                         {booking.reviewId ? (
                             <Button
@@ -117,13 +129,24 @@ const UserBookings = ({ user }) => {
                     </Box>
                 </Card>
             ))}
-            <ReviewModal
-                opened={opened}
-                close={close}
-                onConfirm={handleModalCloseWithChanges}
-                reviewInfo={reviewInfo}
-                booking={selectedBooking}
-            />
+            {openedReview && (
+                <ReviewModal
+                    opened={openedReview}
+                    close={closeReview}
+                    onConfirm={handleModalCloseWithChanges}
+                    reviewInfo={reviewInfo}
+                    booking={selectedBooking}
+                />
+            )}
+            {openedBooking && (
+                <UpdateBookingModal
+                    opened={openedBooking}
+                    onClose={closeBooking}
+                    onConfirm={handleModalCloseWithChanges}
+                    initialBooking={selectedBooking}
+                />
+            )}
+
         </>
     )
 }

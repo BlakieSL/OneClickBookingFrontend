@@ -3,14 +3,16 @@ import {Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
 import {getSchedule} from "../../../apis/scheduleApi.js";
 import {DatePicker} from "@mantine/dates";
 import styles from "./scheduleModal.module.scss";
-import ServicePointEmployeeCard from "../../servicePoint/employeesCard/ServicePointEmployeeCard.jsx";
-import SlotBadge from "../slotBadge/SlotBadge.jsx";
+import ServicePointEmployeeCard from "../cards/employeeCard/ServicePointEmployeeCard.jsx";
+import SlotBadge from "../cards/slotBadge/SlotBadge.jsx";
 import {Carousel} from "@mantine/carousel";
 import {useDisclosure} from "@mantine/hooks";
 import ConfirmModal from "./confirmModal/ConfirmModal.jsx";
 import {createBooking} from "../../../apis/bookingApi.js";
 import {getFilteredReviews} from "../../../apis/reviewApi.js";
 import {getFilteredEmployees} from "../../../apis/employeeApi.js";
+import BookingEmployeesCarousel from "./BookingEmployeesCarousel.jsx";
+import BookingSlotsCarousel from "./BookingSlotsCarousel.jsx";
 
 const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     const [openedConfirm, { open: openConfirm, close: closeConfirm }] = useDisclosure(false);
@@ -100,15 +102,6 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
             }
         })();
     },[servicePoint, treatment]);
-
-    const formatSlot = (slot) => {
-            const date = new Date(slot);
-            return new Intl.DateTimeFormat(undefined, {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false,
-            }).format(date);
-    };
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -189,64 +182,19 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                         />
                     </Box>
                     <Box className={styles.innerBox__employeesAndSlotsBox}>
-                        <Carousel
-                            withIndicators
-                            dragFree
-                            slideGap="sm"
-                            align="start"
-                            slideSize="10%"
-                            height={150}
-                            styles={{
-                                container: {
-                                    paddingTop: '5px',
-                                    userSelect: 'none',
-                                },
-                                control: {
-                                    opacity: '50%',
-                                    width: '32px',
-                                    height: '32px',
-                                },
-                            }}
-                        >
-                            {employees.map((employee) => (
-                                <Carousel.Slide
-                                    key={employee.id}
-                                    onClick={() => handleEmployeePick(employee)}
-                                >
-                                    <ServicePointEmployeeCard
-                                        employee={employee}
-                                        isSelected={selectedEmployee?.id === employee.id}
-                                    />
-                                </Carousel.Slide>
-                            ))}
-                        </Carousel>
+                        <BookingEmployeesCarousel
+                            employees={employees}
+                            selectedEmployeeId={selectedEmployee?.id}
+                            handleEmployeePick={handleEmployeePick}
+                        />
 
                         <div className={styles.innerBox__divider}></div>
 
-                        <Carousel
-                            dragFree
-                            withControls={false}
-                            slideSize="13%"
-                            slideGap="xs"
-                            align="start"
-                            height={45}
-                            styles={{
-                                container: {
-                                    paddingTop: '5px',
-                                    userSelect: 'none',
-                                },
-                            }}
-                        >
-                            {freeSlots.map((slot) => (
-                                <Carousel.Slide key={slot}>
-                                    <SlotBadge
-                                        onClick={() => handleSlotPick(slot)}
-                                        slot={formatSlot(slot)}
-                                        isSelected={selectedSlot === slot}
-                                    />
-                                </Carousel.Slide>
-                            ))}
-                        </Carousel>
+                        <BookingSlotsCarousel
+                            freeSlots={freeSlots}
+                            selectedSlot={selectedSlot}
+                            handleSlotPick={handleSlotPick}
+                        />
                     </Box>
                     <Button className={styles.button} disabled={!selectedSlot} onClick={handleContinue}>
                         Continue

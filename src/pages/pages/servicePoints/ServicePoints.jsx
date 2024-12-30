@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getAllServicePoints} from "../../../apis/servicePointApi.js";
 import {Box, Container, Loader, SimpleGrid, Text} from "@mantine/core";
-import ServicePointCard from "../../../components/servicePoints/ServicePointCard.jsx";
+import ServicePointCard from "../../../components/general/cards/servicePointCard/ServicePointCard.jsx";
 import styles from "./servicePoints.module.scss";
 
 const ServicePoints = () => {
