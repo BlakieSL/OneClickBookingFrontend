@@ -1,15 +1,22 @@
+@use "../../../css/base/base-elements" as *;
+
 .outerContainer {
+  width: 1191px;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 25px;
 }
 
 .sideBarContainer {
+  @include boxShadow;
   padding: 16px;
+  flex: 3;
 }
 
 .mainContainer {
+  @include boxShadow;
   padding: 16px;
+  flex: 7;
 }
 
 .activeTab {

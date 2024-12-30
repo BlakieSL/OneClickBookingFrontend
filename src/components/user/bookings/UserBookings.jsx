@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Box, Button, Card, Group, Loader, Text} from "@mantine/core";
+import {Box, Button, Card, Group, Loader, Pagination, Text} from "@mantine/core";
 import {getFilteredBookings} from "../../../apis/bookingApi.js";
-import {useDisclosure, useScrollIntoView} from "@mantine/hooks";
+import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import {getReviewById} from "../../../apis/reviewApi.js";
 import ReviewModal from "../reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../general/scheduleModal/UpdateBookingModal.jsx";
@@ -19,6 +19,18 @@ const UserBookings = ({ user, highlightedBookingId }) => {
     const [error, setError] = useState(null);
 
     const { scrollIntoView, targetRef } = useScrollIntoView();
+
+    const itemsPerPage = 5;
+    const totalPages = Math.ceil(bookings.length / itemsPerPage);
+    const pagination = usePagination({
+        total: totalPages,
+        initialPage: 1
+    })
+
+    const currentPageBookings = bookings.slice(
+        (pagination.active - 1) * itemsPerPage,
+        pagination.active * itemsPerPage
+    );
 
     const fetchBookings = async () => {
         try {
@@ -51,14 +63,29 @@ const UserBookings = ({ user, highlightedBookingId }) => {
 
     useEffect(() => {
         if (highlightedBookingId && bookings.length > 0) {
-            if (targetRef.current) {
-                setTemporaryHighlight(highlightedBookingId);
-                scrollIntoView();
-                setTimeout(() => setTemporaryHighlight(null), 1000)
+            const targetPage = getPageForHighlightedBooking(highlightedBookingId);
+            if (targetPage && targetPage !== pagination.active) {
+                pagination.setPage(targetPage);
+                console.log(pagination.active);
             }
         }
     }, [highlightedBookingId, bookings, scrollIntoView]);
 
+    useEffect(() => {
+        if (targetRef.current) {
+            setTemporaryHighlight(highlightedBookingId);
+            scrollIntoView();
+            setTimeout(() => setTemporaryHighlight(null), 1000);
+        }
+    }, [pagination.active]);
+
+    const getPageForHighlightedBooking = (bookingId) => {
+        const index = bookings.findIndex((booking) => booking.id === bookingId);
+        if (index === -1) return null;
+        console.log(index);
+        console.log(Math.floor(index / itemsPerPage) + 1)
+        return Math.floor(index / itemsPerPage) + 1;
+    }
 
     const handleSeeReview = async (booking) => {
         setSelectedReviewLoading(true);
@@ -74,6 +101,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         }
         openReview();
     }
+
     const handleLeaveReview = (booking) => {
         setSelectedBooking(booking);
         openReview();
@@ -96,7 +124,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
 
     return (
         <>
-            {bookings.map((booking) => (
+            {currentPageBookings.map((booking) => (
                 <Card
                     key={booking.id}
                     ref={highlightedBookingId === booking.id ? targetRef : null}
@@ -147,6 +175,12 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                     </Box>
                 </Card>
             ))}
+            <Pagination
+                total={totalPages}
+                page={pagination.active}
+                onChange={pagination.setPage}
+            />
+
             {openedReview && (
                 <ReviewModal
                     opened={openedReview}
