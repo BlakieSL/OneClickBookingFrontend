@@ -6,17 +6,12 @@ import StarRating from "../../general/reviews/StarRating.jsx";
 import {getBookingById} from "../../../apis/bookingApi.js";
 import ReviewModal from "./ReviewModal.jsx";
 
-const UserReviews = ({ user }) => {
-    const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
+const UserReviews = ({ user, onSeeBooking }) => {
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [reviews, setReviews] = useState([]);
-    const [selectedBooking, setSelectedBooking] = useState(null);
     const [selectedReview, setSelectedReview] = useState(null);
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
-    const [selectedBookingLoading, setSelectedBookingLoading] = useState(false);
-    const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
-
     const [error, setError] = useState(null);
 
     const fetchReviews = async () => {
@@ -48,18 +43,8 @@ const UserReviews = ({ user }) => {
         })();
     }, [user]);
 
-    const handleSeeBooking = async (review) => {
-        setSelectedBookingLoading(true);
-        try {
-            const response = await getBookingById(review.bookingId);
-            setSelectedBooking(response);
-        } catch (error) {
-            setError("Failed to fetch a bookings info");
-            console.error(error);
-        } finally {
-            setSelectedReviewLoading(false);
-        }
-        openBooking();
+    const handleSeeBooking = (review) => {
+        onSeeBooking(review.bookingId);
     }
 
     const handleSeeReview = (review) => {
@@ -72,7 +57,7 @@ const UserReviews = ({ user }) => {
         await fetchReviews();
     }
 
-    if(reviewsLoading || selectedBookingLoading || selectedReviewLoading) {
+    if(reviewsLoading) {
         return <Loader />;
     }
 

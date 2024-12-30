@@ -11,6 +11,7 @@ const User = () => {
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [highlightedBookingId, setHighlightedBookingId] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -26,6 +27,11 @@ const User = () => {
             }
         })();
     }, []);
+
+    const handleSeeBooking = (bookingId) => {
+        setActiveTab("bookings");
+        setHighlightedBookingId(bookingId);
+    }
 
     if (userLoading) {
         return <Loader />;
@@ -60,8 +66,8 @@ const User = () => {
             </Paper>
             <Paper className={styles.mainContainer}>
                 {activeTab === 'account' && <Account user={user} /> }
-                {activeTab === 'bookings' && <UserBookings user={user} />  }
-                {activeTab === 'reviews' && <UserReviews user={user} /> }
+                {activeTab === 'bookings' && <UserBookings user={user} highlightedBookingId={highlightedBookingId} />  }
+                {activeTab === 'reviews' && <UserReviews user={user} onSeeBooking={handleSeeBooking} /> }
             </Paper>
         </Container>
     )

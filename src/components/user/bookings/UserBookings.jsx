@@ -1,21 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box, Button, Card, Group, Loader, Text} from "@mantine/core";
 import {getFilteredBookings} from "../../../apis/bookingApi.js";
-import {useDisclosure} from "@mantine/hooks";
+import {useDisclosure, useScrollIntoView} from "@mantine/hooks";
 import {getReviewById} from "../../../apis/reviewApi.js";
 import ReviewModal from "../reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../general/scheduleModal/UpdateBookingModal.jsx";
-
-const UserBookings = ({ user }) => {
+import styles from "./userBookings.module.scss";
+const UserBookings = ({ user, highlightedBookingId }) => {
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
     const [bookings, setBookings] = useState([]);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
+    const [temporaryHighlight, setTemporaryHighlight] = useState(null);
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const { scrollIntoView, targetRef } = useScrollIntoView();
 
     const fetchBookings = async () => {
         try {
@@ -45,6 +48,17 @@ const UserBookings = ({ user }) => {
             await fetchBookings();
         })();
     }, [user]);
+
+    useEffect(() => {
+        if (highlightedBookingId && bookings.length > 0) {
+            if (targetRef.current) {
+                setTemporaryHighlight(highlightedBookingId);
+                scrollIntoView();
+                setTimeout(() => setTemporaryHighlight(null), 1000)
+            }
+        }
+    }, [highlightedBookingId, bookings, scrollIntoView]);
+
 
     const handleSeeReview = async (booking) => {
         setSelectedReviewLoading(true);
@@ -83,7 +97,11 @@ const UserBookings = ({ user }) => {
     return (
         <>
             {bookings.map((booking) => (
-                <Card key={booking.id}>
+                <Card
+                    key={booking.id}
+                    ref={highlightedBookingId === booking.id ? targetRef : null}
+                    className={`${temporaryHighlight === booking.id ? styles.highlightedCard : ""}`}
+                >
                     <Group position="apart">
                         <Text>
                             Booking Date: {new Date(booking.date).toLocaleDateString()}{" "}
