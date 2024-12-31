@@ -1,7 +1,7 @@
 @use "../../../../css/base/base-elements" as *;
 
 .smallCard {
-  @include card-base(90px, 115px);
+  @include card-base(88px, 115px);
 
   &__image {
     @include card-image(100%,  80px);

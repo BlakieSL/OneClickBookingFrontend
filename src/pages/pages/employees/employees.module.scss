@@ -1,0 +1,17 @@
+@use "../../../css/base/base-containers.scss" as *;
+
+.employeesContainer {
+  @include container;
+
+  &__listContainer {
+    @include list-container;
+  }
+
+  &__textContainer {
+    @include text-container;
+
+    &__text {
+      @include text-container-heading
+    }
+  }
+}

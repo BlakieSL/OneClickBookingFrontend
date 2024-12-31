@@ -33,18 +33,13 @@ const Employee = () => {
                 setEmployeeLoading(false);
             }
         })();
-    }, [id, employeeId]);
+    }, [employeeId]);
 
     useEffect(() => {
         (async () => {
             try {
                 const requestBody = {
                     filterCriteria: [
-                        {
-                            filterKey: "SERVICE_POINT",
-                            value: id,
-                            operation: "EQUAL"
-                        },
                         {
                             filterKey: "EMPLOYEE",
                             value: employeeId,
@@ -62,7 +57,7 @@ const Employee = () => {
                 setReviewsLoading(false);
             }
         })();
-    }, [id, employeeId]);
+    }, [employeeId]);
 
     useEffect(() => {
         (async () => {
@@ -81,7 +76,7 @@ const Employee = () => {
                 setImageLoading(false);
             }
         })();
-    }, [id, employeeId]);
+    }, [employeeId]);
 
     const handleClick = () => {
         navigate(`/service-points/${id}`);
@@ -95,9 +90,11 @@ const Employee = () => {
       <Container className={styles.employeeContainer}>
           <Box className={styles.innerBox}>
               <Box className={styles.textContainer}>
-                  <Button onClick={handleClick}>
-                      Go Back to Service Point
-                  </Button>
+                  {id && (
+                      <Button onClick={handleClick}>
+                          Go Back to Service Point
+                      </Button>
+                  )}
                   <Box className={styles.textContainer__avatarAndNameBox}>
                       <Text className={styles.textContainer__avatarAndNameBox__heading}>{employee.username}</Text>
                       <Avatar

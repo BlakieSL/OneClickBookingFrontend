@@ -7,6 +7,7 @@ import ServicePoint from "./pages/servicePoint/ServicePoint";
 import Employee from "./pages/employee/Employee";
 import User from "./pages/user/User";
 import Navigation from "./pages/navigation/Navigation";
+import Employees from "./pages/employees/Employees";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,8 @@ const router = createBrowserRouter([
             { path: '/service-points', element: <PrivateRoute element={<ServicePoints />} /> },
             { path: '/service-points/:id', element: <PrivateRoute element={<ServicePoint />} /> },
             { path: '/service-points/:id/employees/:employeeId', element: <PrivateRoute element={<Employee />} /> },
+            { path: '/employees', element: <PrivateRoute element={<Employees /> } /> },
+            { path: '/employees/:employeeId', element: <PrivateRoute element={<Employee />} /> },
             { path: '/user', element: <PrivateRoute element={<User /> } /> },
         ]
     },
