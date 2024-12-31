@@ -1,0 +1,19 @@
+@use "../../../css/base/base-containers.scss" as *;
+
+.registrationContainer {
+  @include container;
+  max-width: 500px;
+  margin-top: 100px;
+
+  &__innerContainer {
+    padding: 18px;
+  }
+
+  &__textContainer {
+    @include text-container;
+
+    &__text {
+      @include text-container-heading;
+    }
+  }
+}

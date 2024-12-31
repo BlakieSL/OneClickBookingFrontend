@@ -1,4 +1,5 @@
 import {refreshAccessToken} from "../apis/userApi.js";
+import {jwtDecode} from "jwt-decode";
 
 export const getAccessToken = () => {
     return localStorage.getItem('accessToken');
@@ -28,6 +29,17 @@ export const setUser = (userId) => {
 export const isUserLoggedIn = () => {
     return !!getAccessToken();
 };
+
+export const isUserAdmin = () => {
+    const accessToken = getAccessToken();
+
+    const decodedToken = jwtDecode(accessToken);
+    console.log(decodedToken);
+    const authorities = decodedToken.authorities || [];
+    const flag = authorities.includes("ROLE_ADMIN");
+    console.log(flag);
+    return flag;
+}
 
 export const logout = () => {
     localStorage.removeItem('accessToken');

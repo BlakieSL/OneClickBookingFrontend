@@ -8,6 +8,8 @@ import Employee from "./pages/employee/Employee";
 import User from "./pages/user/User";
 import Navigation from "./pages/navigation/Navigation";
 import Employees from "./pages/employees/Employees";
+import AdminUsers from "./pages/adminUsers/AdminUsers";
+import {PrivateAdminRoute} from "./PrivateAdminRoute";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,7 @@ const router = createBrowserRouter([
             { path: '/employees', element: <PrivateRoute element={<Employees /> } /> },
             { path: '/employees/:employeeId', element: <PrivateRoute element={<Employee />} /> },
             { path: '/user', element: <PrivateRoute element={<User /> } /> },
+            { path: '/admin-users', element: <PrivateAdminRoute element={<AdminUsers /> } /> }
         ]
     },
     { path: '/registration', element: <Registration /> },
