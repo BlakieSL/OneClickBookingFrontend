@@ -1,10 +1,11 @@
-import {useDisclosure} from "@mantine/hooks";
+import {useDisclosure, usePagination} from "@mantine/hooks";
 import {useEffect, useState} from "react";
-import {getFilteredReviews} from "../../../apis/reviewApi.js";
-import {Box, Button, Card, Group, Loader, Text} from "@mantine/core";
+import {deleteReview, getFilteredReviews} from "../../../apis/reviewApi.js";
+import {Box, Button, Card, Group, Loader, Pagination, Text} from "@mantine/core";
 import StarRating from "../../general/reviews/StarRating.jsx";
 import {getBookingById} from "../../../apis/bookingApi.js";
 import ReviewModal from "./ReviewModal.jsx";
+import styles from "./userReviews.module.scss";
 
 const UserReviews = ({ user, onSeeBooking }) => {
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
@@ -13,6 +14,17 @@ const UserReviews = ({ user, onSeeBooking }) => {
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const itemsPerPage = 5;
+    const totalPages = Math.ceil(reviews.length / itemsPerPage);
+    const pagination = usePagination(({
+        total: totalPages,
+        initialPage: 1,
+    }))
+
+    const currentPageReviews = reviews.slice(
+        (pagination.active -1) * itemsPerPage,
+        pagination.active * itemsPerPage,
+    )
 
     const fetchReviews = async () => {
         try {
@@ -28,7 +40,7 @@ const UserReviews = ({ user, onSeeBooking }) => {
             }
 
             const fetchedReviews = await getFilteredReviews(requestBody);
-            setReviews(fetchedReviews);
+            setReviews(fetchedReviews.reviews);
         } catch (error) {
             setError("Failed to fetch user reviews");
             console.error(error);
@@ -53,8 +65,21 @@ const UserReviews = ({ user, onSeeBooking }) => {
     }
 
     const handleSeeReviewCloseWithChanges = async () => {
-        closeReview();
+        handleCloseReview();
         await fetchReviews();
+    }
+    const handleCloseReview = () => {
+        setSelectedReview(null);
+        closeReview();
+    }
+    const handleDeleteReview = async (review) => {
+        try {
+            await deleteReview(review.id);
+            await fetchReviews();
+        } catch (error) {
+            setError("Failed to delete review")
+            console.error(error);
+        }
     }
 
     if(reviewsLoading) {
@@ -62,38 +87,53 @@ const UserReviews = ({ user, onSeeBooking }) => {
     }
 
     return (
-        <>
-            {reviews.reviews.map((review) => (
-                <Card key={review.id} shadow="sm" padding="md" margin="sm">
-                    <Box>
-                        <StarRating rating={review.rating} />
-                    </Box>
-                    <Box>
-                        <Text>{review.date}</Text>
-                        <Text>
-                            Employee: {review.employee ? review.employee.username : "Default Employee"}
+        <Box className={styles.box}>
+            {currentPageReviews.map((review) => (
+                <Card key={review.id} className={styles.card}>
+                    <Box className={styles.card__header}>
+                        <Box className={styles.card__rating}>
+                            <StarRating rating={review.rating} />
+                        </Box>
+                        <Text className={styles.card__date}>
+                            {new Date(review.date).toLocaleDateString()}
                         </Text>
                     </Box>
-                    <Text>
+                    <Box className={styles.card__section}>
+                        <Text>
+                            <span className={styles.card__label}>Employee:</span>{
+                            " "}
+                            <span className={styles.card__value}>{review.employee ? review.employee.username : "Default Employee"}</span>
+                        </Text>
+                    </Box>
+                    <Text className={styles.card__section}>
                         {review.text || "No text provided"}
                     </Text>
-                    <Button onClick={() => handleSeeBooking(review)}>
-                        See Booking
-                    </Button>
-                    <Button onClick={() => handleSeeReview(review)}>
-                        See Review
-                    </Button>
+                    <Box className={styles.card__buttons}>
+                        <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(review)}>
+                            Update Review
+                        </Button>
+                        <Button className={styles.card__deleteReviewButton} onClick={() => handleDeleteReview(review)}>
+                            Delete Booking
+                        </Button>
+                        <Button className={styles.card__seeBookingButton} onClick={() => handleSeeBooking(review)}>
+                            See Booking
+                        </Button>
+                    </Box>
                 </Card>
             ))}
+            <Pagination
+                total={totalPages}
+                value={pagination.active}
+                onChange={pagination.setPage}
+            />
             <ReviewModal
                 opened={openedReview}
-                close={closeReview}
+                close={handleCloseReview}
                 onConfirm={handleSeeReviewCloseWithChanges}
                 reviewInfo={selectedReview}
             />
-        </>
-    )
-
-}
+        </Box>
+    );
+};
 
 export default UserReviews;

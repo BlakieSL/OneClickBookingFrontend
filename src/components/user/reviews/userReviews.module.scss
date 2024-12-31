@@ -1,7 +1,8 @@
 @use '../../../css/base/base-elements' as *;
 
 .highlightedCard {
-  border: 2px solid #445649 !important;
+  @include card-selected;
+  border: 2px solid #445649;
 }
 
 .box {
@@ -24,12 +25,18 @@
     border-bottom: 1px solid #e0e0e0;
   }
 
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   &__section {
     font-size: 14px;
     line-height: 1.5;
   }
 
-  &__dateAndId {
+  &__date {
     font-weight: bold;
     color: #333;
   }
@@ -49,16 +56,16 @@
     gap: 8px;
   }
 
-  &__updateButton {
+  &__seeBookingButton {
     @include button;
-    background: #4a5b46;
+    background: #69694d;
 
     &:hover {
-      background: #3c4b38;
+      background: #505035;
     }
   }
 
-  &__deleteButton {
+  &__deleteReviewButton {
     @include button;
     background: #a16868;
 
@@ -69,19 +76,10 @@
 
   &__seeReviewButton {
     @include button;
-    background: #69694d;
+    background: #4a5b46;
 
     &:hover {
-      background: #505035;
-    }
-  }
-
-  &__leaveReviewButton {
-    @include button;
-    background: #465b5b;
-
-    &:hover {
-      background: #384b4b;
+      background: #3c4b38;
     }
   }
 }

@@ -1,6 +1,6 @@
 import styles from "./user.module.scss";
 import {useEffect, useState} from "react";
-import {Container, Group, Loader, NavLink, Paper} from "@mantine/core";
+import {Box, Container, Group, Loader, NavLink, Paper} from "@mantine/core";
 import {getUserById} from "../../../apis/userApi.js";
 import {getUser} from "../../../helpers/tokenUtils.js";
 import Account from "../../../components/user/account/Account.jsx";
@@ -31,6 +31,7 @@ const User = () => {
     const handleSeeBooking = (bookingId) => {
         setActiveTab("bookings");
         setHighlightedBookingId(bookingId);
+        setTimeout(() => setHighlightedBookingId(null), 1300)
     }
 
     if (userLoading) {
@@ -39,7 +40,7 @@ const User = () => {
 
     return (
         <Container className={styles.outerContainer}>
-            <Paper className={styles.sideBarContainer}>
+            <Box className={styles.sideBarContainer}>
                 <Group>
                     <NavLink
                         label="Account"
@@ -63,12 +64,12 @@ const User = () => {
                         className={activeTab === 'reviews' ? styles.activeTab : ''}
                     />
                 </Group>
-            </Paper>
-            <Paper className={styles.mainContainer}>
+            </Box>
+            <Box className={styles.mainContainer}>
                 {activeTab === 'account' && <Account user={user} /> }
                 {activeTab === 'bookings' && <UserBookings user={user} highlightedBookingId={highlightedBookingId} />  }
                 {activeTab === 'reviews' && <UserReviews user={user} onSeeBooking={handleSeeBooking} /> }
-            </Paper>
+            </Box>
         </Container>
     )
 }

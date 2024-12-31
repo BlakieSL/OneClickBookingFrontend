@@ -1,11 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Box, Button, Card, Group, Loader, Pagination, Text} from "@mantine/core";
-import {getFilteredBookings} from "../../../apis/bookingApi.js";
+import {deleteBooking, getFilteredBookings} from "../../../apis/bookingApi.js";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import {getReviewById} from "../../../apis/reviewApi.js";
 import ReviewModal from "../reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../general/scheduleModal/UpdateBookingModal.jsx";
 import styles from "./userBookings.module.scss";
+import ReactPaginate from 'react-paginate';
+
 const UserBookings = ({ user, highlightedBookingId }) => {
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
@@ -66,15 +68,13 @@ const UserBookings = ({ user, highlightedBookingId }) => {
             const targetPage = getPageForHighlightedBooking(highlightedBookingId);
             if (targetPage && targetPage !== pagination.active) {
                 pagination.setPage(targetPage);
-                console.log(pagination.active);
             }
         }
-    }, [highlightedBookingId, bookings, scrollIntoView]);
+    }, [highlightedBookingId, bookings]);
 
     useEffect(() => {
         if (targetRef.current) {
             setTemporaryHighlight(highlightedBookingId);
-            scrollIntoView();
             setTimeout(() => setTemporaryHighlight(null), 1000);
         }
     }, [pagination.active]);
@@ -82,8 +82,6 @@ const UserBookings = ({ user, highlightedBookingId }) => {
     const getPageForHighlightedBooking = (bookingId) => {
         const index = bookings.findIndex((booking) => booking.id === bookingId);
         if (index === -1) return null;
-        console.log(index);
-        console.log(Math.floor(index / itemsPerPage) + 1)
         return Math.floor(index / itemsPerPage) + 1;
     }
 
@@ -91,6 +89,8 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         setSelectedReviewLoading(true);
         try {
             const response = await getReviewById(booking.reviewId);
+            console.log(response);
+
             setReviewInfo(response);
             setSelectedBooking(booking)
         } catch (error) {
@@ -100,6 +100,16 @@ const UserBookings = ({ user, highlightedBookingId }) => {
             setSelectedReviewLoading(false);
         }
         openReview();
+    }
+
+    const handleDeleteBooking = async (booking) => {
+        try {
+            await deleteBooking(booking.id);
+            await fetchBookings();
+        } catch (error) {
+            setError("Failed to delete booking");
+            console.error(error);
+        }
     }
 
     const handleLeaveReview = (booking) => {
@@ -113,62 +123,72 @@ const UserBookings = ({ user, highlightedBookingId }) => {
     }
 
     const handleModalCloseWithChanges = async () => {
-        closeReview();
+        handleCloseReview();
         closeBooking();
         await fetchBookings();
     };
+
+    const handleCloseReview = () => {
+        closeReview();
+        setReviewInfo(null);
+    }
 
     if(bookingsLoading || selectedReviewLoading) {
         return <Loader />;
     }
 
     return (
-        <>
+        <Box className={styles.box}>
             {currentPageBookings.map((booking) => (
                 <Card
                     key={booking.id}
                     ref={highlightedBookingId === booking.id ? targetRef : null}
-                    className={`${temporaryHighlight === booking.id ? styles.highlightedCard : ""}`}
+                    className={`${styles.card} ${highlightedBookingId === booking.id ? styles.highlightedCard : ""}`}
                 >
-                    <Group position="apart">
-                        <Text>
-                            Booking Date: {new Date(booking.date).toLocaleDateString()}{" "}
+                    <Box className={styles.card__header}>
+                        <Text className={styles.card__dateAndId}>
+                            {new Date(booking.date).toLocaleDateString()}
+                            {" "}
                             {new Date(booking.date).toLocaleTimeString()}
                         </Text>
-                        <Text>ID: {booking.id}</Text>
-                    </Group>
+                        <Text className={styles.card__dateAndId}>ID: {booking.id}</Text>
+                    </Box>
 
-                    <Text>
-                        Service Point: {booking.servicePoint.name} ({booking.servicePoint.location})
-                    </Text>
-
-                    {booking.employee && (
+                    <Box className={styles.card__section}>
                         <Text>
-                            Employee: {booking.employee.username}
+                            <span className={styles.card__label}>Service Point:</span>
+                            {" "}
+                            <span className={styles.card__value}>{booking.servicePoint.name} ({booking.servicePoint.location})</span>
                         </Text>
-                    )}
+                        {booking.employee && (
+                            <Text>
+                                <span className={styles.card__label}>Employee:</span>
+                                {" "}
+                                <span className={styles.card__value}>{booking.employee.username}</span>
+                            </Text>
+                        )}
+                        {booking.treatmentId && (
+                            <Text>
+                                <span className={styles.card__label}>Treatment ID:</span>
+                                {" "}
+                                <span className={styles.card__value}>{booking.treatmentId}</span>
+                            </Text>
+                        )}
+                    </Box>
 
-                    {booking.treatmentId && (
-                        <Text>
-                            Treatment ID: {booking.treatmentId}
-                        </Text>
-                    )}
-
-                    <Button onClick={() => handleUpdateBooking(booking)}>
-                        Update Booking
-                    </Button>
-
-                    <Box>
+                    <Box className={styles.card__buttons}>
+                        <Button className={styles.card__updateButton} onClick={() => handleUpdateBooking(booking)}>
+                            Update Booking
+                        </Button>
+                        <Button className={styles.card__deleteButton} onClick={() => handleDeleteBooking(booking)}>
+                            Delete Booking
+                        </Button>
                         {booking.reviewId ? (
-                            <Button
-                                onClick={() => handleSeeReview(booking)}
-                            >
+                            <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(booking)}>
                                 See Review
                             </Button>
                         ) : (
-                            <Button
-                                onClick={() => handleLeaveReview(booking)}
-                            >
+                            <Button className={styles.card__leaveReviewButton} onClick={() => handleLeaveReview(booking)}>
                                 Leave a Review
                             </Button>
                         )}
@@ -177,14 +197,14 @@ const UserBookings = ({ user, highlightedBookingId }) => {
             ))}
             <Pagination
                 total={totalPages}
-                page={pagination.active}
+                value={pagination.active}
                 onChange={pagination.setPage}
             />
 
             {openedReview && (
                 <ReviewModal
                     opened={openedReview}
-                    close={closeReview}
+                    close={handleCloseReview}
                     onConfirm={handleModalCloseWithChanges}
                     reviewInfo={reviewInfo}
                     booking={selectedBooking}
@@ -199,7 +219,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                 />
             )}
 
-        </>
+        </Box>
     )
 }
 

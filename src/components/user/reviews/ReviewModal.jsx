@@ -61,7 +61,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         form.reset();
         close();
     };
-
+    console.log(reviewInfo);
     return (
         <Modal
             opened={opened}
