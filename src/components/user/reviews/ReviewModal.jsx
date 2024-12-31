@@ -1,7 +1,7 @@
 import {useForm} from "@mantine/form";
 import {useEffect} from "react";
 import {createReview, deleteReview, updateReview} from "../../../apis/reviewApi.js";
-import {Button, Modal, Rating, Textarea, TextInput} from "@mantine/core";
+import {Button, Group, Modal, Rating, Textarea, TextInput} from "@mantine/core";
 
 const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) => {
     const form = useForm({
@@ -90,13 +90,14 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
                     placeholder="Write your review here..."
                     {...form.getInputProps('text')}
                 />
-
-                <Button type="submit">
-                    Save
-                </Button>
-                <Button onClick={handleDelete}>
-                    Delete
-                </Button>
+                <Group grow mt="xs">
+                    <Button color="red" onClick={handleDelete}>
+                        Delete
+                    </Button>
+                    <Button type="submit">
+                        Save
+                    </Button>
+                </Group>
             </form>
         </Modal>
     )

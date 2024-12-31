@@ -7,20 +7,23 @@ import ReviewModal from "../reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../general/scheduleModal/UpdateBookingModal.jsx";
 import styles from "./userBookings.module.scss";
 import ReactPaginate from 'react-paginate';
+import ConfirmModal from "../../general/scheduleModal/confirmModal/ConfirmModal.jsx";
 
 const UserBookings = ({ user, highlightedBookingId }) => {
+    const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
     const [bookings, setBookings] = useState([]);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [temporaryHighlight, setTemporaryHighlight] = useState(null);
+    const [bookingToDelete, setBookingToDelete] = useState(null);
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const { scrollIntoView, targetRef } = useScrollIntoView();
+    const { targetRef } = useScrollIntoView();
 
     const itemsPerPage = 5;
     const totalPages = Math.ceil(bookings.length / itemsPerPage);
@@ -28,7 +31,6 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         total: totalPages,
         initialPage: 1
     })
-
     const currentPageBookings = bookings.slice(
         (pagination.active - 1) * itemsPerPage,
         pagination.active * itemsPerPage
@@ -134,73 +136,91 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         setReviewInfo(null);
     }
 
+    const handleOpenConfirm = (booking) => {
+        setBookingToDelete(booking);
+        openConfirm();
+    }
+
+    const handleCloseConfirm = () => {
+        closeConfirm();
+        setBookingToDelete(null);
+    }
+
+    const handleConfirm = async () => {
+        await handleDeleteBooking(bookingToDelete);
+        handleCloseConfirm();
+    }
+
+
     if(bookingsLoading || selectedReviewLoading) {
         return <Loader />;
     }
 
     return (
-        <Box className={styles.box}>
-            {currentPageBookings.map((booking) => (
-                <Card
-                    key={booking.id}
-                    ref={highlightedBookingId === booking.id ? targetRef : null}
-                    className={`${styles.card} ${highlightedBookingId === booking.id ? styles.highlightedCard : ""}`}
-                >
-                    <Box className={styles.card__header}>
-                        <Text className={styles.card__dateAndId}>
-                            {new Date(booking.date).toLocaleDateString()}
-                            {" "}
-                            {new Date(booking.date).toLocaleTimeString()}
-                        </Text>
-                        <Text className={styles.card__dateAndId}>ID: {booking.id}</Text>
-                    </Box>
-
-                    <Box className={styles.card__section}>
-                        <Text>
-                            <span className={styles.card__label}>Service Point:</span>
-                            {" "}
-                            <span className={styles.card__value}>{booking.servicePoint.name} ({booking.servicePoint.location})</span>
-                        </Text>
-                        {booking.employee && (
-                            <Text>
-                                <span className={styles.card__label}>Employee:</span>
+        <>
+            <Box className={styles.box}>
+                {currentPageBookings.map((booking) => (
+                    <Card
+                        key={booking.id}
+                        ref={highlightedBookingId === booking.id ? targetRef : null}
+                        className={`${styles.card} ${highlightedBookingId === booking.id ? styles.highlightedCard : ""}`}
+                    >
+                        <Box className={styles.card__header}>
+                            <Text className={styles.card__dateAndId}>
+                                {new Date(booking.date).toLocaleDateString()}
                                 {" "}
-                                <span className={styles.card__value}>{booking.employee.username}</span>
+                                {new Date(booking.date).toLocaleTimeString()}
                             </Text>
-                        )}
-                        {booking.treatmentId && (
-                            <Text>
-                                <span className={styles.card__label}>Treatment ID:</span>
-                                {" "}
-                                <span className={styles.card__value}>{booking.treatmentId}</span>
-                            </Text>
-                        )}
-                    </Box>
+                            <Text className={styles.card__dateAndId}>ID: {booking.id}</Text>
+                        </Box>
 
-                    <Box className={styles.card__buttons}>
-                        <Button className={styles.card__updateButton} onClick={() => handleUpdateBooking(booking)}>
-                            Update Booking
-                        </Button>
-                        <Button className={styles.card__deleteButton} onClick={() => handleDeleteBooking(booking)}>
-                            Delete Booking
-                        </Button>
-                        {booking.reviewId ? (
-                            <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(booking)}>
-                                See Review
+                        <Box className={styles.card__section}>
+                            <Text>
+                                <span className={styles.card__label}>Service Point:</span>
+                                {" "}
+                                <span className={styles.card__value}>{booking.servicePoint.name} ({booking.servicePoint.location})</span>
+                            </Text>
+                            {booking.employee && (
+                                <Text>
+                                    <span className={styles.card__label}>Employee:</span>
+                                    {" "}
+                                    <span className={styles.card__value}>{booking.employee.username}</span>
+                                </Text>
+                            )}
+                            {booking.treatmentId && (
+                                <Text>
+                                    <span className={styles.card__label}>Treatment ID:</span>
+                                    {" "}
+                                    <span className={styles.card__value}>{booking.treatmentId}</span>
+                                </Text>
+                            )}
+                        </Box>
+
+                        <Box className={styles.card__buttons}>
+                            <Button className={styles.card__updateButton} onClick={() => handleUpdateBooking(booking)}>
+                                Update Booking
                             </Button>
-                        ) : (
-                            <Button className={styles.card__leaveReviewButton} onClick={() => handleLeaveReview(booking)}>
-                                Leave a Review
+                            <Button className={styles.card__deleteButton} onClick={() => handleOpenConfirm(booking)}>
+                                Delete Booking
                             </Button>
-                        )}
-                    </Box>
-                </Card>
-            ))}
-            <Pagination
-                total={totalPages}
-                value={pagination.active}
-                onChange={pagination.setPage}
-            />
+                            {booking.reviewId ? (
+                                <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(booking)}>
+                                    See Review
+                                </Button>
+                            ) : (
+                                <Button className={styles.card__leaveReviewButton} onClick={() => handleLeaveReview(booking)}>
+                                    Leave a Review
+                                </Button>
+                            )}
+                        </Box>
+                    </Card>
+                ))}
+                <Pagination
+                    total={totalPages}
+                    value={pagination.active}
+                    onChange={pagination.setPage}
+                />
+            </Box>
 
             {openedReview && (
                 <ReviewModal
@@ -219,8 +239,14 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                     initialBooking={selectedBooking}
                 />
             )}
-
-        </Box>
+            {openedConfirm && (
+                <ConfirmModal
+                    opened={openedConfirm}
+                    onClose={handleCloseConfirm}
+                    onConfirm={handleConfirm}
+                />
+            )}
+        </>
     )
 }
 

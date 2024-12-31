@@ -6,11 +6,14 @@ import StarRating from "../../general/reviews/StarRating.jsx";
 import {getBookingById} from "../../../apis/bookingApi.js";
 import ReviewModal from "./ReviewModal.jsx";
 import styles from "./userReviews.module.scss";
+import ConfirmModal from "../../general/scheduleModal/confirmModal/ConfirmModal.jsx";
 
 const UserReviews = ({ user, onSeeBooking }) => {
+    const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [reviews, setReviews] = useState([]);
     const [selectedReview, setSelectedReview] = useState(null);
+    const [reviewToDelete, setReviewToDelete] = useState(null);
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -82,45 +85,63 @@ const UserReviews = ({ user, onSeeBooking }) => {
         }
     }
 
+    const handleOpenConfirm = (review) => {
+        setReviewToDelete(review);
+        openConfirm();
+    }
+
+    const handleCloseConfirm = () => {
+        closeConfirm();
+        setReviewToDelete(null);
+    }
+
+    const handleConfirm = async () => {
+        await handleDeleteReview(reviewToDelete);
+        handleCloseConfirm();
+    }
+
     if(reviewsLoading) {
         return <Loader />;
     }
 
     return (
-        <Box className={styles.box}>
-            {currentPageReviews.map((review) => (
-                <Card key={review.id} className={styles.card}>
-                    <Box className={styles.card__header}>
-                        <Box className={styles.card__rating}>
-                            <StarRating rating={review.rating} />
+        <>
+            <Box className={styles.box}>
+                {currentPageReviews.map((review) => (
+                    <Card key={review.id} className={styles.card}>
+                        <Box className={styles.card__header}>
+                            <Box className={styles.card__rating}>
+                                <StarRating rating={review.rating} />
+                            </Box>
+                            <Text className={styles.card__date}>
+                                {new Date(review.date).toLocaleDateString()}
+                            </Text>
                         </Box>
-                        <Text className={styles.card__date}>
-                            {new Date(review.date).toLocaleDateString()}
+                        <Box className={styles.card__section}>
+                            <Text>
+                                <span className={styles.card__label}>Employee:</span>{
+                                " "}
+                                <span className={styles.card__value}>{review.employee ? review.employee.username : "Default Employee"}</span>
+                            </Text>
+                        </Box>
+                        <Text className={styles.card__section}>
+                            {review.text || "No text provided"}
                         </Text>
-                    </Box>
-                    <Box className={styles.card__section}>
-                        <Text>
-                            <span className={styles.card__label}>Employee:</span>{
-                            " "}
-                            <span className={styles.card__value}>{review.employee ? review.employee.username : "Default Employee"}</span>
-                        </Text>
-                    </Box>
-                    <Text className={styles.card__section}>
-                        {review.text || "No text provided"}
-                    </Text>
-                    <Box className={styles.card__buttons}>
-                        <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(review)}>
-                            Update Review
-                        </Button>
-                        <Button className={styles.card__deleteReviewButton} onClick={() => handleDeleteReview(review)}>
-                            Delete Booking
-                        </Button>
-                        <Button className={styles.card__seeBookingButton} onClick={() => handleSeeBooking(review)}>
-                            See Booking
-                        </Button>
-                    </Box>
-                </Card>
-            ))}
+                        <Box className={styles.card__buttons}>
+                            <Button className={styles.card__seeReviewButton} onClick={() => handleSeeReview(review)}>
+                                Update Review
+                            </Button>
+                            <Button className={styles.card__deleteReviewButton} onClick={() => handleOpenConfirm(review)}>
+                                Delete Booking
+                            </Button>
+                            <Button className={styles.card__seeBookingButton} onClick={() => handleSeeBooking(review)}>
+                                See Booking
+                            </Button>
+                        </Box>
+                    </Card>
+                ))}
+            </Box>
+
             <Pagination
                 total={totalPages}
                 value={pagination.active}
@@ -132,7 +153,12 @@ const UserReviews = ({ user, onSeeBooking }) => {
                 onConfirm={handleSeeReviewCloseWithChanges}
                 reviewInfo={selectedReview}
             />
-        </Box>
+            <ConfirmModal
+                opened={openedConfirm}
+                onClose={handleCloseConfirm}
+                onConfirm={handleConfirm}
+            />
+        </>
     );
 };
 

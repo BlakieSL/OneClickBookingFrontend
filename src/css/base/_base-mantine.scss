@@ -12,6 +12,16 @@
   --button-fz: 14px;
 }
 
+.mantine-Button-root[data-variant="outline"] {
+  background-color: #ffffff;
+  color: #445649;
+  border-color: #445649;
+  &:hover {
+    background-color: #e9ece9;
+    color: #36463a;
+  }
+}
+
 .mantine-TextInput-input {
   &:hover {
     border-color: #445649;

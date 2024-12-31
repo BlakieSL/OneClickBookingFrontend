@@ -95,7 +95,7 @@ const Employee = () => {
       <Container className={styles.employeeContainer}>
           <Box className={styles.innerBox}>
               <Box className={styles.textContainer}>
-                  <Button className={styles.textContainer__button} onClick={handleClick}>
+                  <Button onClick={handleClick}>
                       Go Back to Service Point
                   </Button>
                   <Box className={styles.textContainer__avatarAndNameBox}>

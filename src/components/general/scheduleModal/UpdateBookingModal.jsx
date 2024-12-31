@@ -1,7 +1,7 @@
 import {useDisclosure} from "@mantine/hooks";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllServicePoints} from "../../../apis/servicePointApi.js";
-import {Box, Button, Loader, Modal, Text} from "@mantine/core";
+import {Box, Button, Group, Loader, Modal, Text} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
 import {getFilteredEmployees} from "../../../apis/employeeApi.js";
 import {getSchedule} from "../../../apis/scheduleApi.js";
@@ -227,7 +227,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const handleConfirm = async () => {
         setBookingLoading(true);
         const requestBody = {
-            date: selectedTimeSlot,
+            date: (selectedTimeSlot !== initialBooking.date ? selectedTimeSlot : null),
             servicePointId: selectedServicePointId,
             employeeId: selectedEmployeeId,
             treatmentId: selectedTreatmentId
@@ -327,14 +327,14 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                             handleSlotPick={handleSlotPick}
                         />
                     </Box>
-                    <Box>
+                    <Group grow>
+                        <Button variant="outline" onClick={handleReset}>
+                            Cancel
+                        </Button>
                         <Button onClick={openConfirm}>
                             Continue
                         </Button>
-                        <Button onClick={handleReset}>
-                            Cancel
-                        </Button>
-                    </Box>
+                    </Group>
                 </Box>
             </Modal>
             <ConfirmModal
