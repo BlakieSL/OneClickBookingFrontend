@@ -57,7 +57,8 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         (async () => {
             await fetchBookings();
         })();

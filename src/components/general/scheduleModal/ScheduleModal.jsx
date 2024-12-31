@@ -102,6 +102,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
             }
         })();
     },[servicePoint, treatment]);
+
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -118,6 +119,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
         setSelectedSlot(null);
     };
     const handleSlotPick = (slot) => {
+        if (!selectedEmployee) return;
         setSelectedSlot((prevSelectedSlot) =>
             prevSelectedSlot === slot ? null : slot
         );
@@ -171,7 +173,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                 }}
             >
                 <Box className={styles.innerBox}>
-                    <Box className={styles.innerBox__dateBox}>
+                    <Box className={styles.innerBox__boxWithShadow}>
                         <Text>Select a Date</Text>
                         <DatePicker
                             value={selectedDate}
@@ -181,7 +183,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                             size="lg"
                         />
                     </Box>
-                    <Box className={styles.innerBox__employeesAndSlotsBox}>
+                    <Box className={styles.innerBox__boxWithShadow}>
                         <BookingEmployeesCarousel
                             employees={employees}
                             selectedEmployeeId={selectedEmployee?.id}
@@ -196,7 +198,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                             handleSlotPick={handleSlotPick}
                         />
                     </Box>
-                    <Button className={styles.button} disabled={!selectedSlot} onClick={handleContinue}>
+                    <Button disabled={!selectedSlot} onClick={handleContinue}>
                         Continue
                     </Button>
                 </Box>

@@ -50,7 +50,6 @@
   }
 
   &__updateButton {
-    @include button;
     background: #4a5b46;
 
     &:hover {
@@ -59,7 +58,6 @@
   }
 
   &__deleteButton {
-    @include button;
     background: #a16868;
 
     &:hover {
@@ -68,7 +66,6 @@
   }
 
   &__seeReviewButton {
-    @include button;
     background: #69694d;
 
     &:hover {
@@ -77,7 +74,6 @@
   }
 
   &__leaveReviewButton {
-    @include button;
     background: #465b5b;
 
     &:hover {
@@ -85,3 +81,5 @@
     }
   }
 }
+
+

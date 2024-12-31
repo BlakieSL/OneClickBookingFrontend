@@ -15,23 +15,31 @@ const User = () => {
 
     useEffect(() => {
         (async () => {
-            try {
-                const userId = getUser();
-                const user = await getUserById(userId);
-                setUser(user);
-            } catch (error) {
-                setError("Failed to fetch user");
-                console.error(error);
-            } finally {
-                setUserLoading(false);
-            }
+            await fetchUser();
         })();
     }, []);
+
+    const fetchUser = async () => {
+        try {
+            const userId = getUser();
+            const user = await getUserById(userId);
+            setUser(user);
+        } catch (error) {
+            setError("Failed to fetch user");
+            console.error(error);
+        } finally {
+            setUserLoading(false);
+        }
+    }
 
     const handleSeeBooking = (bookingId) => {
         setActiveTab("bookings");
         setHighlightedBookingId(bookingId);
         setTimeout(() => setHighlightedBookingId(null), 1300)
+    }
+
+    const handleUpdateUser = async () => {
+        await fetchUser();
     }
 
     if (userLoading) {
@@ -66,7 +74,7 @@ const User = () => {
                 </Group>
             </Box>
             <Box className={styles.mainContainer}>
-                {activeTab === 'account' && <Account user={user} /> }
+                {activeTab === 'account' && <Account user={user} onUserUpdate={handleUpdateUser} /> }
                 {activeTab === 'bookings' && <UserBookings user={user} highlightedBookingId={highlightedBookingId} />  }
                 {activeTab === 'reviews' && <UserReviews user={user} onSeeBooking={handleSeeBooking} /> }
             </Box>

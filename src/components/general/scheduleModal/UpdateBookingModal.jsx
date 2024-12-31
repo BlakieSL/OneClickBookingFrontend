@@ -58,12 +58,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
 
         (async () => {
             try {
-                console.log("ServicePoint", selectedServicePointId);
-                console.log("TREATMENT", selectedTreatmentId);
-                console.log("DATE", selectedDate);
-                console.log("EMPLOYEE", selectedEmployeeId);
-                console.log("TIMESLOT", selectedTimeSlot);
-
                 const filterCriteria = [
                     {
                         filterKey: "SERVICE_POINT",
@@ -100,7 +94,14 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     selectedEmployeeId === initialBooking.employee.id &&
                     formatDate(selectedDate) === formatDate(new Date(initialBooking.date))
 
-                if (isSameContext) {
+                const isSameContextWithUnselectedEmployee =
+                    selectedServicePointId === initialBooking.servicePoint.id &&
+                    selectedTreatmentId === initialBooking.treatmentId &&
+                    (selectedEmployeeId === null ||  selectedEmployeeId === initialBooking.employee.id) &&
+                    formatDate(selectedDate) === formatDate(new Date(initialBooking.date))
+
+
+                if (isSameContextWithUnselectedEmployee) {
                     updatedFreeSlots = [initialBooking.date, ...updatedFreeSlots];
                 }
 
@@ -110,6 +111,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     setSelectedTimeSlot(null);
                 }
 
+                console.log(updatedFreeSlots);
                 setFreeSlots(updatedFreeSlots);
             } catch (error) {
                 setError("Failed to fetch schedule");
@@ -208,13 +210,18 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     }
 
     const handleEmployeePick = (employee) => {
-        setSelectedEmployeeId(employee.id);
+        setSelectedEmployeeId((previouslySelectedEmployeeId) =>
+            previouslySelectedEmployeeId === employee.id ? null : employee.id
+        );
         setSelectedTimeSlot(null);
         setFreeSlots([]);
     }
 
     const handleSlotPick = (slot) => {
-        setSelectedTimeSlot(slot);
+        if (!selectedEmployeeId) return;
+        setSelectedTimeSlot((prevSelectedSlot) =>
+            prevSelectedSlot === slot ? null : slot
+        );
     }
 
     const handleConfirm = async () => {
@@ -251,6 +258,13 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     if (bookingLoading || servicePointsLoading || treatmentsLoading || employeesLoading || freeSlotsLoading) {
         return <Loader />;
     }
+
+    console.log("ServicePoint", selectedServicePointId);
+    console.log("TREATMENT", selectedTreatmentId);
+    console.log("DATE", selectedDate);
+    console.log("EMPLOYEE", selectedEmployeeId);
+    console.log("TIMESLOT", selectedTimeSlot);
+    console.log("FREESLOTS", freeSlots);
 
     return (
         <>

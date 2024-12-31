@@ -14,10 +14,44 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
     return (
         <Box className={styles.servicePointDetails}>
             <Box className={styles.servicePointDetails__info}>
-                <Text>{servicePoint.name}</Text>
-                <Text>{servicePoint.location}</Text>
-                <Text>{servicePoint.email}</Text>
-                <Text>{servicePoint.phone}</Text>
+                <Box className={styles.servicePointDetails__info__header}>
+                    <Text>
+                    <span
+                        className={styles.servicePointDetails__info__label}>Name:
+                    </span>
+                        {" "}
+                        <span className={styles.servicePointDetails__info__value}>
+                        {servicePoint.name}
+                    </span>
+                    </Text>
+                </Box>
+                <Text>
+                    <span className={styles.servicePointDetails__info__label}>
+                        Location:
+                    </span>
+                        {" "}
+                    <span className={styles.servicePointDetails__info__value}>
+                        {servicePoint.location}
+                    </span>
+                </Text>
+                <Text>
+                    <span className={styles.servicePointDetails__info__label}>
+                        Email:
+                    </span>
+                        {" "}
+                    <span className={styles.servicePointDetails__info__value}>
+                        {servicePoint.email}
+                    </span>
+                </Text>
+                <Text>
+                    <span className={styles.servicePointDetails__info__label}>
+                        Phone:
+                    </span>
+                        {" "}
+                    <span className={styles.servicePointDetails__info__value}>
+                        {servicePoint.phone}
+                    </span>
+                </Text>
             </Box>
             <Box className={styles.servicePointDetails__textContainer}>
                 <Text className={styles.servicePointDetails__textContainer__heading}>Employees</Text>

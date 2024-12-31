@@ -19,10 +19,10 @@ const ConfirmModal = ({ opened, onClose, onConfirm }) => {
             }}
         >
             <Box className={styles.box}>
-                <Button className={styles.box__element} variant="outline" onClick={onClose}>
+                <Button className={styles.box__element} variant="outline" color="grey" onClick={onClose}>
                     Cancel
                 </Button>
-                <Button className={styles.box__element} color="red" onClick={onConfirm}>
+                <Button className={styles.box__element} onClick={onConfirm}>
                     Confirm
                 </Button>
             </Box>

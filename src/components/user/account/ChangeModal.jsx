@@ -4,22 +4,30 @@ import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import {updateUser} from "../../../apis/userApi.js";
 
-const ChangeModal = ({ user, subject, opened, onClose }) => {
+const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
     if (!['email', 'password'].includes(subject)) {
         throw new Error(`Invalid subject: ${subject}`);
     }
-
     const [isDirty, setIsDirty] = useState(false);
+
     const form = useForm({
         initialValues: {
             oldPassword: '',
             [subject]: '',
         },
         validate: {
-            email: (value) => (validateEmail(value) ? null : 'Invalid email'),
+            email: (value) => {
+                if (subject === 'email') {
+                    return validateEmail(value) ? null : 'Invalid email';
+                }
+                return null;
+            },
             password: (value) => {
-                const errors = validatePassword(value);
-                return errors ? errors.join('; ') : null;
+                if (subject === 'password') {
+                    const errors = validatePassword(value);
+                    return errors ? errors.join('; ') : null;
+                }
+                return null;
             },
             oldPassword: (value) => {
                 const errors = validatePassword(value);
@@ -39,6 +47,7 @@ const ChangeModal = ({ user, subject, opened, onClose }) => {
     const handleSubmit = async (values) => {
         try {
             await updateUser(user.id, values)
+            onUpdate();
             onClose();
         } catch (error) {
             if(error.response.status === 400) {
@@ -78,7 +87,7 @@ const ChangeModal = ({ user, subject, opened, onClose }) => {
                     {...form.getInputProps(subject)}
                     required
                 />
-                <Button type="submit" disabled={!isDirty}>
+                <Button type="submit" disabled={!isDirty} fullWidth mt="xs">
                     Confirm
                 </Button>
             </form>

@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import {updateUser} from "../../../apis/userApi.js";
-import {Button, TextInput} from "@mantine/core";
+import {Button, Stack, TextInput} from "@mantine/core";
 import ChangeModal from "./ChangeModal.jsx";
 import {useDisclosure} from "@mantine/hooks";
+import styles from "./account.module.scss";
 
-const Account = ({ user }) => {
+const Account = ({ user, onUserUpdate }) => {
     const [isDirty, setIsDirty] = useState(false);
     const [opened, {open, close}] = useDisclosure(false);
     const [subject, setSubject] = useState(null);
@@ -31,9 +31,26 @@ const Account = ({ user }) => {
         setIsDirty(isFormDirty);
     }, [form.values, user]);
 
-    const handleSubmit = async (values) => {
+    useEffect(() => {
+        form.setValues({
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+        });
+    }, [user]);
+
+    const handleSubmit = async () => {
+        const updatedFields = {};
+        for (const key in form.values) {
+            if (form.values[key] !== user[key]) {
+                updatedFields[key] = form.values[key];
+            }
+        }
+
         try {
-            await updateUser(user.id, values)
+            await updateUser(user.id, updatedFields)
+            setIsDirty(false);
+            onUserUpdate();
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;
@@ -53,36 +70,39 @@ const Account = ({ user }) => {
     return (
         <>
             <form onSubmit={form.onSubmit(handleSubmit)}>
-                <TextInput
-                    label="Name"
-                    placeholder="Enter your name"
-                    {...form.getInputProps('name')}
-                    required
-                />
-                <TextInput
-                    label="Surname"
-                    placeholder="Enter your surname"
-                    {...form.getInputProps('surname')}
-                    required
-                />
-                <TextInput
-                    label="Email"
-                    placeholder="Enter your email"
-                    value={form.values.email}
-                    onClick={() => handleOpenModal("email")}
-                    readOnly
-                />
-                <TextInput
-                    label="Change Password"
-                    placeholder="Change Password"
-                    value="Change Password"
-                    onClick={() => handleOpenModal("password")}
-                    readOnly
-                />
-
-                <Button type="submit" disabled={!isDirty}>
-                    Save
-                </Button>
+                <Stack className={styles.box}>
+                    <TextInput
+                        placeholder="Enter your name"
+                        {...form.getInputProps("name")}
+                        required
+                    />
+                    <TextInput
+                        placeholder="Enter your surname"
+                        {...form.getInputProps("surname")}
+                        required
+                    />
+                    <TextInput
+                        placeholder="Enter your email"
+                        value={form.values.email}
+                        onClick={() => handleOpenModal("email")}
+                        readOnly
+                        classNames={{
+                            input: styles.readonlyInput
+                        }}
+                    />
+                    <TextInput
+                        placeholder="Change Password"
+                        value="Change Password"
+                        onClick={() => handleOpenModal("password")}
+                        readOnly
+                        classNames={{
+                            input: styles.readonlyInput
+                        }}
+                    />
+                    <Button type="submit" disabled={!isDirty} className={styles.button}>
+                        Save
+                    </Button>
+                </Stack>
             </form>
             {opened && (
                 <ChangeModal
@@ -90,10 +110,11 @@ const Account = ({ user }) => {
                     subject={subject}
                     opened={opened}
                     onClose={close}
+                    onUpdate={onUserUpdate}
                 />
             )}
         </>
     );
-}
+};
 
 export default Account;
