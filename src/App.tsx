@@ -6,11 +6,14 @@ import { Router } from "./pages/Router";
 import './helpers/axiosConfig';
 import './css/index.scss';
 import '@mantine/dates/styles.css';
+import {FiltersProvider} from "./context/FilterContext";
 
 export default function App() {
     return (
         <MantineProvider theme={theme}>
-            <Router />
+            <FiltersProvider>
+                <Router />
+            </FiltersProvider>
         </MantineProvider>
     );
 }

@@ -1,41 +1,28 @@
-import {Box, Container, Pagination} from "@mantine/core";
-import styles from "./adminReviews.module.scss";
+import {Box, Button, Container, Loader, Pagination, Stack} from "@mantine/core";
+import styles from "../adminItems.module.scss";
 import {useDisclosure, usePagination} from "@mantine/hooks";
-import {useEffect, useState} from "react";
-import {deleteReview, getFilteredReviews} from "../../../apis/reviewApi.js";
-import ReviewCard from "../../../components/general/cards/reviewCard/ReviewCard.jsx";
-import ReviewModal from "../../../components/user/reviews/ReviewModal.jsx";
-import ConfirmModal from "../../../components/general/confirmModal/ConfirmModal.jsx";
+import {useContext, useEffect, useState} from "react";
+import {getFilteredReviews} from "../../../../apis/reviewApi.js";
+import ReviewCard from "../../../../components/general/cards/reviewCard/ReviewCard.jsx";
+import ReviewModal from "../../../../components/user/reviews/ReviewModal.jsx";
+import {useNavigate} from "react-router-dom";
+import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter.jsx";
+import {FiltersContext} from "../../../../context/FilterContext.jsx";
+import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
 
 
 const AdminReviews = () => {
-    const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
+    const navigate = useNavigate();
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(null);
     const [totalReviews, setTotalReviews] = useState(null);
-    const [filters, setFilters] = useState({
-       EMPLOYEE: {
-           state: null,
-           value: null
-       },
-       SERVICE_POINT: {
-           state: null,
-           value: null
-       },
-       TEXT: {
-           state: null,
-           value: null
-       },
-       USER: {
-           state: null,
-       },
-    });
+    const { filters, resetFilters } = useContext(FiltersContext);
     const [selectedReview, setSelectedReview] = useState(null);
+    const [ openedFilter, {open: showFilter, close: hideFilter} ] = useDisclosure(false);
+    const [activeFilter, setActiveFilter] = useState(null);
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
-    const [deleteReviewLoading, setDeleteReviewLoading] = useState(false);
-    const [updateReviewLoading, setUpdateReviewLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const itemsPerPage = 10;
@@ -63,10 +50,10 @@ const AdminReviews = () => {
             console.log(requestBody);
 
             const fetchedReviews = await getFilteredReviews(requestBody);
+            console.log(fetchedReviews);
             setReviews(fetchedReviews.reviews);
             setAverageRating(fetchedReviews.averageRating);
             setTotalReviews(fetchedReviews.totalReviews);
-
         } catch (error) {
             setError("Failed to fetch reviews");
             console.error(error);
@@ -83,13 +70,13 @@ const AdminReviews = () => {
 
             if (state === "selected") {
                 filterCriteria.push({
-                    field: key,
+                    filterKey: key,
                     value: value,
                     operation: "EQUAL"
                 })
             } else if (state === "deselected") {
                 filterCriteria.push({
-                    field: key,
+                    filterKey: key,
                     value: value,
                     operation: "NOT_EQUAL"
                 })
@@ -98,7 +85,7 @@ const AdminReviews = () => {
 
         if(filters.TEXT.state === "selected") {
             filterCriteria.push({
-                field: "TEXT",
+                filterKey: "TEXT",
                 value: "NOT_NULL",
                 operation: "EQUAL"
             });
@@ -107,14 +94,9 @@ const AdminReviews = () => {
         return {filterCriteria, dataOption: "AND"}
     }
 
-    const updateFilter = (key, newState, newValue = null) => {
-        const updatedFilters = {...filters};
-        updatedFilters[key] = { state: newState, value: newValue };
-        setFilters(updatedFilters);
-    }
-
     const handleSeeBooking = (review) => {
-
+        navigate(`/admin-bookings/${review.bookingId}`);
+        setTimeout(() => navigate(`/admin-bookings`), 1300);
     }
 
     const handleOpenReviewModal = (review) => {
@@ -132,6 +114,33 @@ const AdminReviews = () => {
         await fetchReviews();
     }
 
+    const handleCloseFilter = () => {
+        setActiveFilter(null);
+        hideFilter();
+    }
+
+    const handleResetFilters = () => {
+        resetFilters();
+    }
+
+    const renderFilterComponent = () => {
+        switch (activeFilter) {
+            case "EMPLOYEE":
+                return <EmployeeFilter onClose={handleCloseFilter}/>;
+
+            case "SERVICE_POINT":
+                return <ServicePointFilter onClose={handleCloseFilter} />;
+
+            default:
+                return null;
+        }
+    };
+
+
+
+    if(reviewsLoading) {
+        return <Loader />;
+    }
     return (
         <>
             <Container className={styles.outerContainer}>
@@ -152,16 +161,43 @@ const AdminReviews = () => {
                 </Box>
 
                 <Box className={styles.filterBox}>
+                    {openedFilter && (
+                        <Stack>
+                            {renderFilterComponent()}
+                        </Stack>
+                    )}
+                    {!openedFilter && (
+                        <Stack>
+                            <Button onClick={handleResetFilters}>
+                                Reset
+                            </Button>
 
+                            <Button onClick={() => {
+                                setActiveFilter("EMPLOYEE");
+                                showFilter();
+                            }}>
+                                Select Employee
+                            </Button>
+
+                            <Button onClick={() => {
+                                setActiveFilter("SERVICE_POINT")
+                                showFilter();
+                            }}>
+                                Select Service Point
+                            </Button>
+                        </Stack>
+                    )}
                 </Box>
             </Container>
 
-            <ReviewModal
-                opened={openedReview}
-                close={handleCloseReviewModal}
-                onConfirm={handleCloseReviewModalWithChanges}
-                reviewInfo={selectedReview}
-            />
+            {openedReview && (
+                <ReviewModal
+                    opened={openedReview}
+                    close={handleCloseReviewModal}
+                    onConfirm={handleCloseReviewModalWithChanges}
+                    reviewInfo={selectedReview}
+                />
+            )}
         </>
     );
 }

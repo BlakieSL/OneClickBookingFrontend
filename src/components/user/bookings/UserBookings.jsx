@@ -1,12 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Box, Button, Card, Group, Loader, Pagination, Text} from "@mantine/core";
+import React, {useEffect, useState} from "react";
+import {Box, Loader, Pagination} from "@mantine/core";
 import {deleteBooking, getFilteredBookings} from "../../../apis/bookingApi.js";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import {getReviewById} from "../../../apis/reviewApi.js";
 import ReviewModal from "../reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../booking/UpdateBookingModal.jsx";
 import styles from "./userBookings.module.scss";
-import ReactPaginate from 'react-paginate';
 import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
 import BookingCard from "../../general/cards/bookingCard/BookingCard.jsx";
 
@@ -99,7 +98,6 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         setSelectedReviewLoading(true);
         try {
             const response = await getReviewById(booking.reviewId);
-
             setReviewInfo(response);
             setSelectedBooking(booking)
         } catch (error) {
@@ -116,7 +114,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         closeReview();
     }
 
-    const handleReviewModalCloseWithChanges = async () => {
+    const handleModalCloseWithChanges = async () => {
         handleCloseReview();
         closeBooking();
         await fetchBookings();
@@ -173,7 +171,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                 <ReviewModal
                     opened={openedReview}
                     close={handleCloseReview}
-                    onConfirm={handleReviewModalCloseWithChanges}
+                    onConfirm={handleModalCloseWithChanges}
                     reviewInfo={reviewInfo}
                     booking={selectedBooking}
                 />
@@ -182,7 +180,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                 <UpdateBookingModal
                     opened={openedBooking}
                     onClose={closeBooking}
-                    onConfirm={handleReviewModalCloseWithChanges}
+                    onConfirm={handleModalCloseWithChanges}
                     initialBooking={selectedBooking}
                 />
             )}

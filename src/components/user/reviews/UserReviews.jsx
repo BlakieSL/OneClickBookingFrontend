@@ -95,12 +95,14 @@ const UserReviews = ({ user, onSeeBooking }) => {
                 />
             </Box>
 
-            <ReviewModal
-                opened={openedReview}
-                close={handleCloseReview}
-                onConfirm={handleCloseReviewWithChanges}
-                reviewInfo={selectedReview}
-            />
+            {openedReview && (
+                <ReviewModal
+                    opened={openedReview}
+                    close={handleCloseReview}
+                    onConfirm={handleCloseReviewWithChanges}
+                    reviewInfo={selectedReview}
+                />
+            )}
         </>
     );
 };
