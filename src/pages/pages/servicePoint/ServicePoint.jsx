@@ -13,7 +13,7 @@ import styles from "./servicePoint.module.scss";
 import ProvidedTreatments from "../../../components/servicePoint/treatments/ProvidedTreatments.jsx";
 import Reviews from "../../../components/general/reviews/Reviews.jsx";
 import {useDisclosure} from "@mantine/hooks";
-import ScheduleModal from "../../../components/general/scheduleModal/ScheduleModal.jsx";
+import ScheduleModal from "../../../components/booking/ScheduleModal.jsx";
 const ServicePoint = () => {
     const navigate = useNavigate();
     const [opened, {open, close}] = useDisclosure(false);

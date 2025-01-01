@@ -1,6 +1,7 @@
 import {Box, Card, Group, Text} from "@mantine/core";
 import styles from "./reviews.module.scss"
 import StarRating from "./StarRating.jsx";
+
 const Reviews = ({ data }) => {
     const { reviews, averageRating, totalReviews } = data;
 

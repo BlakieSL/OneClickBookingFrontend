@@ -1,7 +1,7 @@
-import ServicePointEmployeeCard from "../cards/employeeCard/ServicePointEmployeeCard.jsx";
 import {Carousel} from "@mantine/carousel";
+import ServicePointCard from "../../general/cards/servicePointCard/ServicePointCard.jsx";
 
-const BookingEmployeesCarousel = ({ employees, selectedEmployeeId, handleEmployeePick }) => {
+const BookingServicePointsCarousel = ({ servicePoints, selectedServicePointId, handleServicePointPick }) => {
     return (
         <Carousel
             withIndicators
@@ -20,24 +20,25 @@ const BookingEmployeesCarousel = ({ employees, selectedEmployeeId, handleEmploye
                     height: '32px',
                 },
                 viewport: {
-                    padding: '15px',
+                    padding: '20px',
                 },
                 indicators: {
-                  bottom: '0px'
+                    bottom: '0px'
                 },
                 indicator: {
                     backgroundColor: '#445649'
                 }
             }}
         >
-            {employees.map((employee) => (
+            {servicePoints.map((servicePoint) => (
                 <Carousel.Slide
-                    key={employee.id}
-                    onClick={() => handleEmployeePick(employee)}
+                    key={servicePoint.id}
+                    onClick={() => handleServicePointPick(servicePoint)}
                 >
-                    <ServicePointEmployeeCard
-                        employee={employee}
-                        isSelected={selectedEmployeeId === employee.id}
+                    <ServicePointCard
+                        servicePoint={servicePoint}
+                        isSelected={selectedServicePointId === servicePoint.id}
+                        size="small"
                     />
                 </Carousel.Slide>
             ))}
@@ -45,4 +46,4 @@ const BookingEmployeesCarousel = ({ employees, selectedEmployeeId, handleEmploye
     );
 };
 
-export default BookingEmployeesCarousel;
+export default BookingServicePointsCarousel;

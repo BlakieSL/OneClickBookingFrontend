@@ -1,18 +1,18 @@
 import {useEffect, useState} from "react";
 import {Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
-import {getSchedule} from "../../../apis/scheduleApi.js";
+import {getSchedule} from "../../apis/scheduleApi.js";
 import {DatePicker} from "@mantine/dates";
 import styles from "./scheduleModal.module.scss";
-import ServicePointEmployeeCard from "../cards/employeeCard/ServicePointEmployeeCard.jsx";
-import SlotBadge from "../cards/slotBadge/SlotBadge.jsx";
+import ServicePointEmployeeCard from "../general/cards/employeeCard/ServicePointEmployeeCard.jsx";
+import SlotBadge from "../general/cards/slotBadge/SlotBadge.jsx";
 import {Carousel} from "@mantine/carousel";
 import {useDisclosure} from "@mantine/hooks";
-import ConfirmModal from "./confirmModal/ConfirmModal.jsx";
-import {createBooking} from "../../../apis/bookingApi.js";
-import {getFilteredReviews} from "../../../apis/reviewApi.js";
-import {getFilteredEmployees} from "../../../apis/employeeApi.js";
-import BookingEmployeesCarousel from "./BookingEmployeesCarousel.jsx";
-import BookingSlotsCarousel from "./BookingSlotsCarousel.jsx";
+import ConfirmModal from "../general/confirmModal/ConfirmModal.jsx";
+import {createBooking} from "../../apis/bookingApi.js";
+import {getFilteredReviews} from "../../apis/reviewApi.js";
+import {getFilteredEmployees} from "../../apis/employeeApi.js";
+import BookingEmployeesCarousel from "./components/BookingEmployeesCarousel.jsx";
+import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
 
 const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     const [openedConfirm, { open: openConfirm, close: closeConfirm }] = useDisclosure(false);

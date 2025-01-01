@@ -1,7 +1,7 @@
+import ServicePointEmployeeCard from "../../general/cards/employeeCard/ServicePointEmployeeCard.jsx";
 import {Carousel} from "@mantine/carousel";
-import ServicePointCard from "../cards/servicePointCard/ServicePointCard.jsx";
 
-const BookingServicePointsCarousel = ({ servicePoints, selectedServicePointId, handleServicePointPick }) => {
+const BookingEmployeesCarousel = ({ employees, selectedEmployeeId, handleEmployeePick }) => {
     return (
         <Carousel
             withIndicators
@@ -20,25 +20,24 @@ const BookingServicePointsCarousel = ({ servicePoints, selectedServicePointId, h
                     height: '32px',
                 },
                 viewport: {
-                    padding: '20px',
+                    padding: '15px',
                 },
                 indicators: {
-                    bottom: '0px'
+                  bottom: '0px'
                 },
                 indicator: {
                     backgroundColor: '#445649'
                 }
             }}
         >
-            {servicePoints.map((servicePoint) => (
+            {employees.map((employee) => (
                 <Carousel.Slide
-                    key={servicePoint.id}
-                    onClick={() => handleServicePointPick(servicePoint)}
+                    key={employee.id}
+                    onClick={() => handleEmployeePick(employee)}
                 >
-                    <ServicePointCard
-                        servicePoint={servicePoint}
-                        isSelected={selectedServicePointId === servicePoint.id}
-                        size="small"
+                    <ServicePointEmployeeCard
+                        employee={employee}
+                        isSelected={selectedEmployeeId === employee.id}
                     />
                 </Carousel.Slide>
             ))}
@@ -46,4 +45,4 @@ const BookingServicePointsCarousel = ({ servicePoints, selectedServicePointId, h
     );
 };
 
-export default BookingServicePointsCarousel;
+export default BookingEmployeesCarousel;

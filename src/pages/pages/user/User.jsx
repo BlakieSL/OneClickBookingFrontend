@@ -33,7 +33,7 @@ const User = () => {
     }
 
     const handleSeeBooking = (bookingId) => {
-        setActiveTab("bookings");
+        setActiveTab("bookingCard");
         setHighlightedBookingId(bookingId);
         setTimeout(() => setHighlightedBookingId(null), 1300)
     }
@@ -61,9 +61,9 @@ const User = () => {
                     />
                     <NavLink
                         label="UserBookings"
-                        active={activeTab === 'bookings'}
-                        onClick={() => setActiveTab('bookings')}
-                        className={activeTab === 'bookings' ? styles.activeTab : ''}
+                        active={activeTab === 'bookingCard'}
+                        onClick={() => setActiveTab('bookingCard')}
+                        className={activeTab === 'bookingCard' ? styles.activeTab : ''}
                     />
                     <NavLink
                         label="UserReviews"
@@ -75,7 +75,7 @@ const User = () => {
             </Box>
             <Box className={styles.mainContainer}>
                 {activeTab === 'account' && <Account user={user} onUserUpdate={handleUpdateUser} /> }
-                {activeTab === 'bookings' && <UserBookings user={user} highlightedBookingId={highlightedBookingId} />  }
+                {activeTab === 'bookingCard' && <UserBookings user={user} highlightedBookingId={highlightedBookingId} />  }
                 {activeTab === 'reviews' && <UserReviews user={user} onSeeBooking={handleSeeBooking} /> }
             </Box>
         </Container>

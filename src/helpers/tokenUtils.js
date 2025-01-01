@@ -33,12 +33,13 @@ export const isUserLoggedIn = () => {
 export const isUserAdmin = () => {
     const accessToken = getAccessToken();
 
-    const decodedToken = jwtDecode(accessToken);
-    console.log(decodedToken);
-    const authorities = decodedToken.authorities || [];
-    const flag = authorities.includes("ROLE_ADMIN");
-    console.log(flag);
-    return flag;
+    try {
+        const decodedToken = jwtDecode(accessToken);
+        const authorities = decodedToken.authorities || [];
+        return authorities.includes("ROLE_ADMIN");
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 export const logout = () => {

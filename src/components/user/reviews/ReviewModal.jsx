@@ -2,8 +2,11 @@ import {useForm} from "@mantine/form";
 import {useEffect} from "react";
 import {createReview, deleteReview, updateReview} from "../../../apis/reviewApi.js";
 import {Button, Group, Modal, Rating, Textarea, TextInput} from "@mantine/core";
+import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
+import {useDisclosure} from "@mantine/hooks";
 
 const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) => {
+    const [openedConfirm, {close: closeConfirm, open: openConfirm}] = useDisclosure(false);
     const form = useForm({
         initialValues: {
             rating: 0,
@@ -48,6 +51,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
     }
 
     const handleDelete = async () => {
+        closeConfirm();
         try {
             await deleteReview(reviewInfo.id);
             form.reset();
@@ -61,45 +65,51 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         form.reset();
         close();
     };
-    console.log(reviewInfo);
-    return (
-        <Modal
-            opened={opened}
-            onClose={handleModalClose}
-            title={reviewInfo ? "Edit Review" : "New Review"}
-            styles={{
-                title: {
-                    fontSize: '22px',
-                    fontWeight: '600'
-                }
-            }}
-        >
 
-            <form onSubmit={form.onSubmit(handleSubmit)}>
-                <TextInput
-                    label="Date"
-                    value={form.values.date}
-                    readOnly
-                />
-                <Rating
-                    {...form.getInputProps('rating')}
-                    size = "xl"
-                />
-                <Textarea
-                    label="Your Review"
-                    placeholder="Write your review here..."
-                    {...form.getInputProps('text')}
-                />
-                <Group grow mt="xs">
-                    <Button color="red" onClick={handleDelete}>
-                        Delete
-                    </Button>
-                    <Button type="submit">
-                        Save
-                    </Button>
-                </Group>
-            </form>
-        </Modal>
+    return (
+        <>
+            <Modal
+                opened={opened}
+                onClose={handleModalClose}
+                title={reviewInfo ? "Edit Review" : "New Review"}
+                styles={{
+                    title: {
+                        fontSize: '22px',
+                        fontWeight: '600'
+                    }
+                }}
+            >
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                    <TextInput
+                        label="Date"
+                        value={form.values.date}
+                        readOnly
+                    />
+                    <Rating
+                        {...form.getInputProps('rating')}
+                        size = "xl"
+                    />
+                    <Textarea
+                        label="Your Review"
+                        placeholder="Write your review here..."
+                        {...form.getInputProps('text')}
+                    />
+                    <Group grow mt="xs">
+                        <Button color="red" onClick={openConfirm}>
+                            Delete
+                        </Button>
+                        <Button type="submit">
+                            Save
+                        </Button>
+                    </Group>
+                </form>
+            </Modal>
+            <ConfirmModal
+                opened={openedConfirm}
+                onClose={closeConfirm}
+                onConfirm={handleDelete}
+            />
+        </>
     )
 }
 

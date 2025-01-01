@@ -1,0 +1,25 @@
+@use "../../../css/base/base-elements" as *;
+
+.outerContainer {
+  width: 1191px;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.filterBox {
+  @include boxShadow;
+  flex: 3;
+  padding: 16px;
+  align-self: flex-start;
+}
+
+.mainBox {
+  @include boxShadow;
+  flex: 7;
+  padding: 16px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

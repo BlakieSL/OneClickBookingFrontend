@@ -1,6 +1,6 @@
 import React from 'react';
 import { Carousel } from "@mantine/carousel";
-import SlotBadge from "../cards/slotBadge/SlotBadge.jsx";
+import SlotBadge from "../../general/cards/slotBadge/SlotBadge.jsx";
 
 
 const BookingSlotsCarousel = ({ freeSlots, selectedSlot, handleSlotPick }) => {

@@ -1,18 +1,18 @@
 import {useDisclosure} from "@mantine/hooks";
 import React, {useEffect, useState} from "react";
-import {getAllServicePoints} from "../../../apis/servicePointApi.js";
+import {getAllServicePoints} from "../../apis/servicePointApi.js";
 import {Box, Button, Group, Loader, Modal, Text} from "@mantine/core";
-import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
-import {getFilteredEmployees} from "../../../apis/employeeApi.js";
-import {getSchedule} from "../../../apis/scheduleApi.js";
-import {updateBooking} from "../../../apis/bookingApi.js";
-import ConfirmModal from "./confirmModal/ConfirmModal.jsx";
+import {getAllTreatmentsByServicePoint} from "../../apis/treatmentApi.js";
+import {getFilteredEmployees} from "../../apis/employeeApi.js";
+import {getSchedule} from "../../apis/scheduleApi.js";
+import {updateBooking} from "../../apis/bookingApi.js";
+import ConfirmModal from "../general/confirmModal/ConfirmModal.jsx";
 import styles from "./scheduleModal.module.scss";
-import BookingEmployeesCarousel from "./BookingEmployeesCarousel.jsx";
-import BookingSlotsCarousel from "./BookingSlotsCarousel.jsx";
+import BookingEmployeesCarousel from "./components/BookingEmployeesCarousel.jsx";
+import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
 import {DatePicker} from "@mantine/dates";
-import BookingServicePointsCarousel from "./BookingServicePointsCarousel.jsx";
-import SelectTreatment from "./SelectTreatment.jsx";
+import BookingServicePointsCarousel from "./components/BookingServicePointsCarousel.jsx";
+import SelectTreatment from "./components/SelectTreatment.jsx";
 
 const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const [openedConfirm, {open: openConfirm, close: closeConfirm }] = useDisclosure(false);

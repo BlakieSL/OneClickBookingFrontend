@@ -17,6 +17,16 @@
       color: #f1f1f1;
     }
   }
+
+  &__adminIcon {
+    background-color: #8f5b5b;
+    color: #ffffff;
+
+    &:hover {
+      background: #835454;
+      color: #f1f1f1;
+    }
+  }
 }
 
 .main {
