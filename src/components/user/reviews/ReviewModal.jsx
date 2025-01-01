@@ -10,7 +10,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
     const form = useForm({
         initialValues: {
             rating: 0,
-            text: '',
+            text: null,
             date: new Date().toLocaleDateString(),
         },
 
@@ -41,6 +41,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
                 await updateReview(reviewInfo.id, requestBody);
             } else {
                 requestBody.bookingId = booking.id;
+
                 await createReview(requestBody);
             }
             form.reset();

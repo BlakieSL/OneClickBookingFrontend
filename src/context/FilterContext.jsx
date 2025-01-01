@@ -8,6 +8,7 @@ export const FiltersProvider = ({ children }) => {
         SERVICE_POINT: { state: null, value: null },
         TEXT: { state: null, value: null },
         USER: { state: null, value: null },
+        DATE: { state: null, value: null },
     };
 
     const [filters, setFilters] = useState(initialFilters);

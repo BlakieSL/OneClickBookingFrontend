@@ -1,4 +1,4 @@
-import {Box, Button, Container, Loader, Pagination, Stack} from "@mantine/core";
+import {Box, Button, Checkbox, Container, Loader, Pagination, Stack, Text} from "@mantine/core";
 import styles from "../adminItems.module.scss";
 import {useDisclosure, usePagination} from "@mantine/hooks";
 import {useContext, useEffect, useState} from "react";
@@ -17,7 +17,7 @@ const AdminReviews = () => {
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(null);
     const [totalReviews, setTotalReviews] = useState(null);
-    const { filters, resetFilters } = useContext(FiltersContext);
+    const { filters, resetFilters, updateFilter } = useContext(FiltersContext);
     const [selectedReview, setSelectedReview] = useState(null);
     const [ openedFilter, {open: showFilter, close: hideFilter} ] = useDisclosure(false);
     const [activeFilter, setActiveFilter] = useState(null);
@@ -83,14 +83,6 @@ const AdminReviews = () => {
             }
         })
 
-        if(filters.TEXT.state === "selected") {
-            filterCriteria.push({
-                filterKey: "TEXT",
-                value: "NOT_NULL",
-                operation: "EQUAL"
-            });
-        }
-
         return {filterCriteria, dataOption: "AND"}
     }
 
@@ -137,7 +129,6 @@ const AdminReviews = () => {
     };
 
 
-
     if(reviewsLoading) {
         return <Loader />;
     }
@@ -168,7 +159,7 @@ const AdminReviews = () => {
                     )}
                     {!openedFilter && (
                         <Stack>
-                            <Button onClick={handleResetFilters}>
+                            <Button variant="outline" onClick={handleResetFilters}>
                                 Reset
                             </Button>
 
@@ -185,6 +176,18 @@ const AdminReviews = () => {
                             }}>
                                 Select Service Point
                             </Button>
+
+                            <Box>
+                                <Checkbox
+                                    checked={filters.TEXT.state === "selected"}
+                                    color="#718977FF"
+                                    onChange={(event) => {
+                                        const newState = event.target.checked ? "selected" : null;
+                                        updateFilter("TEXT", newState, "NOT_NULL");
+                                    }}
+                                    label="Only reviews with text"
+                                />
+                            </Box>
                         </Stack>
                     )}
                 </Box>

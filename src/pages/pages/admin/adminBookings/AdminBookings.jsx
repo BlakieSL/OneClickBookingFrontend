@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
-import React, {useEffect, useState} from "react";
-import {Box, Container, Loader, Pagination} from "@mantine/core";
+import React, {useContext, useEffect, useState} from "react";
+import {Box, Button, Checkbox, Container, Loader, Pagination, Stack} from "@mantine/core";
 import {deleteBooking, getFilteredBookings} from "../../../../apis/bookingApi.js";
 import styles from "../adminItems.module.scss";
 import BookingCard from "../../../../components/general/cards/bookingCard/BookingCard.jsx";
@@ -9,6 +9,10 @@ import ReviewModal from "../../../../components/user/reviews/ReviewModal.jsx";
 import UpdateBookingModal from "../../../../components/booking/UpdateBookingModal.jsx";
 import ConfirmModal from "../../../../components/general/confirmModal/ConfirmModal.jsx";
 import {getReviewById} from "../../../../apis/reviewApi.js";
+import {FiltersContext} from "../../../../context/FilterContext.jsx";
+import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter.jsx";
+import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
+import {DatePicker, DatePickerInput} from "@mantine/dates";
 
 const AdminBookings = () => {
     const { bookingId } = useParams();
@@ -20,24 +24,10 @@ const AdminBookings = () => {
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [bookingToDelete, setBookingToDelete] = useState(null);
-    const [filters, setFilters] = useState({
-        EMPLOYEE: {
-            state: null,
-            value: null
-        },
-        SERVICE_POINT: {
-            state: null,
-            value: null
-        },
-        DATE: {
-            state: null,
-            value: null
-        },
-        USER: {
-            state: null,
-            value: null,
-        }
-    })
+    const { filters, resetFilters, updateFilter } = useContext(FiltersContext);
+    const [ openedFilter, {open: showFilter, close: hideFilter} ] = useDisclosure(false);
+    const [activeFilter, setActiveFilter] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
@@ -127,12 +117,6 @@ const AdminBookings = () => {
         return {filterCriteria, dataOption: "AND"};
     }
 
-    const updateFilter = (key, newState, newValue = null) => {
-        const updatedFilters = {...filters};
-        updatedFilters[key] = { state: newState, value: newValue };
-        setFilters(updatedFilters);
-    }
-
     const handleOpenBookingModal = (booking) => {
         setSelectedBooking(booking);
         openBooking();
@@ -184,6 +168,38 @@ const AdminBookings = () => {
         await fetchBookings();
     };
 
+    const handleCloseFilter = () => {
+        setActiveFilter(null);
+        hideFilter();
+    }
+
+    const handleResetFilters = () => {
+        resetFilters();
+    }
+
+    const renderFilterComponent = () => {
+        switch (activeFilter) {
+            case "EMPLOYEE":
+                return <EmployeeFilter onClose={handleCloseFilter}/>;
+
+            case "SERVICE_POINT":
+                return <ServicePointFilter onClose={handleCloseFilter} />;
+
+            default:
+                return null;
+        }
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+
+        if (date) {
+            updateFilter("DATE", "selected", date.toISOString().split("T")[0]);
+        } else {
+            updateFilter("DATE", null, null);
+        }
+    };
+
     if (bookingsLoading || selectedReviewLoading) {
         return <Loader />;
     }
@@ -212,7 +228,40 @@ const AdminBookings = () => {
                 </Box>
 
                 <Box className={styles.filterBox}>
+                    {openedFilter && (
+                        <Stack>
+                            {renderFilterComponent()}
+                        </Stack>
+                    )}
+                    {!openedFilter && (
+                        <Stack>
+                            <Button variant="outline" onClick={handleResetFilters}>
+                                Reset
+                            </Button>
 
+                            <Button onClick={() => {
+                                setActiveFilter("EMPLOYEE");
+                                showFilter();
+                            }}>
+                                Select Employee
+                            </Button>
+
+                            <Button onClick={() => {
+                                setActiveFilter("SERVICE_POINT")
+                                showFilter();
+                            }}>
+                                Select Service Point
+                            </Button>
+
+                            <DatePickerInput
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                placeholder="Select a date"
+                                label="Filter by Date"
+                                clearable
+                            />
+                        </Stack>
+                    )}
                 </Box>
             </Container>
 

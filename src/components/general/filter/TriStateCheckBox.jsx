@@ -1,4 +1,5 @@
 import { Checkbox } from "@mantine/core";
+import {IconCheck, IconX} from "@tabler/icons-react";
 
 const TriStateCheckbox = ({ state, onChange }) => {
     const handleToggle = () => {
@@ -19,6 +20,29 @@ const TriStateCheckbox = ({ state, onChange }) => {
             checked={state === "selected"}
             indeterminate={state === "deselected"}
             onChange={handleToggle}
+            styles={{
+                input: {
+                    backgroundColor:
+                        state === "deselected"
+                            ? "red"
+                            : state === "selected"
+                                ? "#718977FF"
+                                : undefined,
+                    borderColor:
+                        state === "deselected"
+                            ? "red"
+                            : state === "selected"
+                                ? "#718977FF"
+                                : undefined,
+                },
+            }}
+            icon={({ indeterminate, className }) =>
+                indeterminate ? (
+                    <IconX className={className} />
+                ) : (
+                    <IconCheck className={className} />
+                )
+            }
         />
     );
 };
