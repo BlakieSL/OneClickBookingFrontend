@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAccessToken, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
+import {getAccessToken, getLocale, logout, refreshAccessTokenUtil} from "./tokenUtils.js";
 
 axios.interceptors.request.use(
     async (config) => {
@@ -14,6 +14,8 @@ axios.interceptors.request.use(
                         if(!config.headers['Content-Type']) {
                             config.headers['Content-Type'] = 'application/json';
                         }
+
+                        config.headers['Accept-Language'] = getLocale();
 
                         let token = getAccessToken();
                         if (token) {

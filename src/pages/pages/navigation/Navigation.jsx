@@ -3,6 +3,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {IconCalendarEvent, IconMapPins, IconStar, IconUser, IconUsers} from "@tabler/icons-react";
 import styles from "./navigation.module.scss";
 import {isUserAdmin} from "../../../helpers/tokenUtils.js";
+import Locale from "../../../components/general/Locale.jsx";
 
 const Navigation = () => {
     const navigate = useNavigate();
@@ -68,13 +69,16 @@ const Navigation = () => {
                     </Group>
                 )}
 
-                <ActionIcon
-                    size={40}
-                    onClick={handleNavigateToUser}
-                    className={styles.header__icon}
-                >
-                    <IconUser/>
-                </ActionIcon>
+                <Group>
+                    <Locale />
+                    <ActionIcon
+                        size={40}
+                        onClick={handleNavigateToUser}
+                        className={styles.header__icon}
+                    >
+                        <IconUser/>
+                    </ActionIcon>
+                </Group>
             </AppShell.Header>
             <AppShell.Main>
                 <Box className={styles.main}>

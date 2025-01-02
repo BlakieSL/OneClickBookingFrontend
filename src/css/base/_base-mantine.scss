@@ -3,15 +3,6 @@
   --pagination-active-color: #ffffff;
 }
 
-:root {
-  --button-bg: #445649;
-  --button-bd: none;
-  --button-hover: #36463a;
-  --button-color: #ffffff;
-  --button-hover-color: #f1f1f1;
-  --button-fz: 14px;
-}
-
 .mantine-Button-root[data-variant="outline"] {
   background-color: #ffffff;
   color: #445649;
@@ -22,16 +13,7 @@
   }
 }
 
-.mantine-TextInput-input {
-  &:hover {
-    border-color: #445649;
-  }
-
-  &:focus {
-    border-color: #445649;
-  }
-}
-
+.mantine-TextInput-input,
 .mantine-Textarea-input {
   &:hover {
     border-color: #445649;
@@ -53,21 +35,26 @@
 }
 
 
-.mantine-DatePicker-day[data-selected="true"] {
-  background-color: #445649;
-  &:hover {
-    background-color: #36463a;
-  }
-}
+.mantine-DatePicker-day[data-selected="true"],
 .mantine-DatePickerInput-day[data-selected="true"] {
   background-color: #445649;
-  &:hover {
-    background-color: #36463a;
-  }
 }
 
+.mantine-DatePicker-day[data-selected="true"]:hover,
+.mantine-DatePickerInput-day[data-selected="true"]:hover {
+  background-color: #36463a;
+}
 
+.mantine-DatePickerInput-dropdown
+.mantine-DatePicker-day[data-selected="true"] {
+  background-color: #445649;
+  color: #ffffff;
+}
 
+.mantine-DatePickerInput-dropdown
+.mantine-DatePicker-day[data-selected="true"]:hover {
+  background-color: #36463a;
+}
 
 .mantine-Badge-root[data-variant="filled"] {
   background-color: #445649;
@@ -78,12 +65,3 @@
   color: #445649;
 }
 
-/* Style for the chosen day when the calendar is open */
-.mantine-DatePickerInput-dropdown .mantine-DatePicker-day[data-selected="true"] {
-  background-color: #445649;
-  color: #ffffff;
-}
-
-.mantine-DatePickerInput-dropdown .mantine-DatePicker-day[data-selected="true"]:hover {
-  background-color: #36463a;
-}

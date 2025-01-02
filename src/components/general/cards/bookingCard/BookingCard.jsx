@@ -59,7 +59,7 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__buttons}>
-                <Button disabled={isPastBooking} className={styles.card__updateButton} onClick={() => onUpdateBooking(booking)}>
+                <Button colo disabled={isPastBooking}  onClick={() => onUpdateBooking(booking)}>
                     {isPastBooking ? "Completed" : "Update Booking"}
                 </Button>
                 <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>

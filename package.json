@@ -17,6 +17,7 @@
     "@mantine/notifications": "^7.15.1",
     "@tabler/icons-react": "^3.26.0",
     "axios": "^1.7.9",
+    "country-flag-icons": "^1.5.13",
     "dayjs": "^1.11.0",
     "embla-carousel-react": "^7.1.0",
     "jwt-decode": "^4.0.0",

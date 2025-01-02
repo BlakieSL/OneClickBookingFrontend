@@ -25,6 +25,13 @@ export const setUser = (userId) => {
     localStorage.setItem('user', JSON.stringify(userId));
 };
 
+export const setLocale = (locale) => {
+    localStorage.setItem('locale', locale);
+}
+
+export const getLocale = () => {
+    return localStorage.getItem('locale');
+}
 
 export const isUserLoggedIn = () => {
     return !!getAccessToken();
