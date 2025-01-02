@@ -1,4 +1,4 @@
-import {Box, ScrollArea, Text, Loader} from "@mantine/core";
+import {Box, Text} from "@mantine/core";
 import ServicePointEmployeeCard from "../../general/cards/employeeCard/ServicePointEmployeeCard.jsx";
 import {useNavigate} from "react-router-dom";
 import {Carousel} from "@mantine/carousel";

@@ -4,11 +4,11 @@ import {getAllServicePoints} from "../../../apis/servicePointApi.js";
 import {Box, Container, Loader, SimpleGrid, Text} from "@mantine/core";
 import ServicePointCard from "../../../components/general/cards/servicePointCard/ServicePointCard.jsx";
 import styles from "./servicePoints.module.scss";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const ServicePoints = () => {
     const [servicePoints, setServicePoints] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const ServicePoints = () => {
                 const data = await getAllServicePoints();
                 setServicePoints(data);
             } catch (error) {
-                setError("Failed to fetch service points.");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setLoading(false);

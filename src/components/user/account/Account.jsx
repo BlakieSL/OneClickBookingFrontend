@@ -5,6 +5,7 @@ import {Button, Stack, TextInput} from "@mantine/core";
 import ChangeModal from "./ChangeModal.jsx";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "./account.module.scss";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const Account = ({ user, onUserUpdate }) => {
     const [isDirty, setIsDirty] = useState(false);
@@ -58,6 +59,7 @@ const Account = ({ user, onUserUpdate }) => {
                     form.setFieldError(field, message);
                 });
             }
+            showErrorNotification(error);
             console.error(error)
         }
     }

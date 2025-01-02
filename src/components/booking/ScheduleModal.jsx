@@ -1,18 +1,15 @@
 import {useEffect, useState} from "react";
-import {Box, Button, Loader, Modal, ScrollArea, Text} from "@mantine/core";
+import {Box, Button, Loader, Modal, Text} from "@mantine/core";
 import {getSchedule} from "../../apis/scheduleApi.js";
 import {DatePicker} from "@mantine/dates";
 import styles from "./scheduleModal.module.scss";
-import ServicePointEmployeeCard from "../general/cards/employeeCard/ServicePointEmployeeCard.jsx";
-import SlotBadge from "../general/cards/slotBadge/SlotBadge.jsx";
-import {Carousel} from "@mantine/carousel";
 import {useDisclosure} from "@mantine/hooks";
 import ConfirmModal from "../general/confirmModal/ConfirmModal.jsx";
 import {createBooking} from "../../apis/bookingApi.js";
-import {getFilteredReviews} from "../../apis/reviewApi.js";
 import {getFilteredEmployees} from "../../apis/employeeApi.js";
 import BookingEmployeesCarousel from "./components/BookingEmployeesCarousel.jsx";
 import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
+import { showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
 
 const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     const [openedConfirm, { open: openConfirm, close: closeConfirm }] = useDisclosure(false);
@@ -27,7 +24,6 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     const [employeesLoading, setEmployeesLoading] = useState(true);
     const [freeSlotsLoading, setFreeSlotsLoading] = useState(true);
     const [bookingLoading, setBookingLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -65,7 +61,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
 
                 setFreeSlots(response.freeSlots);
             } catch (error) {
-                setError("Failed to fetch schedule");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setFreeSlotsLoading(false);
@@ -95,7 +91,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                 const fetchedEmployees = await getFilteredEmployees(requestBody);
                 setEmployees(fetchedEmployees);
             } catch (error) {
-                setError("Failed to fetch employees");
+                showErrorNotification(error.response?.data || "Failed to fetch employees");
                 console.error(error);
             } finally {
                 setEmployeesLoading(false);
@@ -137,9 +133,10 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
         }
         try {
             await createBooking(requestBody);
+            showSuccessNotification("Created");
         } catch (error) {
-            setError("Failed to create booking");
             console.error(error);
+            showErrorNotification(error.response?.data || "Error creating booking")
         } finally {
             setBookingLoading(false);
         }
@@ -154,6 +151,8 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     if(freeSlotsLoading || bookingLoading || employeesLoading){
         return <Loader />;
     }
+
+
 
     return (
         <>
@@ -204,11 +203,13 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                 </Box>
             </Modal>
 
-            <ConfirmModal
-                opened={openedConfirm}
-                onClose={handleClose}
-                onConfirm={handleConfirm}
-            />
+            {openedConfirm && (
+                <ConfirmModal
+                    opened={openedConfirm}
+                    onClose={handleClose}
+                    onConfirm={handleConfirm}
+                />
+            )}
         </>
     );
 };

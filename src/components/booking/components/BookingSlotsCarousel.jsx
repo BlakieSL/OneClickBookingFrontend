@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel } from "@mantine/carousel";
+import {Carousel} from "@mantine/carousel";
 import SlotBadge from "../../general/cards/slotBadge/SlotBadge.jsx";
 
 

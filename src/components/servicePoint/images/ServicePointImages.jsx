@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {ActionIcon, Box, Image} from "@mantine/core";
 import {defaultImage} from "../../../helpers/constants.js";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
+import {IconArrowLeft, IconArrowRight} from "@tabler/icons-react";
 import styles from "./servicePointImages.module.scss";
 
 const ServicePointImages = ({ images }) => {
@@ -31,22 +31,19 @@ const ServicePointImages = ({ images }) => {
                     className={styles.imageButtonsContainer__image}
                 />
             <Box className={styles.imageButtonsContainer__buttonsContainer}>
-                {hasImages &&(
                     <ActionIcon
                         onClick={handlePreviousImage}
                         className={styles.imageButtonsContainer__buttonsContainer__button}
                     >
                         <IconArrowLeft size={24}/>
                     </ActionIcon>
-                )}
-                {hasImages &&(
+
                     <ActionIcon
                         onClick={handleNextImage}
                         className={styles.imageButtonsContainer__buttonsContainer__button}
                     >
                         <IconArrowRight size={24} />
                     </ActionIcon>
-                )}
             </Box>
         </Box>
     )

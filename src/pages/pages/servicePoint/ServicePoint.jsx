@@ -1,19 +1,20 @@
-import {data, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getServicePoint} from "../../../apis/servicePointApi.js";
 import {getAllImagesForParent} from "../../../apis/imageApi.js";
-import {Box, Container, Loader, Modal, Text} from "@mantine/core";
+import {Box, Container, Loader, Text} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../../apis/treatmentApi.js";
 import {getFilteredReviews} from "../../../apis/reviewApi.js";
 import {getFilteredEmployees} from "../../../apis/employeeApi.js";
-import {defaultImage} from "../../../helpers/constants.js";
+import {defaultImage, showErrorNotification} from "../../../helpers/constants.js";
 import ServicePointDetails from "../../../components/servicePoint/details/ServicePointDetails.jsx";
 import ServicePointImages from "../../../components/servicePoint/images/ServicePointImages.jsx";
 import styles from "./servicePoint.module.scss";
 import ProvidedTreatments from "../../../components/servicePoint/treatments/ProvidedTreatments.jsx";
-import Reviews from "../../../components/general/reviews/Reviews.jsx";
+import EmployeeReviews from "../../../components/general/reviews/EmployeeReviews.jsx";
 import {useDisclosure} from "@mantine/hooks";
 import ScheduleModal from "../../../components/booking/ScheduleModal.jsx";
+
 const ServicePoint = () => {
     const navigate = useNavigate();
     const [opened, {open, close}] = useDisclosure(false);
@@ -32,15 +33,13 @@ const ServicePoint = () => {
     const [treatmentsLoading, setTreatmentsLoading] = useState(true);
     const [reviewsLoading, setReviewsLoading] = useState(true);
 
-    const [error, setError] = useState(null);
-
     useEffect(() => {
         (async () => {
             try{
                 const fetchedServicePoint = await getServicePoint(id);
                 setServicePoint(fetchedServicePoint);
             } catch (error) {
-                setError("Failed to fetch service point.");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setServicePointLoading(false);
@@ -62,7 +61,7 @@ const ServicePoint = () => {
                     setImages(transformedImages);
                 }
             } catch(error) {
-                setError("Failed to fetch images");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                  setImagesLoading(false);
@@ -87,7 +86,7 @@ const ServicePoint = () => {
                 const fetchedEmployees = await getFilteredEmployees(requestBody);
                 setEmployees(fetchedEmployees);
             } catch (error) {
-                setError("Failed to fetch employees");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setEmployeesLoading(false);
@@ -101,7 +100,7 @@ const ServicePoint = () => {
                 const fetchedTreatments = await getAllTreatmentsByServicePoint(id);
                 setTreatments(fetchedTreatments);
             } catch (error) {
-                setError("Fail")
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setTreatmentsLoading(false);
@@ -126,8 +125,8 @@ const ServicePoint = () => {
                 setReviews(fetchedReviews);
                 console.log(fetchedReviews)
             } catch (error) {
-                setError("Failed to fetch reviews");
-                setError(error);
+                showErrorNotification(error);
+                console.error(error);
             } finally {
                 setReviewsLoading(false);
             }
@@ -159,7 +158,7 @@ const ServicePoint = () => {
                     </Box>
                 </Box>
                 <ProvidedTreatments treatments={treatments} onClick={handleSelectTreatment}/>
-                <Reviews data={reviews} />
+                <EmployeeReviews data={reviews} />
             </Box>
             {opened && (
                 <ScheduleModal

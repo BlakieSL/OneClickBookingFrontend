@@ -47,9 +47,9 @@
 }
 
 @mixin card-selected {
-  border: 1.5px solid #4caf50;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
+  border: 1.5px solid #8CDD8C;
+  border-radius:10px;
+  transform: scale(1.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 

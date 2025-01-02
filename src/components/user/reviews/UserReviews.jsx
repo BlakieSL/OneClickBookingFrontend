@@ -1,11 +1,11 @@
 import {useDisclosure, usePagination} from "@mantine/hooks";
 import {useEffect, useState} from "react";
-import {deleteReview, getFilteredReviews} from "../../../apis/reviewApi.js";
-import {Box, Button, Card, Group, Loader, Pagination, Text} from "@mantine/core";
+import {getFilteredReviews} from "../../../apis/reviewApi.js";
+import {Box, Loader, Pagination} from "@mantine/core";
 import ReviewModal from "./ReviewModal.jsx";
 import styles from "./userReviews.module.scss";
-import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
 import ReviewCard from "../../general/cards/reviewCard/ReviewCard.jsx";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const UserReviews = ({ user, onSeeBooking }) => {
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
@@ -13,7 +13,6 @@ const UserReviews = ({ user, onSeeBooking }) => {
     const [selectedReview, setSelectedReview] = useState(null);
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(reviews.length / itemsPerPage);
     const pagination = usePagination(({
@@ -42,7 +41,7 @@ const UserReviews = ({ user, onSeeBooking }) => {
             const fetchedReviews = await getFilteredReviews(requestBody);
             setReviews(fetchedReviews.reviews);
         } catch (error) {
-            setError("Failed to fetch user reviews");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setReviewsLoading(false);
@@ -86,6 +85,7 @@ const UserReviews = ({ user, onSeeBooking }) => {
                         review={review}
                         onUpdateReview={handleOpenReviewToUpdate}
                         onSeeBooking={handleSeeBooking}
+                        isUserReview={true}
                     />
                 ))}
                 <Pagination

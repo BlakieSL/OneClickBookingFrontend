@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../../apis/userApi.js";
+import {useNavigate} from "react-router-dom";
+import {registerUser} from "../../../apis/userApi.js";
 import {useForm} from "@mantine/form";
-import {Box, Button, Container, Stack, TextInput, Text, Anchor} from "@mantine/core";
+import {Anchor, Box, Button, Container, Stack, Text, TextInput} from "@mantine/core";
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import styles from "./registration.module.scss";
+import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
 
 const Registration = () => {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Registration = () => {
         try {
             await registerUser(values);
             navigate('/login')
+            showSuccessNotification("Created Account.");
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;
@@ -38,6 +40,7 @@ const Registration = () => {
                     form.setFieldError(field, message);
                 });
             }
+            showErrorNotification(error);
             console.error(error)
         }
     }

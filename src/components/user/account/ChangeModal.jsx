@@ -1,8 +1,9 @@
-import {Box, Button, Modal, TextInput} from "@mantine/core";
+import {Button, Modal, TextInput} from "@mantine/core";
 import React, {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import {updateUser} from "../../../apis/userApi.js";
+import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
 
 const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
     if (!['email', 'password'].includes(subject)) {
@@ -49,6 +50,7 @@ const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
             await updateUser(user.id, values)
             onUpdate();
             onClose();
+            showSuccessNotification("Updated.");
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;
@@ -57,6 +59,7 @@ const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
                 });
             }
             console.error(error)
+            showErrorNotification(error);
         }
     }
 

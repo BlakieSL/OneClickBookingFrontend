@@ -1,14 +1,13 @@
 import {useEffect, useState} from "react";
 import {getFirstImageForParent} from "../../../../apis/imageApi.js";
-import {Box, Card, Image, Loader, Text} from "@mantine/core";
-import {defaultImage} from "../../../../helpers/constants.js";
+import {Card, Image, Loader, Text} from "@mantine/core";
+import {defaultImage, showErrorNotification} from "../../../../helpers/constants.js";
 import styles from "./servicePointCard.module.scss";
 
 const ServicePointCard = ({ servicePoint, isSelected = false, size="medium" }) => {
     const { id, name, location, email, phone } = servicePoint;
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -21,7 +20,7 @@ const ServicePointCard = ({ servicePoint, isSelected = false, size="medium" }) =
                     setImage(defaultImage);
                 }
             } catch(error) {
-                setError("Failed to fetch related images");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setLoading(false);

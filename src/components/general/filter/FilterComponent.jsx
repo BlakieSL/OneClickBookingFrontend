@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Group, Text } from "@mantine/core";
+import {Button, Group, Text} from "@mantine/core";
 import TriStateCheckbox from "./TriStateCheckBox.jsx";
 
 const FilterComponent = ({

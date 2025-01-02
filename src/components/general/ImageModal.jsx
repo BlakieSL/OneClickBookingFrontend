@@ -1,9 +1,9 @@
-import {Button, Modal, Image} from "@mantine/core";
+import {Button, Image, Modal} from "@mantine/core";
 
 const ImageModal = ({ opened, onClose, onDelete, selectedImage}) => {
     console.log(selectedImage);
     return (
-        <Modal opened={opened} onClose={onClose} size="auto">
+        <Modal opened={opened} onClose={onClose} size="lg">
             <Button
                 color="red"
                 fullWidth

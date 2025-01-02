@@ -1,16 +1,14 @@
 import {useEffect, useState} from "react";
 import {getFirstImageForParent} from "../../../../apis/imageApi.js";
-import {defaultImage} from "../../../../helpers/constants.js";
-import {Card, Loader, Text, Image} from "@mantine/core";
+import {defaultImage, showErrorNotification} from "../../../../helpers/constants.js";
+import {Card, Image, Loader, Text} from "@mantine/core";
 import styles from "./servicePointEmployeeCard.module.scss";
 import {useNavigate} from "react-router-dom";
 
 const ServicePointEmployeeCard = ({ employee, isSelected }) => {
-    const navigate = useNavigate();
     const { id, username } = employee;
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -22,7 +20,7 @@ const ServicePointEmployeeCard = ({ employee, isSelected }) => {
                     setImage(defaultImage);
                 }
             } catch(error) {
-                setError("Failed to fetch related images");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setLoading(false);

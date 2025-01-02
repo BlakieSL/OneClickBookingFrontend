@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { getAllServicePoints } from "../../../apis/servicePointApi.js";
-import { FiltersContext } from "../../../context/FilterContext.jsx";
+import React, {useContext, useEffect, useState} from "react";
+import {getAllServicePoints} from "../../../apis/servicePointApi.js";
+import {FiltersContext} from "../../../context/FilterContext.jsx";
 import FilterComponent from "./FilterComponent.jsx";
-import { Loader } from "@mantine/core";
+import {Loader} from "@mantine/core";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const ServicePointFilter = ({ onClose }) => {
     const { filters, updateFilter } = useContext(FiltersContext);
     const [servicePoints, setServicePoints] = useState([]);
     const [servicePointsLoading, setServicePointsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [localFilter, setLocalFilter] = useState(filters.SERVICE_POINT);
 
     useEffect(() => {
@@ -17,7 +17,8 @@ const ServicePointFilter = ({ onClose }) => {
                 const response = await getAllServicePoints();
                 setServicePoints(response);
             } catch (error) {
-                setError("Failed to fetch service points");
+                showErrorNotification(error);
+                console.error(error);
             } finally {
                 setServicePointsLoading(false);
             }

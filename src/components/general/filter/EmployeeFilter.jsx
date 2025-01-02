@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { getAllEmployees } from "../../../apis/employeeApi.js";
-import { FiltersContext } from "../../../context/FilterContext.jsx";
+import React, {useContext, useEffect, useState} from "react";
+import {getAllEmployees} from "../../../apis/employeeApi.js";
+import {FiltersContext} from "../../../context/FilterContext.jsx";
 import FilterComponent from "./FilterComponent.jsx";
-import { Loader } from "@mantine/core";
+import {Loader} from "@mantine/core";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const EmployeeFilter = ({ onClose }) => {
     const { filters, updateFilter } = useContext(FiltersContext);
     const [employees, setEmployees] = useState([]);
     const [employeesLoading, setEmployeesLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [localFilter, setLocalFilter] = useState(filters.EMPLOYEE);
 
     useEffect(() => {
@@ -17,7 +17,8 @@ const EmployeeFilter = ({ onClose }) => {
                 const response = await getAllEmployees();
                 setEmployees(response);
             } catch (error) {
-                setError("Failed to fetch employees");
+                showErrorNotification(error);
+                console.error(error);
             } finally {
                 setEmployeesLoading(false);
             }

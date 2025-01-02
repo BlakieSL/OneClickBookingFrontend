@@ -1,6 +1,6 @@
-import {ActionIcon, AppShell, Box, Button, Group} from "@mantine/core";
+import {ActionIcon, AppShell, Box, Group} from "@mantine/core";
 import {Outlet, useNavigate} from "react-router-dom";
-import {IconUsers, IconUsersGroup, IconUser, IconMapPins, IconCalendarEvent, IconStar} from "@tabler/icons-react";
+import {IconCalendarEvent, IconMapPins, IconStar, IconUser, IconUsers} from "@tabler/icons-react";
 import styles from "./navigation.module.scss";
 import {isUserAdmin} from "../../../helpers/tokenUtils.js";
 
@@ -17,10 +17,6 @@ const Navigation = () => {
 
     const handleNavigateToUser = () => {
         navigate('/user');
-    }
-
-    const handleNavigateToAdminUsers = () => {
-        navigate('/admin-users');
     }
 
     const handleNavigateToAdminReviews = () => {
@@ -54,15 +50,6 @@ const Navigation = () => {
 
                 {isUserAdmin() && (
                     <Group>
-                        <ActionIcon
-                            size={40}
-                            onClick={handleNavigateToAdminUsers}
-                            className={styles.header__adminIcon}
-                        >
-                            <IconUsersGroup />
-
-                        </ActionIcon>
-
                         <ActionIcon
                             size={40}
                             onClick={handleNavigateToAdminBookings}

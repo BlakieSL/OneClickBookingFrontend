@@ -1,4 +1,4 @@
-import { Select } from "@mantine/core";
+import {Select} from "@mantine/core";
 
 const SelectTreatment = ({ treatments, selectedTreatmentId, handleTreatmentPick }) => {
     return (

@@ -8,6 +8,7 @@ import UpdateBookingModal from "../../booking/UpdateBookingModal.jsx";
 import styles from "./userBookings.module.scss";
 import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
 import BookingCard from "../../general/cards/bookingCard/BookingCard.jsx";
+import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
 
 const UserBookings = ({ user, highlightedBookingId }) => {
     const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
@@ -20,8 +21,6 @@ const UserBookings = ({ user, highlightedBookingId }) => {
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
-    const [error, setError] = useState(null);
-
     const { targetRef } = useScrollIntoView();
 
     const itemsPerPage = 5;
@@ -51,7 +50,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
             const fetchedBookings = await getFilteredBookings(requestBody);
             setBookings(fetchedBookings);
         } catch (error) {
-            setError("Failed to fetch user bookingCard");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setBookingsLoading(false);
@@ -83,8 +82,9 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         try {
             await deleteBooking(booking.id);
             await fetchBookings();
+            showSuccessNotification("Deleted.");
         } catch (error) {
-            setError("Failed to delete booking");
+            showErrorNotification(error);
             console.error(error);
         }
     }
@@ -101,7 +101,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
             setReviewInfo(response);
             setSelectedBooking(booking)
         } catch (error) {
-            setError("Failed to fetch a review info");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setSelectedReviewLoading(false);
@@ -158,6 +158,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                         onDeleteBooking={handleOpenConfirm}
                         onUpdateReview={handleFetchAndOpenReviewModal}
                         onCreateReview={handleOpenReviewModal}
+                        isUserBooking={true}
                     />
                 ))}
                 <Pagination

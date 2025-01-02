@@ -1,5 +1,6 @@
-import {Box, Card, Text, Button} from "@mantine/core";
+import {Box, Button, Card, Text} from "@mantine/core";
 import styles from "./providedTreatments.module.scss";
+
 const ProvidedTreatments = ({ treatments, onClick }) => {
     return (
         <Box className={styles.providedTreatments}>

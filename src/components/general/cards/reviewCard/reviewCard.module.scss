@@ -17,6 +17,12 @@
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 1px solid #e0e0e0;
+
+    &__right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
 
   &__rating {
@@ -30,9 +36,15 @@
     line-height: 1.5;
   }
 
-  &__date {
+  &__user {
+    font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: #333333;
+  }
+
+  &__date {
+    font-size: 12px;
+    color: #777;
   }
 
   &__label {
@@ -42,6 +54,11 @@
 
   &__value {
     color: #565656;
+  }
+
+  &__text {
+    font-size: 14px;
+    color: #555;
   }
 
   &__buttons {

@@ -5,8 +5,8 @@ import {getEmployeeById} from "../../../apis/employeeApi.js";
 import {getFilteredReviews} from "../../../apis/reviewApi.js";
 import {getFirstImageForParent} from "../../../apis/imageApi.js";
 import styles from "./employee.module.scss";
-import Reviews from "../../../components/general/reviews/Reviews.jsx";
-import {defaultImage} from "../../../helpers/constants.js";
+import EmployeeReviews from "../../../components/general/reviews/EmployeeReviews.jsx";
+import {defaultImage, showErrorNotification} from "../../../helpers/constants.js";
 
 const Employee = () => {
     const navigate = useNavigate();
@@ -19,15 +19,13 @@ const Employee = () => {
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [imageLoading, setImageLoading] = useState(true);
 
-    const [error, setError] = useState(null);
-
     useEffect(() => {
         (async () => {
             try {
                 const fetchedEmployee = await getEmployeeById(employeeId);
                 setEmployee(fetchedEmployee);
             } catch (error) {
-                setError("Failed to fetch service point.");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setEmployeeLoading(false);
@@ -51,7 +49,7 @@ const Employee = () => {
                 const fetchedReviews = await getFilteredReviews(requestBody);
                 setReviews(fetchedReviews);
             } catch (error) {
-                setError("Failed to fetch reviews.");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setReviewsLoading(false);
@@ -70,7 +68,7 @@ const Employee = () => {
                     setImage(defaultImage);
                 }
             } catch (error) {
-                setError("Failed to fetch employee image");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setImageLoading(false);
@@ -108,7 +106,7 @@ const Employee = () => {
               <Box className={styles.innerBox__descriptionBox}>
                   <Text className={styles.innerBox__descriptionBox__text}>{employee.description ? employee.description : "no description"}</Text>
               </Box>
-              <Reviews data={reviews} />
+              <EmployeeReviews data={reviews} />
           </Box>
       </Container>
     );

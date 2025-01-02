@@ -4,11 +4,11 @@ import {Box, Container, Loader, SimpleGrid, Text} from "@mantine/core";
 import ServicePointEmployeeCard from "../../../components/general/cards/employeeCard/ServicePointEmployeeCard.jsx";
 import {useNavigate} from "react-router-dom";
 import styles from "./employees.module.scss";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const Employees = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const Employees = () => {
                 const data = await getAllEmployees();
                 setEmployees(data);
             } catch (error) {
-                setError("Failed to fetch employees");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setLoading(false);

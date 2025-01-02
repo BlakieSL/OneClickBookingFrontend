@@ -1,4 +1,4 @@
-import {Box, Button, Checkbox, Container, Loader, Pagination, Stack, Text} from "@mantine/core";
+import {Box, Button, Checkbox, Container, Loader, Pagination, Stack} from "@mantine/core";
 import styles from "../adminItems.module.scss";
 import {useDisclosure, usePagination} from "@mantine/hooks";
 import {useContext, useEffect, useState} from "react";
@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter.jsx";
 import {FiltersContext} from "../../../../context/FilterContext.jsx";
 import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
+import {showErrorNotification} from "../../../../helpers/constants.js";
 
 
 const AdminReviews = () => {
@@ -23,7 +24,6 @@ const AdminReviews = () => {
     const [activeFilter, setActiveFilter] = useState(null);
 
     const [reviewsLoading, setReviewsLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const itemsPerPage = 10;
     const totalPages = Math.ceil(reviews.length / itemsPerPage);
@@ -53,7 +53,7 @@ const AdminReviews = () => {
             setAverageRating(fetchedReviews.averageRating);
             setTotalReviews(fetchedReviews.totalReviews);
         } catch (error) {
-            setError("Failed to fetch reviews");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setReviewsLoading(false);
@@ -140,6 +140,7 @@ const AdminReviews = () => {
                             review={review}
                             onUpdateReview={handleOpenReviewModal}
                             onSeeBooking={handleSeeBooking}
+                            isUserReview={true}
                         />
                     ))}
                     <Pagination

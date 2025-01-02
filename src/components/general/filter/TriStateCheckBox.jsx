@@ -1,4 +1,4 @@
-import { Checkbox } from "@mantine/core";
+import {Checkbox} from "@mantine/core";
 import {IconCheck, IconX} from "@tabler/icons-react";
 
 const TriStateCheckbox = ({ state, onChange }) => {

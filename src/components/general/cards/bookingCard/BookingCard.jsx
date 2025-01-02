@@ -10,7 +10,8 @@ const BookingCard = ({
     onUpdateBooking,
     onDeleteBooking,
     onUpdateReview,
-    onCreateReview
+    onCreateReview,
+    isUserBooking=false
 }) => {
     const isPastBooking = new Date(booking.date) < new Date();
 
@@ -29,6 +30,13 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__section}>
+                {!isUserBooking && (
+                    <Text>
+                        <span className={styles.card__label}>User ID:</span>
+                        {" "}
+                        <span className={styles.card__section}>{booking.userId}</span>
+                    </Text>
+                )}
                 <Text>
                     <span className={styles.card__label}>Service Point:</span>
                     {" "}

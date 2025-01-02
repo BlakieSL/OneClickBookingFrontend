@@ -1,11 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
-import {getUserById, login} from "../../../apis/userApi.js";
+import {login} from "../../../apis/userApi.js";
 import {jwtDecode} from "jwt-decode";
-import {getRefreshToken, setAccessToken, setRefreshToken, setUser} from "../../../helpers/tokenUtils.js";
-import {Box, Button, Container, Stack, TextInput, Text, Anchor} from "@mantine/core";
+import {setAccessToken, setRefreshToken, setUser} from "../../../helpers/tokenUtils.js";
+import {Anchor, Box, Button, Container, Stack, Text, TextInput} from "@mantine/core";
 import styles from "./login.module.scss";
+import {showErrorNotification} from "../../../helpers/constants.js";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Login = () => {
 
             navigate('/service-points')
         } catch(error) {
+            showErrorNotification(error);
             console.error(error);
         }
     }

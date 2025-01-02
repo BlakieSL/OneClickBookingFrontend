@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import React, {useContext, useEffect, useState} from "react";
-import {Box, Button, Checkbox, Container, Loader, Pagination, Stack} from "@mantine/core";
+import {Box, Button, Container, Loader, Pagination, Stack} from "@mantine/core";
 import {deleteBooking, getFilteredBookings} from "../../../../apis/bookingApi.js";
 import styles from "../adminItems.module.scss";
 import BookingCard from "../../../../components/general/cards/bookingCard/BookingCard.jsx";
@@ -12,7 +12,8 @@ import {getReviewById} from "../../../../apis/reviewApi.js";
 import {FiltersContext} from "../../../../context/FilterContext.jsx";
 import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter.jsx";
 import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
-import {DatePicker, DatePickerInput} from "@mantine/dates";
+import {DatePickerInput} from "@mantine/dates";
+import {showErrorNotification, showSuccessNotification} from "../../../../helpers/constants.js";
 
 const AdminBookings = () => {
     const { bookingId } = useParams();
@@ -31,7 +32,6 @@ const AdminBookings = () => {
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     const { targetRef } = useScrollIntoView();
     const itemsPerPage = 5;
@@ -68,7 +68,7 @@ const AdminBookings = () => {
             const fetchedBookings = await getFilteredBookings(requestBody);
             setBookings(fetchedBookings);
         } catch (error) {
-            setError("Failed to fetch bookings");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setBookingsLoading(false);
@@ -79,8 +79,9 @@ const AdminBookings = () => {
         try {
             await deleteBooking(booking.id);
             await fetchBookings();
+            showSuccessNotification("Deleted Booking.");
         } catch (error) {
-            setError("Failed to delete booking");
+            showErrorNotification(error);
             console.error(error);
         }
     }
@@ -132,7 +133,7 @@ const AdminBookings = () => {
             setReviewInfo(response);
             setSelectedBooking(booking)
         } catch (error) {
-            setError("Failed to fetch a review info");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setSelectedReviewLoading(false);

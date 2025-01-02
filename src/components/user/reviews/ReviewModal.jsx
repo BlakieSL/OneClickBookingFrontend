@@ -1,13 +1,13 @@
 import {useForm} from "@mantine/form";
 import {useEffect, useState} from "react";
 import {createReview, deleteReview, updateReview} from "../../../apis/reviewApi.js";
-import {ActionIcon, Button, FileInput, Group, Image, Loader, Modal, Rating, Textarea, TextInput} from "@mantine/core";
+import {Button, FileInput, Group, Image, Loader, Modal, Rating, Textarea, TextInput} from "@mantine/core";
 import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
 import {useDisclosure} from "@mantine/hooks";
 import {createImage, deleteImage, getAllImagesForParent} from "../../../apis/imageApi.js";
 import {Carousel} from "@mantine/carousel";
-import {IconBucket} from "@tabler/icons-react";
 import ImageModal from "../../general/ImageModal.jsx";
+import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
 
 const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) => {
     const [prefetchedImages, setPrefetchedImages] = useState([]);
@@ -17,7 +17,6 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
     const [createImageLoading, setCreateImageLoading] = useState(false);
     const [deleteImageLoading, setDeleteImageLoading] = useState(false);
     const [imagesLoading, setImagesLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [openedImage, {open: openImage, close: closeImage}] = useDisclosure(false);
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -58,7 +57,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             }));
             setPrefetchedImages(transformedImages);
         } catch (error) {
-            setError("Failed to fetch images");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setImagesLoading(false);
@@ -75,9 +74,11 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         try {
             if (reviewInfo) {
                 await updateReview(reviewInfo.id, requestBody);
+                showSuccessNotification("Updated Review.");
             } else {
                 requestBody.bookingId = booking.id;
                 await createReview(requestBody);
+                showSuccessNotification("Created Review.");
             }
 
             for (const image of values.images) {
@@ -87,7 +88,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             form.reset();
             onConfirm();
         } catch (error) {
-            setError("Failed to update review");
+            showErrorNotification(error);
             console.error(error)
         } finally {
             setCreateLoading(false);
@@ -101,8 +102,9 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             await deleteReview(reviewInfo.id);
             form.reset();
             onConfirm();
+            showSuccessNotification("Deleted Review.");
         } catch (error) {
-            setError("Failed to delete review");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setDeleteLoading(false);
@@ -119,8 +121,9 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
 
         try {
             await createImage(formData);
+            showSuccessNotification("Created Images.");
         } catch (error) {
-            setError("Failed to create image");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setCreateImageLoading(false);
@@ -132,8 +135,9 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         setPrefetchedImages((prev) => prev.filter((img) => img.id !== image.id));
         try {
             await deleteImage(image.id);
+            showSuccessNotification("Deleted Image.");
         } catch (error) {
-            setError("Failed to delete image");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setDeleteImageLoading(false);
@@ -221,6 +225,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
                                         alt="Review image"
                                         w={100}
                                         h={130}
+                                        fit="contain"
                                     />
                                 </Carousel.Slide>
                             ))}

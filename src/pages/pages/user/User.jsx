@@ -1,16 +1,17 @@
 import styles from "./user.module.scss";
 import {useEffect, useState} from "react";
-import {Box, Container, Group, Loader, NavLink, Paper} from "@mantine/core";
+import {Box, Container, Group, Loader, NavLink} from "@mantine/core";
 import {getUserById} from "../../../apis/userApi.js";
 import {getUser} from "../../../helpers/tokenUtils.js";
 import Account from "../../../components/user/account/Account.jsx";
 import UserBookings from "../../../components/user/bookings/UserBookings.jsx";
 import UserReviews from "../../../components/user/reviews/UserReviews.jsx";
+import {showErrorNotification} from "../../../helpers/constants.js";
+
 const User = () => {
     const [activeTab, setActiveTab] = useState('account');
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [highlightedBookingId, setHighlightedBookingId] = useState(null);
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const User = () => {
             const user = await getUserById(userId);
             setUser(user);
         } catch (error) {
-            setError("Failed to fetch user");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setUserLoading(false);

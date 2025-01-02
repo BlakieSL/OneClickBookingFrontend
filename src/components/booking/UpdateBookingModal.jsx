@@ -1,7 +1,7 @@
 import {useDisclosure} from "@mantine/hooks";
 import React, {useEffect, useState} from "react";
 import {getAllServicePoints} from "../../apis/servicePointApi.js";
-import {Box, Button, Group, Loader, Modal, Text} from "@mantine/core";
+import {Box, Button, Group, Loader, Modal} from "@mantine/core";
 import {getAllTreatmentsByServicePoint} from "../../apis/treatmentApi.js";
 import {getFilteredEmployees} from "../../apis/employeeApi.js";
 import {getSchedule} from "../../apis/scheduleApi.js";
@@ -13,6 +13,8 @@ import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
 import {DatePicker} from "@mantine/dates";
 import BookingServicePointsCarousel from "./components/BookingServicePointsCarousel.jsx";
 import SelectTreatment from "./components/SelectTreatment.jsx";
+import {showNotification} from "@mantine/notifications";
+import {showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
 
 const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const [openedConfirm, {open: openConfirm, close: closeConfirm }] = useDisclosure(false);
@@ -35,7 +37,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const [treatmentsLoading, setTreatmentsLoading] = useState(true);
     const [employeesLoading, setEmployeesLoading] = useState(true);
     const [freeSlotsLoading, setFreeSlotsLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (initialBooking) {
@@ -111,10 +112,9 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     setSelectedTimeSlot(null);
                 }
 
-                console.log(updatedFreeSlots);
                 setFreeSlots(updatedFreeSlots);
             } catch (error) {
-                setError("Failed to fetch schedule");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setFreeSlotsLoading(false);
@@ -127,7 +127,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
             const fetchedServicePoints = await getAllServicePoints();
             setServicePoints(fetchedServicePoints);
         } catch (error) {
-            setError("Failed to get service points");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setServicePointLoading(false);
@@ -140,7 +140,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
             const fetchedTreatments = await getAllTreatmentsByServicePoint(selectedServicePointId);
             setTreatments(fetchedTreatments);
         } catch (error) {
-            setError("Failed to get treatments");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setTreatmentsLoading(false);
@@ -174,7 +174,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
             const fetchedEmployees = await getFilteredEmployees(requestBody);
             setEmployees(fetchedEmployees);
         } catch (error) {
-            setError("Failed to fetch employees");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setEmployeesLoading(false);
@@ -236,8 +236,9 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         try {
             await updateBooking(initialBooking.id, requestBody);
             onConfirm();
+            showSuccessNotification("Updated.");
         } catch (error) {
-            setError("Failed to update booking");
+            showErrorNotification(error);
             console.error(error);
         } finally {
             setBookingLoading(false);
@@ -258,13 +259,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     if (bookingLoading || servicePointsLoading || treatmentsLoading || employeesLoading || freeSlotsLoading) {
         return <Loader />;
     }
-
-    console.log("ServicePoint", selectedServicePointId);
-    console.log("TREATMENT", selectedTreatmentId);
-    console.log("DATE", selectedDate);
-    console.log("EMPLOYEE", selectedEmployeeId);
-    console.log("TIMESLOT", selectedTimeSlot);
-    console.log("FREESLOTS", freeSlots);
 
     return (
         <>
@@ -337,11 +331,13 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     </Group>
                 </Box>
             </Modal>
-            <ConfirmModal
-                opened={openedConfirm}
-                onClose={closeConfirm}
-                onConfirm={handleConfirm}
-            />
+            {openedConfirm && (
+                <ConfirmModal
+                    opened={openedConfirm}
+                    onClose={closeConfirm}
+                    onConfirm={handleConfirm}
+                />
+            )}
         </>
     );
 }
