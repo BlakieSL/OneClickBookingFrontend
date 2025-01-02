@@ -54,7 +54,6 @@ const AdminBookings = () => {
     useEffect(() => {
         if (highlightedBookingId && bookings.length > 0) {
             const targetPage = getPageForHighlightedBooking(highlightedBookingId);
-            console.log(targetPage);
             if (targetPage && targetPage !== pagination.active) {
                 pagination.setPage(targetPage);
             }
@@ -65,7 +64,6 @@ const AdminBookings = () => {
         setBookingsLoading(true);
         try {
             const requestBody = setRequestBody();
-            console.log(requestBody);
 
             const fetchedBookings = await getFilteredBookings(requestBody);
             setBookings(fetchedBookings);
@@ -194,7 +192,7 @@ const AdminBookings = () => {
         setSelectedDate(date);
 
         if (date) {
-            updateFilter("DATE", "selected", date.toISOString().split("T")[0]);
+            updateFilter("DATE", "selected", date.toLocaleDateString('en-CA'));
         } else {
             updateFilter("DATE", null, null);
         }

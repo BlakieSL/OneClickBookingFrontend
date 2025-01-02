@@ -47,10 +47,8 @@ const AdminReviews = () => {
         setReviewsLoading(true);
         try {
             const requestBody = setRequestBody();
-            console.log(requestBody);
 
             const fetchedReviews = await getFilteredReviews(requestBody);
-            console.log(fetchedReviews);
             setReviews(fetchedReviews.reviews);
             setAverageRating(fetchedReviews.averageRating);
             setTotalReviews(fetchedReviews.totalReviews);

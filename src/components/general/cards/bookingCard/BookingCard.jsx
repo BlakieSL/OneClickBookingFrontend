@@ -12,6 +12,8 @@ const BookingCard = ({
     onUpdateReview,
     onCreateReview
 }) => {
+    const isPastBooking = new Date(booking.date) < new Date();
+
     return (
         <Card
             ref={highlightedBookingId === booking.id ? targetRef : null}
@@ -49,8 +51,8 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__buttons}>
-                <Button className={styles.card__updateButton} onClick={() => onUpdateBooking(booking)}>
-                    Update Booking
+                <Button disabled={isPastBooking} className={styles.card__updateButton} onClick={() => onUpdateBooking(booking)}>
+                    {isPastBooking ? "Completed" : "Update Booking"}
                 </Button>
                 <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>
                     Delete Booking
