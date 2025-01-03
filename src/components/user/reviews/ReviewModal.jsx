@@ -76,11 +76,11 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         try {
             if (reviewInfo) {
                 await updateReview(reviewInfo.id, requestBody);
-                showSuccessNotification("Updated Review.");
+                showSuccessNotification(t('successMessages.reviewUpdated'));
             } else {
                 requestBody.bookingId = booking.id;
                 await createReview(requestBody);
-                showSuccessNotification("Created Review.");
+                showSuccessNotification(t('successMessages.reviewCreated'));
             }
 
             for (const image of values.images) {
@@ -104,7 +104,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             await deleteReview(reviewInfo.id);
             form.reset();
             onConfirm();
-            showSuccessNotification("Deleted Review.");
+            showSuccessNotification(t('successMessages.reviewDeleted'));
         } catch (error) {
             showErrorNotification(error);
             console.error(error);
@@ -123,7 +123,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
 
         try {
             await createImage(formData);
-            showSuccessNotification("Created Images.");
+            showSuccessNotification(t("successMessages.imageCreated"));
         } catch (error) {
             showErrorNotification(error);
             console.error(error);
@@ -137,7 +137,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
         setPrefetchedImages((prev) => prev.filter((img) => img.id !== image.id));
         try {
             await deleteImage(image.id);
-            showSuccessNotification("Deleted Image.");
+            showSuccessNotification(t('successMessages.imageDeleted'));
         } catch (error) {
             showErrorNotification(error);
             console.error(error);

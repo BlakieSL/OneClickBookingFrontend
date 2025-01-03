@@ -5,7 +5,7 @@ import {Button, Stack, TextInput} from "@mantine/core";
 import ChangeModal from "./ChangeModal.jsx";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "./account.module.scss";
-import {showErrorNotification} from "../../../helpers/constants.js";
+import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
 import {useTranslation} from "react-i18next";
 
 const Account = ({ user, onUserUpdate }) => {
@@ -54,6 +54,7 @@ const Account = ({ user, onUserUpdate }) => {
             await updateUser(user.id, updatedFields)
             setIsDirty(false);
             onUserUpdate();
+            showSuccessNotification(t('successMessages.accountUpdated'))
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;

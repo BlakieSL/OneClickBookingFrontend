@@ -16,8 +16,17 @@
 
   },
   "successMessages": {
-    "bookingCreated": "You have successfully created booking!",
-    "bookingUpdated": "You have successfully updated booking!"
+    "bookingCreated": "You have successfully created Booking!",
+    "bookingUpdated": "You have successfully updated Booking!",
+    "bookingDeleted": "You have successfully deleted Booking!",
+    "reviewUpdated": "You have successfully updated Review!",
+    "reviewCreated": "You have successfully created Review!",
+    "reviewDeleted": "You have successfully deleted Review!",
+    "imageCreated":  "You have successfully created Image!",
+    "imageDeleted": "You have successfully deleted Image!",
+    "accountCreated": "You have successfully created Account!",
+    "accountUpdated": "You have successfully updated Account!",
+    "changeModalUpdated": "You have successfully updated {{subject}}!"
   },
 
   "selectTreatment": {

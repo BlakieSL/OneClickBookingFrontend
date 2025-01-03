@@ -229,7 +229,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     const handleConfirm = async () => {
         setBookingLoading(true);
         const requestBody = {
-            date: (selectedTimeSlot !== initialBooking.date ? selectedTimeSlot : null),
+            date: selectedTimeSlot,
             servicePointId: selectedServicePointId,
             employeeId: selectedEmployeeId,
             treatmentId: selectedTreatmentId
@@ -324,7 +324,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     </Box>
                     <Group grow>
                         <Button variant="outline" onClick={handleReset}>
-                            {t('buttons.cancel')}
+                            {t('buttons.reset')}
                         </Button>
                         <Button onClick={openConfirm}>
                             {t('buttons.continue')}

@@ -84,7 +84,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         try {
             await deleteBooking(booking.id);
             await fetchBookings();
-            showSuccessNotification("Deleted.");
+            showSuccessNotification(t('successMessages.bookingDeleted'));
         } catch (error) {
             showErrorNotification(error);
             console.error(error);

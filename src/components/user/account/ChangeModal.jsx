@@ -52,7 +52,7 @@ const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
             await updateUser(user.id, values)
             onUpdate();
             onClose();
-            showSuccessNotification("Updated.");
+            showSuccessNotification(t('successMessages.changeModalUpdated', { subject }));
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;

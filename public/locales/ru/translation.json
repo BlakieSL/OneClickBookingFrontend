@@ -1,16 +1,32 @@
 {
   "buttons": {
+    "confirm": "Подтвердить",
     "continue": "Продолжить",
+    "save": "Сохранить",
+    "order": "Заказать",
+    "reset": "Сбросить",
     "cancel": "Отмена",
     "update": "Обновить",
     "delete": "Удалить"
+  },
+  "general": {
+    "employee": "Сотрудник:"
   },
   "errorMessages": {
 
   },
   "successMessages": {
     "bookingCreated": "Бронирование успешно создано!",
-    "bookingUpdated": "Бронирование успешно обновлено!"
+    "bookingUpdated": "Бронирование успешно обновлено!",
+    "bookingDeleted": "Бронирование успешно удалено!",
+    "reviewUpdated": "Отзыв успешно обновлен!",
+    "reviewCreated": "Отзыв успешно создан!",
+    "reviewDeleted": "Отзыв успешно удален!",
+    "imageCreated": "Изображение успешно создано!",
+    "imageDeleted": "Изображение успешно удалено!",
+    "accountCreated": "Аккаунт успешно создан!",
+    "accountUpdated": "Аккаунт успешно обновлен!",
+    "changeModalUpdated": "Успешно обновлено {{subject}}!"
   },
   "selectTreatment": {
     "placeholder": "Выберите процедуру",
@@ -25,10 +41,106 @@
   "bookingCard": {
     "userId": "ID пользователя:",
     "servicePoint": "Пункт обслуживания:",
-    "employee": "Сотрудник:",
     "treatment": "ID процедуры:",
     "completed": "Завершено",
     "seeReview": "Посмотреть отзыв",
     "leaveReview": "Оставить отзыв"
+  },
+  "reviewCard": {
+    "defaultEmployee": "Сотрудник по умолчанию",
+    "noText": "Текст отсутствует",
+    "seeBooking": "Посмотреть бронирование"
+  },
+  "confirmModal": {
+    "title": "Вы уверены?"
+  },
+  "filterComponent": {
+    "goBack": "Вернуться"
+  },
+  "employeeReviews": {
+    "reviews": "Отзывы",
+    "basedOn": "На основе {{totalReviews}} отзывов"
+  },
+  "servicePointDetails": {
+    "name": "Название:",
+    "location": "Местоположение:",
+    "email": "Почта:",
+    "phone": "Телефон:",
+    "employees": "Сотрудники"
+  },
+  "providedTreatments": {
+    "price": "Цена: {{price}} zl",
+    "duration": "Продолжительность: {{duration}} минут"
+  },
+  "account": {
+    "name": "Введите ваше имя",
+    "surname": "Введите вашу фамилию",
+    "email": "Введите ваш email",
+    "password": "Изменить пароль"
+  },
+  "changeModal": {
+    "title": "Изменение {{subject}}",
+    "labels": {
+      "oldPassword": "Старый пароль",
+      "newSubject": "Новый {{subject}}"
+    },
+    "placeholders": {
+      "oldPassword": "Введите старый пароль",
+      "newSubject": "Введите новый {{subject}}"
+    }
+  },
+  "reviewModal": {
+    "titleEdit": "Редактировать отзыв",
+    "titleNew": "Новый отзыв",
+    "date": "Дата",
+    "labels": {
+      "text": "Ваш отзыв",
+      "image": "Загрузить изображения"
+    },
+    "placeholders": {
+      "text": "Напишите ваш отзыв здесь...",
+      "image": "Выберите изображения"
+    }
+  },
+  "filter": {
+    "employee": "Выберите сотрудника",
+    "servicePoint": "Выберите пункт обслуживания",
+    "dateLabel": "Фильтровать по дате",
+    "datePlaceholder": "Выберите дату",
+    "textLabel": "Только отзывы с текстом"
+  },
+  "employee": {
+    "goBack": "Вернуться к пункту обслуживания",
+    "noDescription": "Описание отсутствует"
+  },
+  "employees": {
+    "allEmployees": "Все сотрудники"
+  },
+  "login": {
+    "login": "Войти",
+    "password": "Введите ваш пароль",
+    "labels": {
+      "email": "Email",
+      "password": "Пароль"
+    },
+    "dontHave": "У вас нет аккаунта?",
+    "goTo": "Перейти к регистрации"
+  },
+  "registration": {
+    "registration": "Регистрация",
+    "labels": {
+      "name": "Имя",
+      "surname": "Фамилия"
+    },
+    "haveAccount": "У вас уже есть аккаунт?",
+    "goTo": "Перейти к входу"
+  },
+  "servicePoints": {
+    "allServicePoints": "Все пункты обслуживания"
+  },
+  "user": {
+    "account": "Аккаунт",
+    "bookings": "Бронирования пользователя",
+    "reviews": "Отзывы пользователя"
   }
 }

@@ -34,7 +34,7 @@ const Registration = () => {
         try {
             await registerUser(values);
             navigate('/login')
-            showSuccessNotification("Created Account.");
+            showSuccessNotification(t('successMessages.accountCreated'));
         } catch (error) {
             if(error.response.status === 400) {
                 const errors = error.response.data;
