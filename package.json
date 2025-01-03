@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/carousel": "^7.15.2",
+    "@mantine/carousel": "^7.15.1",
     "@mantine/core": "7.15.1",
     "@mantine/dates": "^7.15.1",
     "@mantine/form": "^7.15.1",
@@ -20,14 +20,16 @@
     "country-flag-icons": "^1.5.13",
     "dayjs": "^1.11.0",
     "embla-carousel-react": "^7.1.0",
+    "i18next": "^22.0.0",
+    "i18next-browser-languagedetector": "^7.0.0",
+    "i18next-http-backend": "^3.0.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-horizontal-scrolling-menu": "^8.2.0",
+    "react-i18next": "^13.0.0",
     "react-paginate": "^8.2.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.2",
-    "react-scroll-horizontal": "^1.6.6",
     "rollup-plugin-visualizer": "^5.13.1"
   },
   "devDependencies": {

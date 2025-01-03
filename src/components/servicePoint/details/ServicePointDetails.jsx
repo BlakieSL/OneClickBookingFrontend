@@ -3,10 +3,11 @@ import ServicePointEmployeeCard from "../../general/cards/employeeCard/ServicePo
 import {useNavigate} from "react-router-dom";
 import {Carousel} from "@mantine/carousel";
 import styles from "./servicePointDetails.module.scss";
+import {useTranslation} from "react-i18next";
 
 const ServicePointDetails = ({ servicePoint, employees }) => {
     const navigate = useNavigate();
-
+    const { t } = useTranslation();
     const handleClick = (employee) => {
         navigate(`/service-points/${servicePoint.id}/employees/${employee.id}`);
     }
@@ -16,8 +17,8 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
             <Box className={styles.servicePointDetails__info}>
                 <Box className={styles.servicePointDetails__info__header}>
                     <Text>
-                    <span
-                        className={styles.servicePointDetails__info__label}>Name:
+                    <span className={styles.servicePointDetails__info__label}>
+                        {t('servicePointDetails.name')}
                     </span>
                         {" "}
                         <span className={styles.servicePointDetails__info__value}>
@@ -27,7 +28,7 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
                 </Box>
                 <Text>
                     <span className={styles.servicePointDetails__info__label}>
-                        Location:
+                        {t('servicePointDetails.location')}
                     </span>
                         {" "}
                     <span className={styles.servicePointDetails__info__value}>
@@ -36,7 +37,7 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
                 </Text>
                 <Text>
                     <span className={styles.servicePointDetails__info__label}>
-                        Email:
+                        {t('servicePointDetails.email')}
                     </span>
                         {" "}
                     <span className={styles.servicePointDetails__info__value}>
@@ -45,7 +46,7 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
                 </Text>
                 <Text>
                     <span className={styles.servicePointDetails__info__label}>
-                        Phone:
+                        {t('servicePointDetails.phone')}
                     </span>
                         {" "}
                     <span className={styles.servicePointDetails__info__value}>
@@ -54,7 +55,9 @@ const ServicePointDetails = ({ servicePoint, employees }) => {
                 </Text>
             </Box>
             <Box className={styles.servicePointDetails__textContainer}>
-                <Text className={styles.servicePointDetails__textContainer__heading}>Employees</Text>
+                <Text className={styles.servicePointDetails__textContainer__heading}>
+                    {t('servicePointDetails.employees')}
+                </Text>
             </Box>
 
             <Box className={styles.servicePointDetails__carouselOuterBox}>

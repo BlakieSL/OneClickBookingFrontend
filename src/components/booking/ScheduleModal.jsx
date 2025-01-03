@@ -10,8 +10,10 @@ import {getFilteredEmployees} from "../../apis/employeeApi.js";
 import BookingEmployeesCarousel from "./components/BookingEmployeesCarousel.jsx";
 import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
 import { showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
+    const { t } = useTranslation();
     const [openedConfirm, { open: openConfirm, close: closeConfirm }] = useDisclosure(false);
     const [employees, setEmployees] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -91,7 +93,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                 const fetchedEmployees = await getFilteredEmployees(requestBody);
                 setEmployees(fetchedEmployees);
             } catch (error) {
-                showErrorNotification(error.response?.data || "Failed to fetch employees");
+                showErrorNotification(error);
                 console.error(error);
             } finally {
                 setEmployeesLoading(false);
@@ -133,10 +135,10 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
         }
         try {
             await createBooking(requestBody);
-            showSuccessNotification("Created");
+            showSuccessNotification(t('successMessages.bookingCreated'));
         } catch (error) {
             console.error(error);
-            showErrorNotification(error.response?.data || "Error creating booking")
+            showErrorNotification(error)
         } finally {
             setBookingLoading(false);
         }
@@ -151,7 +153,6 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
     if(freeSlotsLoading || bookingLoading || employeesLoading){
         return <Loader />;
     }
-
 
 
     return (
@@ -173,7 +174,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
             >
                 <Box className={styles.innerBox}>
                     <Box className={styles.innerBox__boxWithShadow}>
-                        <Text>Select a Date</Text>
+                        <Text>{t('scheduleModal.selectDate')}</Text>
                         <DatePicker
                             value={selectedDate}
                             onChange={handleDatePick}
@@ -198,7 +199,7 @@ const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {
                         />
                     </Box>
                     <Button disabled={!selectedSlot} onClick={handleContinue}>
-                        Continue
+                        {t('buttons.continue')}
                     </Button>
                 </Box>
             </Modal>

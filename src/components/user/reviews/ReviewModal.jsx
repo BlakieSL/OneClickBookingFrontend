@@ -8,8 +8,10 @@ import {createImage, deleteImage, getAllImagesForParent} from "../../../apis/ima
 import {Carousel} from "@mantine/carousel";
 import ImageModal from "../../general/ImageModal.jsx";
 import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) => {
+    const { t } = useTranslation();
     const [prefetchedImages, setPrefetchedImages] = useState([]);
     const [openedConfirm, {close: closeConfirm, open: openConfirm}] = useDisclosure(false);
     const [createLoading, setCreateLoading] = useState(false);
@@ -163,7 +165,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             <Modal
                 opened={opened}
                 onClose={handleModalClose}
-                title={reviewInfo ? "Edit Review" : "New Review"}
+                title={reviewInfo ? t('reviewModal.titleEdit') : t('reviewModal.titleNew')}
                 styles={{
                     title: {
                         fontSize: '22px',
@@ -173,7 +175,7 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
             >
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     <TextInput
-                        label="Date"
+                        label={t('reviewModal.date')}
                         value={form.values.date}
                         readOnly
                     />
@@ -182,13 +184,13 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
                         size = "xl"
                     />
                     <Textarea
-                        label="Your Review"
-                        placeholder="Write your review here..."
+                        label={t('reviewModal.labels.text')}
+                        placeholder={t('reviewModal.placeholders.text')}
                         {...form.getInputProps('text')}
                     />
                     <FileInput
-                        label="Upload Images"
-                        placeholder="Select images"
+                        label={t('reviewModal.labels.image')}
+                        placeholder={t('reviewModal.placeholders.image')}
                         accept="image/*"
                         multiple
                         clearable
@@ -233,10 +235,10 @@ const ReviewModal = ({opened, close, onConfirm, reviewInfo, booking = null }) =>
                     )}
                     <Group grow mt="md">
                         <Button color="red" onClick={openConfirm}>
-                            Delete
+                            {t('buttons.delete')}
                         </Button>
                         <Button type="submit">
-                            Save
+                            {t('buttons.save')}
                         </Button>
                     </Group>
                 </form>

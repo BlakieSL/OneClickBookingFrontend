@@ -1,7 +1,9 @@
 import {Box, Button, Card, Text} from "@mantine/core";
 import styles from "./providedTreatments.module.scss";
+import {useTranslation} from "react-i18next";
 
 const ProvidedTreatments = ({ treatments, onClick }) => {
+    const { t } = useTranslation();
     return (
         <Box className={styles.providedTreatments}>
             {treatments.map((treatment) => (
@@ -10,23 +12,24 @@ const ProvidedTreatments = ({ treatments, onClick }) => {
                         {treatment.name}
                     </Text>
 
+                    <Text className={styles.providedTreatments__price}>
+                        {t('providedTreatments.price', { price: treatment.price })}
+                    </Text>
+
+                    <Text className={styles.providedTreatments__duration}>
+                        {t('providedTreatments.duration', { duration: treatment.duration })}
+                    </Text>
+
                     <Text className={styles.providedTreatments__description}>
                         {treatment.description}
                     </Text>
 
-                    <Text className={styles.providedTreatments__price}>
-                        Price: {treatment.price.toFixed(2)} zl
-                    </Text>
-
-                    <Text className={styles.providedTreatments__duration}>
-                        Duration: {treatment.duration} minutes
-                    </Text>
 
                     <Button
                         onClick={() => onClick(treatment)}
                         className={styles.providedTreatments__orderButton}
                     >
-                        Order
+                        {t('buttons.order')}
                     </Button>
                 </Card>
             ))}

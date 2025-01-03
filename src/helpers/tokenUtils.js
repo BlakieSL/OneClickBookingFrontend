@@ -1,5 +1,6 @@
 import {refreshAccessToken} from "../apis/userApi.js";
 import {jwtDecode} from "jwt-decode";
+import i18n from './i18n_config.js';
 
 export const getAccessToken = () => {
     return localStorage.getItem('accessToken');
@@ -25,8 +26,9 @@ export const setUser = (userId) => {
     localStorage.setItem('user', JSON.stringify(userId));
 };
 
-export const setLocale = (locale) => {
+export const setLocale = async (locale) => {
     localStorage.setItem('locale', locale);
+    await i18n.changeLanguage(locale);
 }
 
 export const getLocale = () => {

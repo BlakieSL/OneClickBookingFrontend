@@ -10,9 +10,11 @@ import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter
 import {FiltersContext} from "../../../../context/FilterContext.jsx";
 import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
 import {showErrorNotification} from "../../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 
 const AdminReviews = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [reviews, setReviews] = useState([]);
@@ -159,32 +161,32 @@ const AdminReviews = () => {
                     {!openedFilter && (
                         <Stack>
                             <Button variant="outline" onClick={handleResetFilters}>
-                                Reset
+                                {t('buttons.reset')}
                             </Button>
 
                             <Button onClick={() => {
                                 setActiveFilter("EMPLOYEE");
                                 showFilter();
                             }}>
-                                Select Employee
+                                {t('filter.employee')}
                             </Button>
 
                             <Button onClick={() => {
                                 setActiveFilter("SERVICE_POINT")
                                 showFilter();
                             }}>
-                                Select Service Point
+                                {t('filter.servicePoint')}
                             </Button>
 
                             <Box>
                                 <Checkbox
+                                    label={t('filter.textLabel')}
                                     checked={filters.TEXT.state === "selected"}
                                     color="#718977FF"
                                     onChange={(event) => {
                                         const newState = event.target.checked ? "selected" : null;
                                         updateFilter("TEXT", newState, "NOT_NULL");
                                     }}
-                                    label="Only reviews with text"
                                 />
                             </Box>
                         </Stack>

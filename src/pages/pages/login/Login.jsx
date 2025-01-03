@@ -7,8 +7,10 @@ import {setAccessToken, setRefreshToken, setUser} from "../../../helpers/tokenUt
 import {Anchor, Box, Button, Container, Stack, Text, TextInput} from "@mantine/core";
 import styles from "./login.module.scss";
 import {showErrorNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const Login = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const form = useForm({
@@ -53,29 +55,30 @@ const Login = () => {
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Box className={styles.loginContainer__textContainer}>
                     <Text className={styles.loginContainer__textContainer__text}>
-                        Login
+                        {t('login.login')}
                     </Text>
                 </Box>
                 <Stack className={styles.loginContainer__innerContainer}>
                     <TextInput
-                        label="Email"
-                        placeholder="Enter your email"
+                        label={t('login.labels.email')}
+                        placeholder={t('account.email')}
                         {...form.getInputProps('username')}
                         type="email"
                         required
                     />
                     <TextInput
-                        label="Password"
-                        placeholder="Enter your password"
+                        label={t('login.labels.password')}
+                        placeholder={t('login.password')}
                         {...form.getInputProps('password')}
                         type="password"
                         required
                     />
-                    <Button type="submit">Login</Button>
+                    <Button type="submit">{t('login.login')}</Button>
                     <Text>
-                        Don't have an account?{" "}
+                        {t('login.dontHave')}
+                        {" "}
                         <Anchor onClick={handleNavigateRegistration}>
-                            Go to Registration
+                            {t('login.goTo')}
                         </Anchor>
                     </Text>
                 </Stack>

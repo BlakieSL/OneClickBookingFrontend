@@ -1,6 +1,7 @@
 import {Box, Button, Card, Text} from "@mantine/core";
 import React from "react";
 import styles from "./bookingCard.module.scss";
+import {useTranslation} from "react-i18next";
 
 
 const BookingCard = ({
@@ -13,6 +14,7 @@ const BookingCard = ({
     onCreateReview,
     isUserBooking=false
 }) => {
+    const { t } = useTranslation();
     const isPastBooking = new Date(booking.date) < new Date();
 
     return (
@@ -32,26 +34,26 @@ const BookingCard = ({
             <Box className={styles.card__section}>
                 {!isUserBooking && (
                     <Text>
-                        <span className={styles.card__label}>User ID:</span>
+                        <span className={styles.card__label}>{t('bookingCard.userId')}</span>
                         {" "}
                         <span className={styles.card__section}>{booking.userId}</span>
                     </Text>
                 )}
                 <Text>
-                    <span className={styles.card__label}>Service Point:</span>
+                    <span className={styles.card__label}>{t('bookingCard.servicePoint')}</span>
                     {" "}
                     <span className={styles.card__value}>{booking.servicePoint.name} ({booking.servicePoint.location})</span>
                 </Text>
                 {booking.employee && (
                     <Text>
-                        <span className={styles.card__label}>Employee:</span>
+                        <span className={styles.card__label}>{t('general.employee')}</span>
                         {" "}
                         <span className={styles.card__value}>{booking.employee.username}</span>
                     </Text>
                 )}
                 {booking.treatmentId && (
                     <Text>
-                        <span className={styles.card__label}>Treatment ID:</span>
+                        <span className={styles.card__label}>{t('bookingCard.treatment')}</span>
                         {" "}
                         <span className={styles.card__value}>{booking.treatmentId}</span>
                     </Text>
@@ -59,19 +61,19 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__buttons}>
-                <Button colo disabled={isPastBooking}  onClick={() => onUpdateBooking(booking)}>
-                    {isPastBooking ? "Completed" : "Update Booking"}
+                <Button disabled={isPastBooking}  onClick={() => onUpdateBooking(booking)}>
+                    {isPastBooking ? t('bookingCard.completed') : t('buttons.update')}
                 </Button>
                 <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>
-                    Delete Booking
+                    {t('buttons.delete')}
                 </Button>
                 {booking.reviewId ? (
                     <Button className={styles.card__seeReviewButton} onClick={() => onUpdateReview(booking)}>
-                        See Review
+                        {t('bookingCard.seeReview')}
                     </Button>
                 ) : (
                     <Button className={styles.card__leaveReviewButton} onClick={() => onCreateReview(booking)}>
-                        Leave a Review
+                        {t('bookingCard.leaveReview')}
                     </Button>
                 )}
             </Box>

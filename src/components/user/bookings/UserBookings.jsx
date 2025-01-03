@@ -9,8 +9,10 @@ import styles from "./userBookings.module.scss";
 import ConfirmModal from "../../general/confirmModal/ConfirmModal.jsx";
 import BookingCard from "../../general/cards/bookingCard/BookingCard.jsx";
 import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const UserBookings = ({ user, highlightedBookingId }) => {
+    const { t } = useTranslation();
     const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);

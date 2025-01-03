@@ -1,7 +1,8 @@
 import {Button, Image, Modal} from "@mantine/core";
+import {useTranslation} from "react-i18next";
 
 const ImageModal = ({ opened, onClose, onDelete, selectedImage}) => {
-    console.log(selectedImage);
+    const { t } = useTranslation();
     return (
         <Modal opened={opened} onClose={onClose} size="lg">
             <Button
@@ -13,7 +14,7 @@ const ImageModal = ({ opened, onClose, onDelete, selectedImage}) => {
                     onClose();
                 }}
             >
-                Delete Image
+                {t('buttons.delete')}
             </Button>
             <Image
                 src={selectedImage.image}

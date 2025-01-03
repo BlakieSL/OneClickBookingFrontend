@@ -4,8 +4,10 @@ import {useForm} from "@mantine/form";
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import {updateUser} from "../../../apis/userApi.js";
 import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
+    const { t } = useTranslation();
     if (!['email', 'password'].includes(subject)) {
         throw new Error(`Invalid subject: ${subject}`);
     }
@@ -67,7 +69,7 @@ const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
         <Modal
             opened={opened}
             onClose={onClose}
-            title={`Changing ${subject}`}
+            title={t('changeModal.title', { subject })}
             styles={{
                 title: {
                     fontSize: '22px',
@@ -77,21 +79,21 @@ const ChangeModal = ({ user, subject, opened, onClose, onUpdate }) => {
         >
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <TextInput
-                    label="Old Password"
-                    placeholder="Enter your old password"
+                    label={t('changeModal.labels.oldPassword')}
+                    placeholder={t('changeModal.placeholders.oldPassword')}
                     type="password"
                     {...form.getInputProps('oldPassword')}
                     required
                 />
                 <TextInput
-                    label={`New ${subject}`}
-                    placeholder={`Enter your new ${subject}`}
+                    label={t('changeModal.labels.newSubject', { subject })}
+                    placeholder={t('changeModal.placeholders.newSubject', { subject })}
                     type={subject === "password" ? "password" : "email"}
                     {...form.getInputProps(subject)}
                     required
                 />
                 <Button type="submit" disabled={!isDirty} fullWidth mt="xs">
-                    Confirm
+                    {t('buttons.confirm')}
                 </Button>
             </form>
         </Modal>

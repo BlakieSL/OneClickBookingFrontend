@@ -1,0 +1,34 @@
+{
+  "buttons": {
+    "continue": "Продолжить",
+    "cancel": "Отмена",
+    "update": "Обновить",
+    "delete": "Удалить"
+  },
+  "errorMessages": {
+
+  },
+  "successMessages": {
+    "bookingCreated": "Бронирование успешно создано!",
+    "bookingUpdated": "Бронирование успешно обновлено!"
+  },
+  "selectTreatment": {
+    "placeholder": "Выберите процедуру",
+    "nothingFoundMessage": "Нет доступных процедур"
+  },
+  "scheduleModal": {
+    "selectDate": "Выберите дату"
+  },
+  "updateBookingModal": {
+    "modalTitle": "Обновить бронирование"
+  },
+  "bookingCard": {
+    "userId": "ID пользователя:",
+    "servicePoint": "Пункт обслуживания:",
+    "employee": "Сотрудник:",
+    "treatment": "ID процедуры:",
+    "completed": "Завершено",
+    "seeReview": "Посмотреть отзыв",
+    "leaveReview": "Оставить отзыв"
+  }
+}

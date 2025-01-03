@@ -14,8 +14,10 @@ import EmployeeFilter from "../../../../components/general/filter/EmployeeFilter
 import ServicePointFilter from "../../../../components/general/filter/ServicePointFilter.jsx";
 import {DatePickerInput} from "@mantine/dates";
 import {showErrorNotification, showSuccessNotification} from "../../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const AdminBookings = () => {
+    const { t } = useTranslation();
     const { bookingId } = useParams();
     const highlightedBookingId = bookingId ? parseInt(bookingId) : null;
     const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
@@ -235,28 +237,28 @@ const AdminBookings = () => {
                     {!openedFilter && (
                         <Stack>
                             <Button variant="outline" onClick={handleResetFilters}>
-                                Reset
+                                {t('buttons.reset')}
                             </Button>
 
                             <Button onClick={() => {
                                 setActiveFilter("EMPLOYEE");
                                 showFilter();
                             }}>
-                                Select Employee
+                                {t('filter.employee')}
                             </Button>
 
                             <Button onClick={() => {
                                 setActiveFilter("SERVICE_POINT")
                                 showFilter();
                             }}>
-                                Select Service Point
+                                {t('filter.servicePoint')}
                             </Button>
 
                             <DatePickerInput
+                                label={t('filter.dateLabel')}
+                                placeholder={t('filter.datePlaceholder')}
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                placeholder="Select a date"
-                                label="Filter by Date"
                                 clearable
                             />
                         </Stack>

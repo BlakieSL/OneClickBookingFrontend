@@ -7,8 +7,10 @@ import Account from "../../../components/user/account/Account.jsx";
 import UserBookings from "../../../components/user/bookings/UserBookings.jsx";
 import UserReviews from "../../../components/user/reviews/UserReviews.jsx";
 import {showErrorNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const User = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('account');
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
@@ -52,7 +54,7 @@ const User = () => {
             <Box className={styles.sideBarContainer}>
                 <Group>
                     <NavLink
-                        label="Account"
+                        label={t('user.account')}
                         active={activeTab === 'account'}
                         onClick={() => setActiveTab('account')}
                         className={activeTab === 'account' ? styles.activeTab : ''}
@@ -61,13 +63,13 @@ const User = () => {
                         }}
                     />
                     <NavLink
-                        label="UserBookings"
+                        label={t('user.bookings')}
                         active={activeTab === 'bookingCard'}
                         onClick={() => setActiveTab('bookingCard')}
                         className={activeTab === 'bookingCard' ? styles.activeTab : ''}
                     />
                     <NavLink
-                        label="UserReviews"
+                        label={t('user.reviews')}
                         active={activeTab === 'reviews'}
                         onClick={() => setActiveTab('reviews')}
                         className={activeTab === 'reviews' ? styles.activeTab : ''}

@@ -6,13 +6,14 @@ const Locale = () => {
     const [selectedLocale, setSelectedLocale] = useState(getLocale() || "en");
 
     useEffect(() => {
-        setLocale(selectedLocale);
+        (async () => {
+            await setLocale(selectedLocale);
+        })();
     }, [selectedLocale]);
 
     return (
         <Select
             w={100}
-            placeholder="Choose language"
             value={selectedLocale}
             onChange={(value) => setSelectedLocale(value)}
             data={[

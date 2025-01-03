@@ -1,0 +1,34 @@
+{
+  "buttons": {
+    "continue": "Kontynuuj",
+    "cancel": "Anuluj",
+    "update": "Aktualizuj",
+    "delete": "Usuń"
+  },
+  "errorMessages": {
+
+  },
+  "successMessages": {
+    "bookingCreated": "Pomyślnie utworzono rezerwację!",
+    "bookingUpdated": "Pomyślnie zaktualizowano rezerwację!"
+  },
+  "selectTreatment": {
+    "placeholder": "Wybierz zabieg",
+    "nothingFoundMessage": "Brak dostępnych zabiegów"
+  },
+  "scheduleModal": {
+    "selectDate": "Wybierz datę"
+  },
+  "updateBookingModal": {
+    "modalTitle": "Zaktualizuj rezerwację"
+  },
+  "bookingCard": {
+    "userId": "ID użytkownika:",
+    "servicePoint": "Punkt usługowy:",
+    "employee": "Pracownik:",
+    "treatment": "ID zabiegu:",
+    "completed": "Zakończono",
+    "seeReview": "Zobacz recenzję",
+    "leaveReview": "Dodaj recenzję"
+  }
+}

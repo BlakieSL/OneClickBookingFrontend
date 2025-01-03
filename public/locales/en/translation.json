@@ -1,0 +1,138 @@
+{
+  "buttons": {
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "save": "Save",
+    "order": "Order",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "update": "Update",
+    "delete": "Delete"
+  },
+  "general": {
+    "employee": "Employee:"
+  },
+  "errorMessages": {
+
+  },
+  "successMessages": {
+    "bookingCreated": "You have successfully created booking!",
+    "bookingUpdated": "You have successfully updated booking!"
+  },
+
+  "selectTreatment": {
+    "placeholder": "Pick a treatment",
+    "nothingFoundMessage": "No treatments available"
+  },
+  "scheduleModal": {
+    "selectDate": "Select a Date"
+  },
+  "updateBookingModal": {
+    "modalTitle": "Update Booking"
+  },
+  "bookingCard": {
+    "userId": "User ID:",
+    "servicePoint": "Service Point:",
+    "treatment": "Treatment ID:",
+    "completed": "Completed",
+    "seeReview": "See a Review",
+    "leaveReview": "Leave a Review"
+  },
+  "reviewCard": {
+    "defaultEmployee": "Default Employee",
+    "noText": "No text provided",
+    "seeBooking": "See a Booking"
+  },
+  "confirmModal": {
+    "title": "Are you sure?"
+  },
+  "filterComponent": {
+    "goBack": "Go Back"
+  },
+  "employeeReviews": {
+    "reviews": "Reviews",
+    "basedOn": "Based on {{totalReviews}} reviews"
+  },
+  "servicePointDetails": {
+    "name": "Name:",
+    "location": "Location:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "employees": "Employees"
+  },
+  "providedTreatments": {
+    "price": "Price: {{price}} zl",
+    "duration": "Duration: {{duration}} minutes"
+  },
+  "account": {
+    "name": "Enter your name",
+    "surname": "Enter your surname",
+    "email": "Enter your email",
+    "password": "Change Password"
+  },
+  "changeModal": {
+    "title": "Changing {{subject}}",
+    "labels": {
+      "oldPassword": "Old Password",
+      "newSubject": "New {{subject}}"
+    },
+    "placeholders": {
+      "oldPassword": "Enter your old password",
+      "newSubject": "Enter new {{subject}}"
+    }
+  },
+  "reviewModal": {
+    "titleEdit": "Edit Review",
+    "titleNew": "New Review",
+    "date": "Date",
+    "labels": {
+      "text": "Your review",
+      "image": "Upload Images"
+    },
+    "placeholders": {
+      "text": "Write your review here...",
+      "image": "Select images"
+    }
+  },
+  "filter": {
+    "employee": "Select Employee",
+    "servicePoint": "Select Service Point",
+    "dateLabel": "Filter by Date",
+    "datePlaceholder": "Select a date",
+    "textLabel": "Only reviews with text"
+  },
+  "employee": {
+    "goBack": "Go Back to Service Point",
+    "noDescription": "No description"
+  },
+  "employees": {
+    "allEmployees": "All Employees"
+  },
+  "login": {
+    "login": "Login",
+    "password": "Enter your password",
+    "labels": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "dontHave": "Don't have an account?",
+    "goTo": "Go to Registration"
+  },
+  "registration": {
+    "registration": "Registration",
+    "labels": {
+      "name": "Name",
+      "surname": "Surname"
+    },
+    "haveAccount": "Already have an account?",
+    "goTo": "Go to Login"
+  },
+  "servicePoints": {
+    "allServicePoints": "All Service Points"
+  },
+  "user": {
+    "account": "Account",
+    "bookings": "User Bookings",
+    "reviews": "User Reviews"
+  }
+}

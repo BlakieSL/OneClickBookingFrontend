@@ -15,8 +15,10 @@ import BookingServicePointsCarousel from "./components/BookingServicePointsCarou
 import SelectTreatment from "./components/SelectTreatment.jsx";
 import {showNotification} from "@mantine/notifications";
 import {showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
+    const { t } = useTranslation();
     const [openedConfirm, {open: openConfirm, close: closeConfirm }] = useDisclosure(false);
     const [selectedServicePointId, setSelectedServicePointId] = useState(null);
     const [selectedTreatmentId, setSelectedTreatmentId] = useState(null);
@@ -236,7 +238,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
         try {
             await updateBooking(initialBooking.id, requestBody);
             onConfirm();
-            showSuccessNotification("Updated.");
+            showSuccessNotification(t('successMessages.bookingUpdated'));
         } catch (error) {
             showErrorNotification(error);
             console.error(error);
@@ -263,7 +265,7 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
     return (
         <>
             <Modal
-                title='Updating Booking'
+                title={t('updateBookingModal.modalTitle')}
                 opened={opened}
                 onClose={onClose}
                 styles = {{
@@ -292,7 +294,6 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                             selectedTreatmentId={selectedTreatmentId}
                             handleTreatmentPick={handleTreatmentPick}
                         />
-
                     </Box>
 
                     <Box className={styles.innerBox__boxWithShadow}>
@@ -323,10 +324,10 @@ const UpdateBookingModal = ({ opened, onClose, onConfirm, initialBooking }) => {
                     </Box>
                     <Group grow>
                         <Button variant="outline" onClick={handleReset}>
-                            Cancel
+                            {t('buttons.cancel')}
                         </Button>
                         <Button onClick={openConfirm}>
-                            Continue
+                            {t('buttons.continue')}
                         </Button>
                     </Group>
                 </Box>

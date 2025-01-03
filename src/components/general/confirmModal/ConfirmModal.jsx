@@ -1,12 +1,14 @@
 import {Box, Button, Modal} from "@mantine/core";
 import styles from "./confirmModal.module.scss";
+import {useTranslation} from "react-i18next";
 
 const ConfirmModal = ({ opened, onClose, onConfirm }) => {
+    const { t } = useTranslation();
     return (
         <Modal
             opened={opened}
             onClose={onClose}
-            title="Are you sure?"
+            title={t('confirmModal.title')}
             centered
             closeOnClickOutside={false}
             closeOnEscape={false}
@@ -20,10 +22,10 @@ const ConfirmModal = ({ opened, onClose, onConfirm }) => {
         >
             <Box className={styles.box}>
                 <Button className={styles.box__element} variant="outline" color="grey" onClick={onClose}>
-                    Cancel
+                    {t('buttons.cancel')}
                 </Button>
                 <Button className={styles.box__element} onClick={onConfirm}>
-                    Confirm
+                    {t('buttons.confirm')}
                 </Button>
             </Box>
         </Modal>

@@ -5,8 +5,10 @@ import {Anchor, Box, Button, Container, Stack, Text, TextInput} from "@mantine/c
 import {validateEmail, validatePassword} from "../../../helpers/validation.js";
 import styles from "./registration.module.scss";
 import {showErrorNotification, showSuccessNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const Registration = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const form = useForm({
@@ -54,41 +56,42 @@ const Registration = () => {
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Box className={styles.registrationContainer__textContainer}>
                     <Text className={styles.registrationContainer__textContainer__text}>
-                        Registration
+                        {t('registration.registration')}
                     </Text>
                 </Box>
                 <Stack className={styles.registrationContainer__innerContainer}>
                     <TextInput
-                        label="Name"
-                        placeholder="Enter your name"
+                        label={t('registration.labels.name')}
+                        placeholder={t('account.name')}
                         {...form.getInputProps('name')}
                         required
                     />
                     <TextInput
-                        label="Surname"
-                        placeholder="Enter your surname"
+                        label={t('registration.labels.surname')}
+                        placeholder={t('account.surname')}
                         {...form.getInputProps('surname')}
                         required
                     />
                     <TextInput
-                        label="Email"
-                        placeholder="Enter your email"
+                        label={t('login.labels.email')}
+                        placeholder={t('account.email')}
                         {...form.getInputProps('email')}
                         type="email"
                         required
                     />
                     <TextInput
-                        label="Password"
-                        placeholder="Enter strong password"
+                        label={t('login.labels.password')}
+                        placeholder={t('login.password')}
                         {...form.getInputProps('password')}
                         type="password"
                         required
                     />
-                    <Button type="submit">Register</Button>
+                    <Button type="submit">{t('registration.registration')}</Button>
                     <Text>
-                        Already have an account?{" "}
+                        {t('registration.haveAccount')}
+                        {" "}
                         <Anchor onClick={handleNavigateLogin}>
-                            Go to Login
+                            {t('registration.goTo')}
                         </Anchor>
                     </Text>
                 </Stack>

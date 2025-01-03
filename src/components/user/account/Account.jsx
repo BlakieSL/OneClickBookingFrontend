@@ -6,11 +6,13 @@ import ChangeModal from "./ChangeModal.jsx";
 import {useDisclosure} from "@mantine/hooks";
 import styles from "./account.module.scss";
 import {showErrorNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const Account = ({ user, onUserUpdate }) => {
     const [isDirty, setIsDirty] = useState(false);
     const [opened, {open, close}] = useDisclosure(false);
     const [subject, setSubject] = useState(null);
+    const { t } = useTranslation();
 
     const form = useForm(({
         initialValues: {
@@ -74,17 +76,17 @@ const Account = ({ user, onUserUpdate }) => {
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Stack className={styles.box}>
                     <TextInput
-                        placeholder="Enter your name"
+                        placeholder={t('account.name')}
                         {...form.getInputProps("name")}
                         required
                     />
                     <TextInput
-                        placeholder="Enter your surname"
+                        placeholder={t('account.surname')}
                         {...form.getInputProps("surname")}
                         required
                     />
                     <TextInput
-                        placeholder="Enter your email"
+                        placeholder={t('account.email')}
                         value={form.values.email}
                         onClick={() => handleOpenModal("email")}
                         readOnly
@@ -93,8 +95,8 @@ const Account = ({ user, onUserUpdate }) => {
                         }}
                     />
                     <TextInput
-                        placeholder="Change Password"
-                        value="Change Password"
+                        placeholder={t('account.password')}
+                        value={t('account.password')}
                         onClick={() => handleOpenModal("password")}
                         readOnly
                         classNames={{
@@ -102,7 +104,7 @@ const Account = ({ user, onUserUpdate }) => {
                         }}
                     />
                     <Button type="submit" disabled={!isDirty} className={styles.button}>
-                        Save
+                        {t('buttons.save')}
                     </Button>
                 </Stack>
             </form>

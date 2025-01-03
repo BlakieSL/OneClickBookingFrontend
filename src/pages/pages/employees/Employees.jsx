@@ -5,8 +5,10 @@ import ServicePointEmployeeCard from "../../../components/general/cards/employee
 import {useNavigate} from "react-router-dom";
 import styles from "./employees.module.scss";
 import {showErrorNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const Employees = () => {
+    const { t } = useTranslation();
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Employees = () => {
         <Container className={styles.employeesContainer}>
             <Box className={styles.employeesContainer__textContainer}>
                 <Text className={styles.employeesContainer__textContainer__text}>
-                    All Employees
+                    {t('employees.allEmployees')}
                 </Text>
             </Box>
             <SimpleGrid className={styles.employeesContainer__listContainer}>

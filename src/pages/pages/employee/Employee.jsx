@@ -7,8 +7,10 @@ import {getFirstImageForParent} from "../../../apis/imageApi.js";
 import styles from "./employee.module.scss";
 import EmployeeReviews from "../../../components/general/reviews/EmployeeReviews.jsx";
 import {defaultImage, showErrorNotification} from "../../../helpers/constants.js";
+import {useTranslation} from "react-i18next";
 
 const Employee = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { id, employeeId } = useParams();
     const [employee, setEmployee] = useState([]);
@@ -90,7 +92,7 @@ const Employee = () => {
               <Box className={styles.textContainer}>
                   {id && (
                       <Button onClick={handleClick}>
-                          Go Back to Service Point
+                          {t('employee.goBack')}
                       </Button>
                   )}
                   <Box className={styles.textContainer__avatarAndNameBox}>
@@ -104,7 +106,9 @@ const Employee = () => {
                   </Box>
               </Box>
               <Box className={styles.innerBox__descriptionBox}>
-                  <Text className={styles.innerBox__descriptionBox__text}>{employee.description ? employee.description : "no description"}</Text>
+                  <Text className={styles.innerBox__descriptionBox__text}>
+                      {employee.description ? employee.description : t('employee.noDescription')}
+                  </Text>
               </Box>
               <EmployeeReviews data={reviews} />
           </Box>
