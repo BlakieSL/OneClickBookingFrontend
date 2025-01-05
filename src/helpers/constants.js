@@ -1,3 +1,4 @@
+import i18n from "./i18n_config.js";
 import {notifications} from "@mantine/notifications";
 
 export const defaultImage = '/imagenotfound.jpg';
@@ -13,7 +14,7 @@ export const showSuccessNotification = (text) => {
 
 export const showErrorNotification = (error) => {
     notifications.show({
-        title: "Error!",
+        title: i18n.t('errorMessages.title'),
         message: getErrorMessage(error),
         position: 'top-right',
         color: 'red'
@@ -27,6 +28,6 @@ export const getErrorMessage = (error) => {
         return dataMessage;
     }
     else if (typeof dataMessage === "object") {
-        return "An unexpected error occurred.";
+        return i18n.t('errorMessages.unexpectedMessage');
     }
 }

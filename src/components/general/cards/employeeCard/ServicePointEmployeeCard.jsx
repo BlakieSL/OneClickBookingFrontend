@@ -3,7 +3,6 @@ import {getFirstImageForParent} from "../../../../apis/imageApi.js";
 import {defaultImage, showErrorNotification} from "../../../../helpers/constants.js";
 import {Card, Image, Loader, Text} from "@mantine/core";
 import styles from "./servicePointEmployeeCard.module.scss";
-import {useNavigate} from "react-router-dom";
 
 const ServicePointEmployeeCard = ({ employee, isSelected }) => {
     const { id, username } = employee;

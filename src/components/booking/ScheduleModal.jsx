@@ -9,7 +9,7 @@ import {createBooking} from "../../apis/bookingApi.js";
 import {getFilteredEmployees} from "../../apis/employeeApi.js";
 import BookingEmployeesCarousel from "./components/BookingEmployeesCarousel.jsx";
 import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
-import { showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
+import {showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
 import {useTranslation} from "react-i18next";
 
 const ScheduleModal = ({ treatment, servicePoint, opened, onClose }) => {

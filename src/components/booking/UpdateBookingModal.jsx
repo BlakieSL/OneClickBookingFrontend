@@ -13,7 +13,6 @@ import BookingSlotsCarousel from "./components/BookingSlotsCarousel.jsx";
 import {DatePicker} from "@mantine/dates";
 import BookingServicePointsCarousel from "./components/BookingServicePointsCarousel.jsx";
 import SelectTreatment from "./components/SelectTreatment.jsx";
-import {showNotification} from "@mantine/notifications";
 import {showErrorNotification, showSuccessNotification} from "../../helpers/constants.js";
 import {useTranslation} from "react-i18next";
 

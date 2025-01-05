@@ -1,16 +1,33 @@
 {
   "buttons": {
+    "confirm": "Potwierdź",
     "continue": "Kontynuuj",
+    "save": "Zapisz",
+    "order": "Zamów",
+    "reset": "Zresetuj",
     "cancel": "Anuluj",
     "update": "Aktualizuj",
     "delete": "Usuń"
   },
+  "general": {
+    "employee": "Pracownik:"
+  },
   "errorMessages": {
-
+    "title": "Błąd!",
+    "unexpectedMessage": "Wystąpił nieoczekiwany błąd."
   },
   "successMessages": {
     "bookingCreated": "Pomyślnie utworzono rezerwację!",
-    "bookingUpdated": "Pomyślnie zaktualizowano rezerwację!"
+    "bookingUpdated": "Pomyślnie zaktualizowano rezerwację!",
+    "bookingDeleted": "Pomyślnie usunięto rezerwację!",
+    "reviewUpdated": "Pomyślnie zaktualizowano recenzję!",
+    "reviewCreated": "Pomyślnie utworzono recenzję!",
+    "reviewDeleted": "Pomyślnie usunięto recenzję!",
+    "imageCreated": "Pomyślnie utworzono obraz!",
+    "imageDeleted": "Pomyślnie usunięto obraz!",
+    "accountCreated": "Pomyślnie utworzono konto!",
+    "accountUpdated": "Pomyślnie zaktualizowano konto!",
+    "changeModalUpdated": "Pomyślnie zaktualizowano {{subject}}!"
   },
   "selectTreatment": {
     "placeholder": "Wybierz zabieg",
@@ -20,15 +37,112 @@
     "selectDate": "Wybierz datę"
   },
   "updateBookingModal": {
-    "modalTitle": "Zaktualizuj rezerwację"
+    "modalTitle": "Aktualizuj rezerwację"
   },
   "bookingCard": {
     "userId": "ID użytkownika:",
     "servicePoint": "Punkt usługowy:",
-    "employee": "Pracownik:",
     "treatment": "ID zabiegu:",
-    "completed": "Zakończono",
+    "completed": "Zakończone",
     "seeReview": "Zobacz recenzję",
     "leaveReview": "Dodaj recenzję"
+  },
+  "reviewCard": {
+    "defaultEmployee": "Domyślny pracownik",
+    "noText": "Brak tekstu",
+    "seeBooking": "Zobacz rezerwację"
+  },
+  "confirmModal": {
+    "title": "Czy jesteś pewien?"
+  },
+  "filterComponent": {
+    "goBack": "Wróć"
+  },
+  "employeeReviews": {
+    "reviews": "Recenzje",
+    "basedOn": "Na podstawie {{totalReviews}} recenzji"
+  },
+  "servicePointDetails": {
+    "name": "Nazwa:",
+    "location": "Lokalizacja:",
+    "email": "Email:",
+    "phone": "Telefon:",
+    "employees": "Pracownicy"
+  },
+  "providedTreatments": {
+    "price": "Cena: {{price}} zł",
+    "duration": "Czas trwania: {{duration}} minut"
+  },
+  "account": {
+    "name": "Wprowadź swoje imię",
+    "surname": "Wprowadź swoje nazwisko",
+    "email": "Wprowadź swój email",
+    "password": "Zmień hasło"
+  },
+  "changeModal": {
+    "title": "Zmiana {{subject}}",
+    "labels": {
+      "oldPassword": "Stare hasło",
+      "newSubject": "Nowe {{subject}}"
+    },
+    "placeholders": {
+      "oldPassword": "Wprowadź swoje stare hasło",
+      "newSubject": "Wprowadź nowe {{subject}}"
+    }
+  },
+  "reviewModal": {
+    "titleEdit": "Edytuj recenzję",
+    "titleNew": "Nowa recenzja",
+    "date": "Data",
+    "labels": {
+      "text": "Twoja recenzja",
+      "image": "Prześlij obrazy"
+    },
+    "placeholders": {
+      "text": "Napisz swoją recenzję tutaj...",
+      "image": "Wybierz obrazy"
+    }
+  },
+  "filter": {
+    "employee": "Wybierz pracownika",
+    "servicePoint": "Wybierz punkt usługowy",
+    "dateLabel": "Filtruj według daty",
+    "datePlaceholder": "Wybierz datę",
+    "textLabel": "Tylko recenzje z tekstem"
+  },
+  "employee": {
+    "goBack": "Wróć do punktu usługowego",
+    "noDescription": "Brak opisu"
+  },
+  "employees": {
+    "allEmployees": "Wszyscy pracownicy"
+  },
+  "login": {
+    "login": "Zaloguj się",
+    "password": "Wprowadź swoje hasło",
+    "labels": {
+      "email": "Email",
+      "password": "Hasło"
+    },
+    "dontHave": "Nie masz konta?",
+    "goTo": "Przejdź do rejestracji"
+  },
+  "registration": {
+    "registration": "Rejestracja",
+    "labels": {
+      "name": "Imię",
+      "surname": "Nazwisko"
+    },
+    "haveAccount": "Masz już konto?",
+    "goTo": "Przejdź do logowania"
+  },
+  "servicePoints": {
+    "allServicePoints": "Wszystkie punkty usługowe"
+  },
+  "user": {
+    "account": "Konto",
+    "bookings": "Rezerwacje użytkownika",
+    "reviews": "Recenzje użytkownika",
+    "logout": "Wyloguj się"
   }
 }

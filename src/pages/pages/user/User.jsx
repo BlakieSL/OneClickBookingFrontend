@@ -1,16 +1,18 @@
 import styles from "./user.module.scss";
 import {useEffect, useState} from "react";
-import {Box, Container, Group, Loader, NavLink} from "@mantine/core";
+import {Box, Button, Container, Group, Loader, NavLink} from "@mantine/core";
 import {getUserById} from "../../../apis/userApi.js";
-import {getUser} from "../../../helpers/tokenUtils.js";
+import {getUser, logout} from "../../../helpers/tokenUtils.js";
 import Account from "../../../components/user/account/Account.jsx";
 import UserBookings from "../../../components/user/bookings/UserBookings.jsx";
 import UserReviews from "../../../components/user/reviews/UserReviews.jsx";
 import {showErrorNotification} from "../../../helpers/constants.js";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 const User = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('account');
     const [user, setUser] = useState(null);
     const [userLoading, setUserLoading] = useState(true);
@@ -74,6 +76,13 @@ const User = () => {
                         onClick={() => setActiveTab('reviews')}
                         className={activeTab === 'reviews' ? styles.activeTab : ''}
                     />
+                    <Button fullWidth color="red" onClick={() => {
+                        logout();
+                        navigate('/login');
+                    }}
+                    >
+                        {t('user.logout')}
+                    </Button>
                 </Group>
             </Box>
             <Box className={styles.mainContainer}>

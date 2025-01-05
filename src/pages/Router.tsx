@@ -24,11 +24,11 @@ const router = createBrowserRouter([
             { path: '/employees/:employeeId', element: <PrivateRoute element={<Employee />} /> },
             { path: '/user', element: <PrivateRoute element={<User /> } /> },
             { path: '/admin-reviews', element: <PrivateAdminRoute element={<AdminReviews /> }/> },
-            { path: '/admin-bookings/:bookingId?', element: <PrivateAdminRoute element={<AdminBookings /> } /> }
+            { path: '/admin-bookings/:bookingId?', element: <PrivateAdminRoute element={<AdminBookings /> } /> },
+            { path: '/registration', element: <Registration /> },
+            { path: '/login', element: <Login /> },
         ]
     },
-    { path: '/registration', element: <Registration /> },
-    { path: '/login', element: <Login /> },
 ]);
 
 export function Router() {

@@ -66,7 +66,7 @@ const AdminBookings = () => {
         setBookingsLoading(true);
         try {
             const requestBody = setRequestBody();
-
+            console.log(requestBody);
             const fetchedBookings = await getFilteredBookings(requestBody);
             setBookings(fetchedBookings);
         } catch (error) {

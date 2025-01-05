@@ -13,7 +13,8 @@
     "employee": "Сотрудник:"
   },
   "errorMessages": {
-
+    "title": "Ошибка!",
+    "unexpectedMessage": "Произошла непредвиденная ошибка."
   },
   "successMessages": {
     "bookingCreated": "Бронирование успешно создано!",
@@ -141,6 +142,7 @@
   "user": {
     "account": "Аккаунт",
     "bookings": "Бронирования пользователя",
-    "reviews": "Отзывы пользователя"
+    "reviews": "Отзывы пользователя",
+    "logout": "Выйти"
   }
 }

@@ -13,7 +13,8 @@
     "employee": "Employee:"
   },
   "errorMessages": {
-
+    "title": "Error!",
+    "unexpectedMessage": "An unexpected error occurred."
   },
   "successMessages": {
     "bookingCreated": "You have successfully created Booking!",
@@ -142,6 +143,7 @@
   "user": {
     "account": "Account",
     "bookings": "User Bookings",
-    "reviews": "User Reviews"
+    "reviews": "User Reviews",
+    "logout": "Logout"
   }
 }
