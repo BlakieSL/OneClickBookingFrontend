@@ -10,18 +10,19 @@ axios.interceptors.request.use(
                     ];
 
                     console.log("REQUEST TO:", config.url);
+
                     if (!excludedEndpoints.some(endpoint => config.url.endsWith(endpoint))) {
-                        if(!config.headers['Content-Type']) {
-                            config.headers['Content-Type'] = 'application/json';
-                        }
-
-                        config.headers['Accept-Language'] = getLocale();
-
                         let token = getAccessToken();
                         if (token) {
                             config.headers['Authorization'] = `Bearer ${token}`;
                         }
                     }
+
+                    if(!config.headers['Content-Type']) {
+                        config.headers['Content-Type'] = 'application/json';
+                    }
+
+                    config.headers['Accept-Language'] = getLocale();
 
                     return config;
             },
@@ -44,9 +45,7 @@ axios.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if (error.response && (error.response.status === 401) && !originalRequest._retry) {
-            originalRequest._retry = true;
-
+        if (error.response && (error.response.status === 401)) {
             if (!isRefreshing) {
                 isRefreshing = true;
                 try {
