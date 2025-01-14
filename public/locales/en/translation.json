@@ -45,6 +45,7 @@
     "servicePoint": "Service Point:",
     "treatment": "Treatment ID:",
     "completed": "Completed",
+    "cancelled": "Cancelled",
     "seeReview": "See a Review",
     "leaveReview": "Leave a Review"
   },

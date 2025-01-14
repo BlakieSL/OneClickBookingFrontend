@@ -15,7 +15,6 @@ const BookingCard = ({
     isUserBooking=false
 }) => {
     const { t } = useTranslation();
-    const isPastBooking = new Date(booking.date) < new Date();
 
     return (
         <Card
@@ -61,8 +60,13 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__buttons}>
-                <Button disabled={isPastBooking}  onClick={() => onUpdateBooking(booking)}>
-                    {isPastBooking ? t('bookingCard.completed') : t('buttons.update')}
+                <Button disabled={booking.status !== 'PENDING'}  onClick={() => onUpdateBooking(booking)}>
+                    {booking.status === 'COMPLETED'
+                        ? t('bookingCard.completed')
+                        : booking.status === 'PENDING'
+                            ? t('buttons.update')
+                            : t('bookingCard.cancelled')
+                    }
                 </Button>
                 <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>
                     {t('buttons.delete')}

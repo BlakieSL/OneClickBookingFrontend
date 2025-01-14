@@ -44,6 +44,7 @@
     "servicePoint": "Punkt usługowy:",
     "treatment": "ID zabiegu:",
     "completed": "Zakończone",
+    "cancelled": "Anulowano",
     "seeReview": "Zobacz recenzję",
     "leaveReview": "Dodaj recenzję"
   },

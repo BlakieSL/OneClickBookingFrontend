@@ -44,6 +44,7 @@
     "servicePoint": "Пункт обслуживания:",
     "treatment": "ID процедуры:",
     "completed": "Завершено",
+    "cancelled": "Отменено",
     "seeReview": "Посмотреть отзыв",
     "leaveReview": "Оставить отзыв"
   },
