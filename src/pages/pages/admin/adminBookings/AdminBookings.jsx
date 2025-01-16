@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import React, {useContext, useEffect, useState} from "react";
 import {Box, Button, Container, Loader, Pagination, Stack} from "@mantine/core";
-import {deleteBooking, getFilteredBookings} from "../../../../apis/bookingApi.js";
+import {deleteBooking, getFilteredBookings, updateStatus} from "../../../../apis/bookingApi.js";
 import styles from "../adminItems.module.scss";
 import BookingCard from "../../../../components/general/cards/bookingCard/BookingCard.jsx";
 import ReviewModal from "../../../../components/user/reviews/ReviewModal.jsx";
@@ -21,12 +21,14 @@ const AdminBookings = () => {
     const { bookingId } = useParams();
     const highlightedBookingId = bookingId ? parseInt(bookingId) : null;
     const [openedConfirm, {open: openConfirm, close: closeConfirm}] = useDisclosure(false);
+    const [openedConfirmCancel, {open: openConfirmCancel, close: closeConfirmCancel}] = useDisclosure(false);
     const [openedReview, {open: openReview, close: closeReview}] = useDisclosure(false);
     const [openedBooking, {open: openBooking, close: closeBooking}] = useDisclosure(false);
     const [bookings, setBookings] = useState([]);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [bookingToDelete, setBookingToDelete] = useState(null);
+    const [bookingToCancel, setBookingToCancel] = useState(null);
     const { filters, resetFilters, updateFilter } = useContext(FiltersContext);
     const [ openedFilter, {open: showFilter, close: hideFilter} ] = useDisclosure(false);
     const [activeFilter, setActiveFilter] = useState(null);
@@ -88,6 +90,17 @@ const AdminBookings = () => {
         }
     }
 
+    const updateStatusById = async (booking) => {
+        try {
+            await updateStatus(booking.id, {status: "CANCELLED"});
+            await fetchBookings();
+            showSuccessNotification(t('successMessages.bookingCancelled'))
+        } catch (error) {
+            showErrorNotification(error);
+            console.error(error);
+        }
+    }
+
     const getPageForHighlightedBooking = (bookingId) => {
         const index = bookings.findIndex((booking) => booking.id === bookingId);
         if (index === -1) return null;
@@ -128,6 +141,11 @@ const AdminBookings = () => {
         openConfirm();
     }
 
+    const handleOpenCancelConfirm = (booking) => {
+        setBookingToCancel(booking);
+        openConfirmCancel();
+    }
+
     const handleFetchAndOpenReviewModal = async (booking) => {
         setSelectedReviewLoading(true);
         try {
@@ -156,6 +174,16 @@ const AdminBookings = () => {
     const handleConfirmDelete = async () => {
         await deleteBookingById(bookingToDelete);
         handleCloseDeleteConfirm();
+    }
+
+    const handleCloseCancelConfirm = () => {
+        closeConfirmCancel();
+        setBookingToCancel(null);
+    }
+
+    const handleConfirmCancel = async () => {
+        await updateStatusById(bookingToCancel);
+        handleCloseCancelConfirm();
     }
 
     const handleCloseReview = () => {
@@ -217,6 +245,7 @@ const AdminBookings = () => {
                             targetRef={targetRef}
                             onUpdateBooking={handleOpenBookingModal}
                             onDeleteBooking={handleOpenDeleteConfirm}
+                            onCancelBooking={handleOpenCancelConfirm}
                             onUpdateReview={handleFetchAndOpenReviewModal}
                             onCreateReview={handleOpenReviewModal}
                         />
@@ -288,6 +317,13 @@ const AdminBookings = () => {
                     opened={openedConfirm}
                     onClose={handleCloseDeleteConfirm}
                     onConfirm={handleConfirmDelete}
+                />
+            )}
+            {openedConfirmCancel && (
+                <ConfirmModal
+                    opened={openedConfirmCancel}
+                    onClose={handleCloseCancelConfirm}
+                    onConfirm={handleConfirmCancel}
                 />
             )}
         </>

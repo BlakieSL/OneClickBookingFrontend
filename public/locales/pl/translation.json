@@ -20,6 +20,7 @@
     "bookingCreated": "Pomyślnie utworzono rezerwację!",
     "bookingUpdated": "Pomyślnie zaktualizowano rezerwację!",
     "bookingDeleted": "Pomyślnie usunięto rezerwację!",
+    "bookingCancelled": "Pomyślnie anulowano rezerwację!",
     "reviewUpdated": "Pomyślnie zaktualizowano recenzję!",
     "reviewCreated": "Pomyślnie utworzono recenzję!",
     "reviewDeleted": "Pomyślnie usunięto recenzję!",

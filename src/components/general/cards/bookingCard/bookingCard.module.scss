@@ -45,14 +45,33 @@
   }
 
   &__updateButton {
+    flex: 1;
     background: #4a5b46;
 
     &:hover {
       background: #3c4b38;
     }
+
+    &:disabled {
+      background: #ececec;
+    }
+  }
+
+  &__cancelButton {
+    flex: 1;
+    background: #b0b658;
+
+    &:hover {
+      background: #9a9f4a;
+    }
+
+    &:disabled {
+      background: #ececec;
+    }
   }
 
   &__deleteButton {
+    flex: 1;
     background: #a16868;
 
     &:hover {
@@ -61,18 +80,22 @@
   }
 
   &__seeReviewButton {
-    background: #69694d;
+    background: none;
+    color: #92c1e3;
 
     &:hover {
-      background: #505035;
+      background: none;
+      color: #60bcff;
     }
   }
 
   &__leaveReviewButton {
-    background: #465b5b;
+    background: none;
+    color: #d5d5c0;
 
     &:hover {
-      background: #384b4b;
+      background: none;
+      color: #b0b658;
     }
   }
 }

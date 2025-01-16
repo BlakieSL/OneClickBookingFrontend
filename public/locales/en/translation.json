@@ -20,6 +20,7 @@
     "bookingCreated": "You have successfully created Booking!",
     "bookingUpdated": "You have successfully updated Booking!",
     "bookingDeleted": "You have successfully deleted Booking!",
+    "bookingCancelled": "You have successfully cancelled Booking!",
     "reviewUpdated": "You have successfully updated Review!",
     "reviewCreated": "You have successfully created Review!",
     "reviewDeleted": "You have successfully deleted Review!",

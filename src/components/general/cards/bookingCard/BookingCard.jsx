@@ -1,7 +1,9 @@
-import {Box, Button, Card, Text} from "@mantine/core";
+import {ActionIcon, Box, Button, Card, Text} from "@mantine/core";
 import React from "react";
 import styles from "./bookingCard.module.scss";
 import {useTranslation} from "react-i18next";
+import {isUserAdmin} from "../../../../helpers/tokenUtils.js";
+import {IconEye, IconStar} from "@tabler/icons-react";
 
 
 const BookingCard = ({
@@ -10,6 +12,7 @@ const BookingCard = ({
     targetRef,
     onUpdateBooking,
     onDeleteBooking,
+    onCancelBooking,
     onUpdateReview,
     onCreateReview,
     isUserBooking=false
@@ -27,7 +30,24 @@ const BookingCard = ({
                     {" "}
                     {new Date(booking.date).toLocaleTimeString()}
                 </Text>
-                <Text className={styles.card__dateAndId}>ID: {booking.id}</Text>
+                <ActionIcon
+                    size={40}
+                    className={
+                        booking.reviewId
+                            ? styles.card__seeReviewButton
+                            : styles.card__leaveReviewButton
+                    }
+                    onClick={() =>
+                        booking.reviewId
+                            ? onUpdateReview(booking)
+                            : onCreateReview(booking)
+                    }
+                >
+                    {booking.reviewId
+                        ? (<IconEye size={40} />)
+                        : (<IconStar size={40} />)
+                    }
+                </ActionIcon>
             </Box>
 
             <Box className={styles.card__section}>
@@ -60,7 +80,11 @@ const BookingCard = ({
             </Box>
 
             <Box className={styles.card__buttons}>
-                <Button disabled={booking.status !== 'PENDING'}  onClick={() => onUpdateBooking(booking)}>
+                <Button
+                    className={styles.card__updateButton}
+                    disabled={booking.status !== 'PENDING'}
+                    onClick={() => onUpdateBooking(booking)}
+                >
                     {booking.status === 'COMPLETED'
                         ? t('bookingCard.completed')
                         : booking.status === 'PENDING'
@@ -68,16 +92,16 @@ const BookingCard = ({
                             : t('bookingCard.cancelled')
                     }
                 </Button>
-                <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>
-                    {t('buttons.delete')}
+                <Button
+                    className={styles.card__cancelButton}
+                    disabled={booking.status !== 'PENDING'}
+                    onClick={() => onCancelBooking(booking)}
+                >
+                    {t('buttons.cancel')}
                 </Button>
-                {booking.reviewId ? (
-                    <Button className={styles.card__seeReviewButton} onClick={() => onUpdateReview(booking)}>
-                        {t('bookingCard.seeReview')}
-                    </Button>
-                ) : (
-                    <Button className={styles.card__leaveReviewButton} onClick={() => onCreateReview(booking)}>
-                        {t('bookingCard.leaveReview')}
+                {isUserAdmin() && (
+                    <Button className={styles.card__deleteButton} onClick={() => onDeleteBooking(booking)}>
+                        {t('buttons.delete')}
                     </Button>
                 )}
             </Box>

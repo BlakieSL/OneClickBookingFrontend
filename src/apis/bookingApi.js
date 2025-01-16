@@ -28,3 +28,7 @@ export const deleteBooking = async (id) => {
 export const updateBooking = async (id, data) => {
     await axios.patch(`${BASE_URL}/${id}`, data)
 }
+
+export const updateStatus = async (id, data) => {
+    await axios.patch(`${BASE_URL}/${id}/status`, data)
+}

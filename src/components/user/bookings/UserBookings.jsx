@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Box, Loader, Pagination} from "@mantine/core";
-import {deleteBooking, getFilteredBookings} from "../../../apis/bookingApi.js";
+import {deleteBooking, getFilteredBookings, updateStatus} from "../../../apis/bookingApi.js";
 import {useDisclosure, usePagination, useScrollIntoView} from "@mantine/hooks";
 import {getReviewById} from "../../../apis/reviewApi.js";
 import ReviewModal from "../reviews/ReviewModal.jsx";
@@ -19,7 +19,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
     const [bookings, setBookings] = useState([]);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState(null);
-    const [bookingToDelete, setBookingToDelete] = useState(null);
+    const [bookingToCancell, setBookingToCancell] = useState(null);
 
     const [bookingsLoading, setBookingsLoading] = useState(true);
     const [selectedReviewLoading, setSelectedReviewLoading] = useState(false);
@@ -80,9 +80,9 @@ const UserBookings = ({ user, highlightedBookingId }) => {
         return Math.floor(index / itemsPerPage) + 1;
     }
 
-    const handleDeleteBooking = async (booking) => {
+    const handleCancelBooking = async (booking) => {
         try {
-            await deleteBooking(booking.id);
+            await updateStatus(booking.id, {status: "CANCELLED"});
             await fetchBookings();
             showSuccessNotification(t('successMessages.bookingDeleted'));
         } catch (error) {
@@ -128,17 +128,17 @@ const UserBookings = ({ user, highlightedBookingId }) => {
     }
 
     const handleOpenConfirm = (booking) => {
-        setBookingToDelete(booking);
+        setBookingToCancell(booking);
         openConfirm();
     }
 
     const handleCloseConfirm = () => {
         closeConfirm();
-        setBookingToDelete(null);
+        setBookingToCancell(null);
     }
 
     const handleConfirm = async () => {
-        await handleDeleteBooking(bookingToDelete);
+        await handleCancelBooking(bookingToCancell);
         handleCloseConfirm();
     }
 
@@ -157,7 +157,7 @@ const UserBookings = ({ user, highlightedBookingId }) => {
                         highlightedBookingId={highlightedBookingId}
                         targetRef={targetRef}
                         onUpdateBooking={handleOpenBookingModal}
-                        onDeleteBooking={handleOpenConfirm}
+                        onCancelBooking={handleOpenConfirm}
                         onUpdateReview={handleFetchAndOpenReviewModal}
                         onCreateReview={handleOpenReviewModal}
                         isUserBooking={true}
